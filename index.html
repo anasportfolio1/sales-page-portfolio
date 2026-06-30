@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anas — Sales &amp; Landing Page Portfolio</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap');
+:root{
+  --primary:#17181E; --primary-2:#262932; --tint:#FBF5E7;
+  --accent:#F4B400; --accent-deep:#D29A00; --accent-ink:#9C7400;
+  --ink:#23252B; --muted:#8A8E98; --surface:#fff; --hairline:rgba(20,22,28,.10);
+  --shadow:0 10px 30px rgba(20,22,28,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--surface);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+
+/* HERO */
+.head{background:linear-gradient(160deg,var(--primary),var(--primary-2));color:#fff;text-align:center;padding:72px 0 80px;}
+.eyebrow{display:inline-block;font-size:.76rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#F4D26A;background:rgba(244,180,0,.16);padding:7px 16px;border-radius:50px;margin-bottom:18px;}
+.head h1{font-size:clamp(2.3rem,7vw,3.6rem);font-weight:900;letter-spacing:-.02em;line-height:1.1;}
+.head h1 span{background:linear-gradient(135deg,#FCE08A,#E0A000,#FCE08A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.head p{max-width:560px;margin:16px auto 0;color:#C7CAD2;font-size:clamp(1.05rem,2.6vw,1.25rem);}
+
+/* GRID */
+.sec{padding:64px 0 80px;}
+.label{text-align:center;font-size:.76rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--accent-ink);margin-bottom:8px;}
+.sec h2{text-align:center;font-size:clamp(1.6rem,5vw,2.3rem);font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
+.divider{width:56px;height:4px;background:var(--accent);border-radius:4px;margin:14px auto 40px;}
+.grid{display:grid;grid-template-columns:1fr;gap:24px;}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr;}}
+
+.card{display:block;background:#fff;border:1px solid var(--hairline);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(244,180,0,.20);border-color:rgba(244,180,0,.5);}
+.thumb{aspect-ratio:16/9;background:linear-gradient(160deg,var(--primary),var(--primary-2));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;position:relative;}
+.thumb::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#F8C73A,#E0A000,#F8C73A);}
+.thumb i{font-size:2.4rem;color:var(--accent);margin-bottom:10px;}
+.thumb .t{font-weight:900;font-size:1.3rem;letter-spacing:-.02em;}
+.thumb .s{font-size:.82rem;color:#9aa0ad;letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+.meta{padding:22px 24px;}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--accent-ink);background:rgba(244,180,0,.14);padding:5px 12px;border-radius:50px;margin-bottom:12px;}
+.meta h3{font-size:1.3rem;font-weight:800;margin-bottom:6px;}
+.meta p{color:#55585F;font-size:.96rem;margin-bottom:16px;}
+.view{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--accent-ink);}
+.view i{transition:transform .2s ease;}
+.card:hover .view i{transform:translateX(4px);}
+
+/* FOOTER */
+.footer{background:var(--primary);color:#8d909a;text-align:center;padding:34px 0;font-size:.88rem;}
+.footer b{color:#fff;font-weight:800;}
+.footer a{color:var(--accent);font-weight:700;}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="wrap">
+    <span class="eyebrow">Direct-Response Copywriter</span>
+    <h1>Sales Pages That <span>Sell</span></h1>
+    <p>A portfolio of high-converting sales &amp; landing pages — copy, design, and build, done end to end.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="label">Selected Work</div>
+    <h2>The Portfolio</h2>
+    <div class="divider"></div>
+    <div class="grid">
+
+      <a class="card" href="weekly-plate/">
+        <div class="thumb">
+          <i class="fa-solid fa-utensils"></i>
+          <div class="t">The Weekly Plate</div>
+          <div class="s">Fitness · Low-Ticket Tripwire</div>
+        </div>
+        <div class="meta">
+          <span class="tag">Fitness / Nutrition</span>
+          <h3>The Weekly Plate</h3>
+          <p>A $17 weekly food system for busy professionals. Cold-traffic sales page built on a named mechanism, the Anchor Plate Method.</p>
+          <span class="view">View live page <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <!-- ADD NEW SALES PAGES HERE: copy the card block above, change the folder link, icon, title, tag, and description. -->
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>&copy; 2026 <b>Anas</b> · Sales &amp; Landing Page Portfolio · <a href="https://github.com/skeletalfitguy/sales-page-portfolio">View on GitHub</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
