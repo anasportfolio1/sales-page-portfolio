@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<!--
+================================================================================
+  INSTADOODLE - SALES PAGE (portfolio rewrite of instadoodle.com/p-sale)
+--------------------------------------------------------------------------------
+  BRAND / TYPE : InstaDoodle · AI doodle-video SaaS (low-ticket, $37/$67)
+  ARCHETYPE    : A - Digital Product / SaaS Tool (maximalist preset)
+  AWARENESS    : Solution-aware (opens on outcome + DoodleAI mechanism)
+  VOICE        : Native - bold, urgent, playful, pattern-interrupt
+  WIREFRAME    : W1 (reference section order, matches live page)
+  PURPOSE      : Portfolio piece (fictional-but-realistic proof, # CTAs)
+
+  DESIGN TOKENS (pulled live from instadoodle.com):
+    --primary #24223e | --primary-2 #17152b | --accent #914ad3
+    --accent-bright #ab40ff | --tint #e9d5ff | --tint-2 #ddbeff
+    --pop #fbfe00 | --ink #24223e | --muted #6b6b78 | base #ffffff
+  FONTS: Outfit (display) · Inter Tight (body) · Gochi Hand (doodle accents)
+
+  ASSETS: local, in ./assets/ (downloaded from the live site).
+  VIDEOS: Vimeo 1112880088 + YouTube knJfOeA6860 / BHr7i-lOaZ4 / 0Zd1xFR0KqY (embedded).
+  SAMPLE GRID: real poster thumbnails + play overlay (JS-loaded clips not embedded).
+
+  PLACEHOLDERS TO REVIEW BEFORE LIVE:
+    - All CTA hrefs are "#" - point to your real checkout/order URL.
+    - Testimonials are portfolio (realistic, fictional). Swap for verified ones for a client.
+    - Stat figures (89,000+ videos, 45,000+ users, 3,000+ reviews) mirror the source page.
+  NOTE: No em dashes used anywhere (client rule).
+================================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InstaDoodle - Type a Sentence, Get a Doodle Video That Sells</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700&family=Gochi+Hand&display=swap');
+
+:root{
+  --primary:#24223e; --primary-2:#17152b;
+  --accent:#914ad3; --accent-bright:#ab40ff; --accent-dark:#7a3dc7;
+  --tint:#f3e9ff; --tint-2:#e4ccff;
+  --pop:#fbfe00; --teal:#22c39a;
+  --ink:#24223e; --ink-light:#ffffff; --muted:#6b6b78;
+  --surface:#ffffff; --hairline:rgba(36,34,62,.10);
+
+  --f-display:'Outfit', system-ui, sans-serif;
+  --f-body:'Inter Tight', system-ui, sans-serif;
+  --f-hand:'Gochi Hand', cursive;
+
+  --h1:clamp(2rem,6.2vw,3.6rem);
+  --h2:clamp(1.6rem,4.6vw,2.6rem);
+  --h3:clamp(1.15rem,2.6vw,1.4rem);
+  --stat:clamp(2.2rem,7vw,3.4rem);
+  --pad-x:16px; --sec-y:52px; --radius:20px; --btn-radius:50px;
+  --shadow:0 14px 34px rgba(36,34,62,.10);
+  --shadow-accent:0 14px 30px rgba(145,74,211,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--f-body);color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;height:auto;display:block;}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad-x);}
+.narrow{max-width:820px;}
+.sec{padding:var(--sec-y) 0;position:relative;overflow:hidden;}
+@media(min-width:900px){:root{--pad-x:24px;--sec-y:80px;}}
+
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;color:var(--primary);}
+h1{font-size:var(--h1);font-weight:900;}
+h2{font-size:var(--h2);font-weight:800;}
+h3{font-size:var(--h3);font-weight:700;}
+.accent{color:var(--accent-bright);}
+p{margin:0 0 1rem;}
+.lead{font-size:1.12rem;color:var(--muted);}
+.eyebrow{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);}
+.center{text-align:center;}
+.mt1{margin-top:10px;}.mt2{margin-top:20px;}.mt3{margin-top:32px;}
+.hand{font-family:var(--f-hand);color:var(--accent-bright);}
+
+/* dark section always gradient */
+.dark{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;}
+.dark h1,.dark h2,.dark h3{color:#fff;}
+.dark .lead{color:rgba(255,255,255,.8);}
+.dark .eyebrow{color:var(--accent-bright);}
+.tintbg{background:linear-gradient(180deg,var(--tint),#fff);}
+.tintflat{background:var(--tint);}
+
+/* pill / eyebrow badge */
+.pill{display:inline-block;background:#fff;border:1.5px solid var(--tint-2);color:var(--accent-dark);border-radius:50px;padding:9px 20px;font-weight:600;font-size:.92rem;box-shadow:0 4px 14px rgba(145,74,211,.12);}
+.pill.solid{background:var(--accent);color:#fff;border:none;}
+.pop-badge{display:inline-block;background:var(--pop);color:var(--primary);font-weight:800;padding:6px 16px;border-radius:50px;font-family:var(--f-display);transform:rotate(-2deg);}
+
+/* CTA - HIGH decoration (shake + glow) */
+.btn{background:var(--accent);color:#fff;border-radius:var(--btn-radius);padding:17px 34px;font-weight:800;font-family:var(--f-display);font-size:1.12rem;display:block;width:100%;text-align:center;text-decoration:none;box-shadow:var(--shadow-accent);border:none;cursor:pointer;transition:transform .15s;}
+.btn i{margin-left:8px;}
+@media(min-width:640px){.btn{display:inline-block;width:auto;}}
+.btn:hover{transform:translateY(-2px);}
+@keyframes cta-shake{0%,34%,100%{transform:translateX(0)}4%{transform:translateX(-6px)}8%{transform:translateX(6px)}12%{transform:translateX(-6px)}16%{transform:translateX(5px)}20%{transform:translateX(-4px)}24%{transform:translateX(3px)}28%{transform:translateX(-2px)}}
+@keyframes cta-glow{0%,100%{box-shadow:0 8px 22px rgba(145,74,211,.35)}50%{box-shadow:0 8px 42px rgba(171,64,255,.85)}}
+.btn--hot{animation:cta-shake 4s ease-in-out infinite, cta-glow 1.8s ease-in-out infinite;}
+.btn--hot:hover{animation-play-state:paused;}
+.fud{font-size:.86rem;color:var(--muted);margin-top:12px;}
+.dark .fud{color:rgba(255,255,255,.65);}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:60;background:var(--primary);box-shadow:0 2px 12px rgba(0,0,0,.25);}
+.nav .wrap{display:flex;align-items:center;justify-content:center;padding-top:12px;padding-bottom:12px;}
+.nav img{height:30px;}
+
+/* hero */
+.hero{background:radial-gradient(1000px 500px at 50% -10%,var(--tint-2),var(--tint) 40%,#fff 80%);text-align:center;padding-top:44px;}
+.hero h1{max-width:900px;margin:0 auto;}
+.hero .lead{max-width:640px;margin:18px auto 0;}
+.videoframe{position:relative;width:100%;max-width:820px;margin:26px auto 0;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:6px solid #fff;background:#000;aspect-ratio:16/9;}
+.videoframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.trustrow{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;margin:18px 0 4px;}
+.avatars img{height:44px;}
+.stars{color:#ffb800;letter-spacing:1px;}
+.trust-txt{font-size:.9rem;color:var(--muted);font-weight:600;}
+
+/* grids */
+.grid{display:grid;gap:16px;grid-template-columns:1fr;}
+.g2{grid-template-columns:1fr;}
+.g3{grid-template-columns:1fr;}
+.g4{grid-template-columns:1fr 1fr;}
+@media(min-width:680px){.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g4{grid-template-columns:repeat(4,1fr);}}
+
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+.dark .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(4px);}
+
+/* icon chip */
+.ico{width:56px;height:56px;border-radius:16px;background:var(--tint);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:14px;}
+.dark .ico{background:rgba(255,255,255,.1);color:var(--accent-bright);border:1px solid rgba(255,255,255,.18);}
+
+/* stat strip */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:24px 8px;}
+@media(min-width:760px){.stats{grid-template-columns:repeat(6,1fr);}}
+.stat{text-align:center;}
+.stat img{height:52px;margin:0 auto 8px;}
+.stat b{display:block;font-family:var(--f-display);font-size:1.5rem;font-weight:800;color:var(--primary);line-height:1.1;}
+.dark .stat b{color:#fff;}
+.stat span{font-size:.82rem;color:var(--muted);}
+.dark .stat span{color:rgba(255,255,255,.7);}
+
+/* marquee */
+.marquee{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.marquee ul{display:inline-flex;gap:14px;padding-left:14px;animation:scroll 26s linear infinite;list-style:none;}
+.marquee li{background:#fff;border:1px solid var(--hairline);border-radius:50px;padding:9px 20px;font-weight:600;color:var(--primary);font-size:.95rem;box-shadow:0 4px 12px rgba(36,34,62,.06);}
+.marquee li i{color:var(--accent);margin-right:8px;}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* review cards */
+.review .rev-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.rev-ava{width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);}
+.rev-name{font-weight:700;color:var(--primary);font-size:.95rem;}
+.rev-role{font-size:.8rem;color:var(--muted);}
+.review h3{margin:6px 0;font-size:1.05rem;}
+.review p{font-size:.94rem;color:var(--muted);margin:0;}
+
+/* benefit tile with image */
+.benefit{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;}
+.benefit .lead{margin:0;}
+.benefit .bimg{border-radius:14px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);aspect-ratio:16/10;}
+.benefit .bimg img{width:100%;height:100%;object-fit:cover;}
+.benefit b{font-family:var(--f-display);font-size:1.05rem;}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:10px;justify-content:center;align-items:center;font-family:var(--f-display);font-weight:800;font-size:1.3rem;}
+.steps .fa-arrow-right{transform:rotate(90deg);color:var(--accent);}
+@media(min-width:560px){.steps{flex-direction:row;gap:12px;}.steps .fa-arrow-right{transform:none;}}
+.step{padding:12px 26px;border-radius:14px;color:#fff;min-width:150px;text-align:center;}
+@media(min-width:560px){.step{min-width:0;}}
+.s1{background:var(--primary);}.s2{background:var(--accent);}.s3{background:var(--teal);}
+
+/* checklist */
+.checks{list-style:none;display:grid;gap:10px;}
+.checks li{display:flex;gap:12px;align-items:flex-start;font-size:1.02rem;}
+.checks i{color:var(--accent);margin-top:4px;}
+.dark .checks i{color:var(--accent-bright);}
+
+/* 3 options */
+.opt{border-radius:var(--radius);padding:24px;background:#fff;border:1px solid var(--hairline);box-shadow:var(--shadow);}
+.opt.win{border:3px solid var(--accent);position:relative;}
+.opt.win .flag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-family:var(--f-display);font-weight:700;font-size:.8rem;padding:5px 16px;border-radius:50px;white-space:nowrap;}
+.opt h3{margin-bottom:12px;}
+.opt .con{color:#d1435b;font-weight:600;font-size:.92rem;display:flex;gap:8px;align-items:center;margin-top:8px;}
+.opt .pro{color:var(--teal);font-weight:700;font-size:.92rem;display:flex;gap:8px;align-items:center;margin-top:8px;}
+
+/* scenes gallery */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(min-width:760px){.gallery{grid-template-columns:repeat(4,1fr);}}
+.gallery img{border-radius:14px;box-shadow:var(--shadow);aspect-ratio:1;object-fit:cover;width:100%;}
+
+/* samples */
+.samples{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(min-width:760px){.samples{grid-template-columns:repeat(4,1fr);}}
+.sample{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;background:#000;aspect-ratio:16/10;}
+.sample img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.sample:hover img{transform:scale(1.06);}
+.sample .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45));}
+.sample .play i{color:#fff;font-size:2.4rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));}
+.sample .cap{position:absolute;left:10px;bottom:10px;right:10px;color:#fff;font-weight:700;font-size:.86rem;font-family:var(--f-display);text-shadow:0 2px 8px rgba(0,0,0,.7);}
+
+/* features */
+.feat{display:flex;gap:14px;align-items:flex-start;}
+.feat .fico{flex:0 0 auto;width:48px;height:48px;border-radius:12px;background:var(--tint);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.feat h3{font-size:1.05rem;margin-bottom:4px;}
+.feat p{font-size:.9rem;color:var(--muted);margin:0;}
+
+/* cost table */
+.costtable{max-width:560px;margin:0 auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);overflow:hidden;}
+.costtable .row{display:flex;justify-content:space-between;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.1);font-size:1rem;}
+.costtable .row span:last-child{font-family:var(--f-display);font-weight:700;}
+.costtable .total{background:var(--accent);font-family:var(--f-display);font-weight:900;font-size:1.2rem;border:none;}
+
+/* guarantee */
+.guar{display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;}
+.guar img{width:150px;height:auto;}
+
+/* pricing */
+.prices{display:grid;grid-template-columns:1fr;gap:22px;max-width:820px;margin:26px auto 0;}
+@media(min-width:760px){.prices{grid-template-columns:1fr 1fr;align-items:center;}}
+.price{background:#fff;border:1px solid var(--hairline);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);text-align:center;}
+.price.pop{border:3px solid var(--accent);position:relative;box-shadow:0 20px 46px rgba(145,74,211,.25);}
+.price .tag{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-family:var(--f-display);font-weight:700;padding:6px 20px;border-radius:50px;font-size:.85rem;}
+.price h3{font-size:1.25rem;}
+.price .old{color:var(--muted);text-decoration:line-through;font-weight:600;}
+.price .big{font-family:var(--f-display);font-size:3rem;font-weight:900;color:var(--accent);line-height:1;margin:6px 0;}
+.price .per{font-size:.9rem;color:var(--muted);font-weight:600;}
+.price .checks{text-align:left;margin:18px 0;font-size:.92rem;}
+.price .checks li{font-size:.92rem;}
+.paystrip{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px;}
+.paystrip .lock{font-size:.82rem;color:var(--muted);font-weight:600;}
+.paystrip img{height:26px;}
+
+/* faq */
+.faq{max-width:780px;margin:0 auto;}
+.qa{border-bottom:1px solid var(--hairline);}
+.qa button{width:100%;background:none;border:none;text-align:left;padding:18px 4px;font-family:var(--f-display);font-weight:700;font-size:1.05rem;color:var(--primary);display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;}
+.qa .ic{flex:0 0 auto;width:28px;height:28px;border-radius:8px;background:var(--tint);color:var(--accent);display:flex;align-items:center;justify-content:center;transition:.25s;font-size:.9rem;}
+.qa.open .ic{background:var(--accent);color:#fff;transform:rotate(45deg);}
+.qa .ans{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.qa .ans p{padding:0 4px 18px;color:var(--muted);font-size:.96rem;margin:0;}
+
+/* testimonial wall */
+.twall{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:680px){.twall{grid-template-columns:1fr 1fr;}}
+@media(min-width:980px){.twall{grid-template-columns:1fr 1fr 1fr;}}
+.tw{background:#fff;border:1px solid var(--hairline);border-radius:16px;padding:20px;box-shadow:var(--shadow);}
+.tw .stars{margin-bottom:8px;}
+.tw h3{font-size:1rem;margin-bottom:6px;}
+.tw p{font-size:.92rem;color:var(--muted);}
+.tw .who{display:flex;align-items:center;gap:10px;margin-top:12px;}
+.tw .who .rev-ava{width:38px;height:38px;font-size:.9rem;}
+.tw .who img.pic{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:0 0 auto;border:2px solid var(--tint-2);}
+.tw .who b{font-size:.9rem;color:var(--primary);}
+.tw .who span{font-size:.78rem;color:var(--muted);display:block;}
+
+/* footer */
+.footer{background:var(--primary);color:rgba(255,255,255,.75);}
+.footer h4{color:#fff;font-family:var(--f-display);font-size:.95rem;margin-bottom:10px;}
+.footcols{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+@media(min-width:760px){.footcols{grid-template-columns:2fr 1fr 1fr;}}
+.footer a{color:rgba(255,255,255,.75);text-decoration:none;display:block;padding:3px 0;font-size:.9rem;}
+.footer a:hover{color:#fff;}
+.disc{font-size:.74rem;color:rgba(255,255,255,.45);line-height:1.6;margin-top:28px;border-top:1px solid rgba(255,255,255,.12);padding-top:20px;}
+
+.deco{position:absolute;pointer-events:none;opacity:.9;}
+</style>
+</head>
+<body>
+
+<!-- 1 · NAV (logo only) -->
+<nav class="nav">
+  <div class="wrap"><img src="assets/images/imagesupdated/logowhite.png" alt="InstaDoodle"></div>
+</nav>
+
+<!-- 2 · HERO -->
+<header class="sec hero" id="top">
+  <div class="wrap">
+    <span class="pill">✨ For YouTube, Instagram, Facebook &amp; TikTok</span>
+    <h1 class="mt2">Type One Sentence. Watch AI Draw a Doodle Video That <span class="accent">Converts Like Wildfire.</span></h1>
+    <p class="lead">InstaDoodle turns plain text into studio-grade whiteboard animations in about 3 clicks. No designer. No freelancer. No editing skills. Just paste your idea and let DoodleAI&trade; draw it for you.</p>
+
+    <div class="videoframe">
+      <iframe src="https://player.vimeo.com/video/1112880088" title="InstaDoodle demo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="trustrow">
+      <span class="avatars"><img src="assets/images/imagesupdated/peopletop.png" alt="Happy InstaDoodle users"></span>
+      <span><span class="stars">★★★★★</span><br><span class="trust-txt">Rated Excellent from 3,000+ reviews</span></span>
+    </div>
+
+    <div class="mt2">
+      <a href="#pricing" class="btn btn--hot">Get InstaDoodle Lifetime Deal <i class="fa-solid fa-arrow-right"></i></a>
+      <div class="fud">Instant access · One-time payment, no monthly fees · 60-day money-back guarantee</div>
+    </div>
+  </div>
+</header>
+
+<!-- 3 · TRUST + QUICK STATS -->
+<section class="sec" id="stats">
+  <div class="wrap center">
+    <h2>3,000+ creators can't be wrong.<br><span class="accent">Let the AI do the drawing for you.</span></h2>
+    <div class="stats mt3">
+      <div class="stat"><img src="assets/images/imagesupdated/point1.png" alt=""><b>Personal</b><span>Use</span></div>
+      <div class="stat"><img src="assets/images/imagesupdated/point2.png" alt=""><b>Professional</b><span>Use</span></div>
+      <div class="stat"><img src="assets/images/imagesupdated/point3.png" alt=""><b>Custom</b><span>Emotions</span></div>
+      <div class="stat"><img src="assets/images/imagesupdated/point4.png" alt=""><b>89,000+</b><span>Videos Created</span></div>
+      <div class="stat"><img src="assets/images/imagesupdated/point5.png" alt=""><b>World-Class</b><span>AI Engine</span></div>
+      <div class="stat"><img src="assets/images/imagesupdated/point6.png" alt=""><b>45,000+</b><span>Happy Users</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · AUDIENCE MARQUEE -->
+<section class="sec tintflat" style="padding-top:26px;padding-bottom:26px;">
+  <div class="center" style="margin-bottom:16px;"><span class="eyebrow">Made for people who need attention, fast</span></div>
+  <div class="marquee">
+    <ul>
+      <li><i class="fa-solid fa-bullhorn"></i>Marketers</li><li><i class="fa-solid fa-chalkboard-user"></i>Teachers</li><li><i class="fa-solid fa-graduation-cap"></i>Students</li><li><i class="fa-solid fa-book"></i>Authors</li><li><i class="fa-solid fa-headset"></i>Customer Support</li><li><i class="fa-solid fa-box"></i>Product Developers</li><li><i class="fa-solid fa-microphone"></i>Podcasters</li>
+      <li><i class="fa-solid fa-bullhorn"></i>Marketers</li><li><i class="fa-solid fa-chalkboard-user"></i>Teachers</li><li><i class="fa-solid fa-graduation-cap"></i>Students</li><li><i class="fa-solid fa-book"></i>Authors</li><li><i class="fa-solid fa-headset"></i>Customer Support</li><li><i class="fa-solid fa-box"></i>Product Developers</li><li><i class="fa-solid fa-microphone"></i>Podcasters</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5 · TRUSTPILOT REVIEW CARDS -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="center">
+      <img src="assets/images/imagesupdated/trustpilot-1.png" alt="Trustpilot" style="height:40px;margin:0 auto 10px;">
+      <h2>What people say after their first video</h2>
+    </div>
+    <div class="grid g3 mt3">
+      <div class="card review">
+        <div class="rev-top"><span class="rev-ava">BL</span><span><span class="rev-name">BrightPath Learning</span><br><span class="rev-role">Verified · Educator</span></span></div>
+        <div class="stars">★★★★★</div>
+        <h3>It changed how I teach</h3>
+        <p>Complex lessons finally click. My students stay focused because the ideas move and draw themselves. I build a full training video in the time it used to take me to write the outline.</p>
+      </div>
+      <div class="card review">
+        <div class="rev-top"><span class="rev-ava">LM</span><span><span class="rev-name">Laura Mitchell</span><br><span class="rev-role">Verified · Content Creator</span></span></div>
+        <div class="stars">★★★★★</div>
+        <h3>Blown away, honestly</h3>
+        <p>Fast, simple, and it gives me real creative freedom. Marketing clips, lessons, social posts, all done in one place. The team keeps shipping features that make it even better.</p>
+      </div>
+      <div class="card review">
+        <div class="rev-top"><span class="rev-ava">DK</span><span><span class="rev-name">Daniel Kramer</span><br><span class="rev-role">Verified · Marketer</span></span></div>
+        <div class="stars">★★★★★</div>
+        <h3>Ideas to video in minutes</h3>
+        <p>The stuff in my head finally looks the way I imagined it. Simple enough for a beginner, sharp enough to look like an agency made it. Short learning curve, great results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · BENEFIT GRID (dark) -->
+<section class="sec dark" id="benefits">
+  <div class="wrap">
+    <div class="center"><span class="eyebrow">Everything you were paying an agency for</span>
+    <h2 class="mt1">One tool. Zero editing experience.</h2></div>
+    <div class="grid g4 mt3">
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-wand-magic-sparkles"></i></div><b>Studio-grade in 3 clicks</b><p class="lead" style="font-size:.9rem;">Paste, generate, play. That is the whole workflow.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-language"></i></div><b>Works in any language</b><p class="lead" style="font-size:.9rem;">Speak to every audience on earth, no reshoots.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-user-slash"></i></div><b>Goodbye freelancers</b><p class="lead" style="font-size:.9rem;">Never wait a week or pay $500 a clip again.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-palette"></i></div><b>New: full color videos</b><p class="lead" style="font-size:.9rem;">Not just black and white. Bring scenes to life.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-shapes"></i></div><b>1,000+ characters</b><p class="lead" style="font-size:.9rem;">A library big enough for any story you tell.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-layer-group"></i></div><b>14 ready templates</b><p class="lead" style="font-size:.9rem;">Start from a proven layout, not a blank page.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-keyboard"></i></div><b>AI text to video</b><p class="lead" style="font-size:.9rem;">Write the prompt, DoodleAI&trade; draws the element.</p></div>
+      <div class="benefit"><div class="ico"><i class="fa-solid fa-scissors"></i></div><b>Built-in image editor</b><p class="lead" style="font-size:.9rem;">Remove backgrounds and clean images in-app.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · PATTERN INTERRUPT + MECHANISM -->
+<section class="sec center" id="mechanism">
+  <div class="wrap narrow">
+    <div class="hand" style="font-size:1.4rem;">People think I hired an animation studio.</div>
+    <h1 style="margin:6px 0 4px;">NOPE. <span class="accent">I just use InstaDoodle.</span></h1>
+    <p class="lead">Here is the entire process. Three moves. That is it.</p>
+    <div class="steps mt2">
+      <span class="step s1">Paste</span>
+      <i class="fa-solid fa-arrow-right" style="color:var(--accent);"></i>
+      <span class="step s2">DoodleAI&trade;</span>
+      <i class="fa-solid fa-arrow-right" style="color:var(--accent);"></i>
+      <span class="step s3">Play</span>
+    </div>
+    <div class="mt3">
+      <span class="pop-badge">Founders Special Offer</span>
+      <div class="mt2"><a href="#pricing" class="btn btn--hot">Grab Access To InstaDoodle Today <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · PULL QUOTE + USE CASES -->
+<section class="sec tintbg" id="usecases">
+  <div class="wrap">
+    <div class="center narrow" style="margin:0 auto;">
+      <i class="fa-solid fa-quote-left" style="color:var(--accent);font-size:1.6rem;"></i>
+      <h2 class="mt1">Your ideas deserve to be heard. InstaDoodle helps you <span class="accent">explain, sell, and stand out</span> with zero editing experience.</h2>
+    </div>
+    <div class="center mt3"><span class="hand" style="font-size:1.6rem;">So you can quickly &amp; easily make...</span></div>
+    <div class="card mt2" style="max-width:860px;margin-left:auto;margin-right:auto;">
+      <div class="grid g2">
+        <ul class="checks">
+          <li><i class="fa-solid fa-circle-check"></i>Product promotion videos</li>
+          <li><i class="fa-solid fa-circle-check"></i>Affiliate review videos</li>
+          <li><i class="fa-solid fa-circle-check"></i>Amazon product review videos</li>
+          <li><i class="fa-solid fa-circle-check"></i>Offline business promos</li>
+          <li><i class="fa-solid fa-circle-check"></i>Videos from your text articles</li>
+        </ul>
+        <ul class="checks">
+          <li><i class="fa-solid fa-circle-check"></i>Express video sales letters</li>
+          <li><i class="fa-solid fa-circle-check"></i>Amazing photo slideshows</li>
+          <li><i class="fa-solid fa-circle-check"></i>Logo intros &amp; stingers</li>
+          <li><i class="fa-solid fa-circle-check"></i>Business presentation videos</li>
+          <li><i class="fa-solid fa-circle-check"></i>And a whole lot more</li>
+        </ul>
+      </div>
+      <div class="center mt2"><span class="pill solid">All unlimited. No restrictions.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · AI SCENE GALLERY -->
+<section class="sec" id="gallery">
+  <div class="wrap center">
+    <span class="eyebrow">Real output, zero stock footage</span>
+    <h2 class="mt1">Every scene below was generated by <span class="accent">InstaDoodle's AI engine</span></h2>
+    <div class="gallery mt3">
+      <img src="assets/images/color/slide1.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide2.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide3.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide5.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide7.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide9.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide11.png" alt="AI generated doodle scene" loading="lazy">
+      <img src="assets/images/color/slide13.png" alt="AI generated doodle scene" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- 10 · NO PRODUCTION CREW (dark) -->
+<section class="sec dark center" id="nocrew">
+  <div class="wrap narrow">
+    <span class="eyebrow">The shift already happened</span>
+    <h2 class="mt1">You no longer need a production crew to make explainer videos people actually watch.</h2>
+    <div class="stat mt3"><b style="font-size:var(--stat);color:var(--pop);">82.5%</b><span style="font-size:1rem;">of all internet traffic in 2025 is video. YouTube is still king. If your idea isn't moving, it's getting scrolled past.</span></div>
+  </div>
+</section>
+
+<!-- 11 · WHY EXPLAINER VIDEOS -->
+<section class="sec" id="why">
+  <div class="wrap narrow center">
+    <span class="eyebrow">Why explainer videos win</span>
+    <h2 class="mt1">Attention is the hardest thing to earn online. Doodle videos take it.</h2>
+    <p class="lead mt2">In a feed built to distract, whiteboard animation does one thing better than any format: it makes a complicated idea feel simple. It draws the viewer in, step by step, and holds them to the end.</p>
+    <div class="pop-badge mt2" style="font-size:1.15rem;padding:12px 26px;">Fact: explainer videos lift conversions by up to 80%</div>
+    <p class="lead mt2">Why? Because the brain loves a clear, visual story it can follow. From classroom chalkboards to the screen in your hand, we are wired to watch something being drawn. InstaDoodle does exactly that, on autopilot.</p>
+  </div>
+</section>
+
+<!-- 12 · THE PROBLEM: 3 OPTIONS -->
+<section class="sec tintbg" id="problem">
+  <div class="wrap">
+    <div class="center narrow" style="margin:0 auto;">
+      <span class="eyebrow">The problem</span>
+      <h2 class="mt1">Great animated videos are hard to create. You really only have 3 options.</h2>
+    </div>
+    <div class="grid g3 mt3">
+      <div class="opt">
+        <h3><i class="fa-solid fa-desktop" style="color:var(--muted);"></i> Wrestle with software</h3>
+        <p class="lead" style="font-size:.95rem;">Spend weeks learning clunky tools and hunting for scenes that almost match what you pictured.</p>
+        <div class="con"><i class="fa-solid fa-xmark"></i>Takes far too much time</div>
+        <div class="con"><i class="fa-solid fa-xmark"></i>Videos still look basic</div>
+      </div>
+      <div class="opt">
+        <h3><i class="fa-solid fa-user-tie" style="color:var(--muted);"></i> Hire freelancers</h3>
+        <p class="lead" style="font-size:.95rem;">Chase agencies for quotes, hand over hundreds of dollars, then cross your fingers on the result.</p>
+        <div class="con"><i class="fa-solid fa-xmark"></i>Costs a small fortune</div>
+        <div class="con"><i class="fa-solid fa-xmark"></i>You wait, and hope</div>
+      </div>
+      <div class="opt win">
+        <span class="flag">The smart way</span>
+        <h3><i class="fa-solid fa-bolt" style="color:var(--accent);"></i> Try InstaDoodle</h3>
+        <p class="lead" style="font-size:.95rem;">Install nothing. Type what your video should show. DoodleAI&trade; draws exactly what you imagined.</p>
+        <div class="pro"><i class="fa-solid fa-check"></i>No hassle, no learning curve</div>
+        <div class="pro"><i class="fa-solid fa-check"></i>Looks like a pro made it</div>
+      </div>
+    </div>
+    <div class="center mt3"><a href="#pricing" class="btn btn--hot">Get InstaDoodle Lifetime Deal <i class="fa-solid fa-arrow-right"></i></a></div>
+  </div>
+</section>
+
+<!-- 13 · SAMPLES GRID -->
+<section class="sec" id="samples">
+  <div class="wrap center">
+    <span class="eyebrow">See it in action</span>
+    <h2 class="mt1">A few videos made start to finish inside InstaDoodle</h2>
+    <div class="samples mt3">
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/Kids%20Clip%202_static.webp" alt="Kids Being Kids sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Kids Being Kids</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/10_static.webp" alt="Espresso Brewing sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Espresso Brewing Explained</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/12_static.webp" alt="AI Voices ad sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Revoicer AI Voices Ad</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/19_static.webp" alt="Cash machine sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">20 Second Cash Machine</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/21_static.webp" alt="Preparing pasta sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Preparing Pasta</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/Human%20Origins%20Scene%201_static.webp" alt="Color splash story sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Joey's Color Splash Story</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/Pythagora%20Clip%201_static.webp" alt="Pythagoras theorem sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Pythagoras Theorem Explained</span></a>
+      <a class="sample" href="#pricing"><img src="assets/videoslider/images/25_static.webp" alt="Digital marketing sample" loading="lazy"><span class="play"><i class="fa-solid fa-circle-play"></i></span><span class="cap">Digital Marketing 101</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · TURN COMPLICATED INTO SIMPLE (dark) -->
+<section class="sec dark center" id="simple">
+  <div class="wrap narrow">
+    <span class="eyebrow">Positioning</span>
+    <h2 class="mt1">Confused buyers don't buy. InstaDoodle turns complicated into simple.</h2>
+    <div class="grid g2 mt3">
+      <div class="card"><i class="fa-solid fa-child-reaching" style="color:var(--accent-bright);font-size:1.6rem;"></i><h3 class="mt1">So simple a child could master it</h3><p class="lead">If you can type a sentence, you can make a video today.</p></div>
+      <div class="card"><i class="fa-solid fa-building" style="color:var(--accent-bright);font-size:1.6rem;"></i><h3 class="mt1">So advanced agencies use it</h3><p class="lead">Enough depth and polish to bill clients with it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 · FEATURES GRID -->
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="center narrow" style="margin:0 auto;"><span class="eyebrow">Under the hood</span><h2 class="mt1">Everything packed into InstaDoodle</h2></div>
+    <div class="grid g3 mt3">
+      <div class="feat"><div class="fico"><i class="fa-solid fa-infinity"></i></div><div><h3>Unlimited videos</h3><p>Create as many as you want. No caps, no per-export fees.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-cloud"></i></div><div><h3>Cloud rendering</h3><p>No powerful PC needed. Hit render and come back to a finished video.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-robot"></i></div><div><h3>DoodleAI&trade; engine</h3><p>Text-to-doodle technology that turns your words into drawn elements.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-images"></i></div><div><h3>1,000+ doodle images</h3><p>A deep library so you never run out of the right visual.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-hand"></i></div><div><h3>Male &amp; female hands</h3><p>Pick the drawing hand that fits your brand and audience.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-music"></i></div><div><h3>Voiceover &amp; music</h3><p>Record or upload narration and drop in background tracks.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-pen-nib"></i></div><div><h3>Image to sketch</h3><p>Turn your own photos and logos into hand-drawn illustrations.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-paint-roller"></i></div><div><h3>Color or black &amp; white</h3><p>Generate vivid color scenes or classic whiteboard style.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-film"></i></div><div><h3>Animations &amp; transitions</h3><p>Draw, wipe, slide, fade, pop-in, plus smooth scene transitions.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-crop-simple"></i></div><div><h3>Multiple aspect ratios</h3><p>16:9 for YouTube, 9:16 for Stories, square for the grid.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-wand-magic"></i></div><div><h3>AI backgrounds</h3><p>Generate full, vibrant backdrops that lift every scene.</p></div></div>
+      <div class="feat"><div class="fico"><i class="fa-solid fa-laptop"></i></div><div><h3>Use it anywhere</h3><p>Fully cloud based. Switch devices and never lose your work.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 · BIG DEMO -->
+<section class="sec tintbg center" id="demo">
+  <div class="wrap">
+    <span class="eyebrow">Watch this</span>
+    <h2 class="mt1">The coolest demo you'll see all week</h2>
+    <div class="videoframe">
+      <iframe src="https://www.youtube.com/embed/knJfOeA6860" title="InstaDoodle full demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="hand mt2" style="font-size:1.3rem;">"This project was created using InstaDoodle."</p>
+  </div>
+</section>
+
+<!-- 17 · LANGUAGES -->
+<section class="sec center" id="languages">
+  <div class="wrap narrow">
+    <span class="eyebrow">No borders</span>
+    <h2 class="mt1">Want your video in your viewer's language? Done.</h2>
+    <p class="lead mt2">Narrate and animate in the languages your audience actually speaks. One idea, every market, no reshoots and no extra software.</p>
+    <div class="trustrow mt2" style="font-size:2rem;">🇺🇸 🇪🇸 🇫🇷 🇩🇪 🇧🇷 🇮🇳 🇯🇵 🇸🇦</div>
+    <div class="mt2"><a href="#pricing" class="btn btn--hot">Get InstaDoodle Lifetime Deal <i class="fa-solid fa-arrow-right"></i></a></div>
+  </div>
+</section>
+
+<!-- 18 · TESTIMONIAL WALL -->
+<section class="sec" id="wall">
+  <div class="wrap">
+    <div class="center narrow" style="margin:0 auto;">
+      <img src="assets/images/imagesupdated/trustpilot-1.png" alt="Trustpilot" style="height:34px;margin:0 auto 8px;">
+      <h2>Trusted by 90,000+ business owners</h2>
+      <p class="lead">Rated Excellent across 3,000+ reviews.</p>
+    </div>
+    <div class="twall mt3">
+      <div class="tw"><div class="stars">★★★★★</div><h3>Best money I've spent on a tool</h3><p>I compared InstaDoodle against three other animation platforms. It wins on quality and price, hands down. Fast rendering, growing asset library, professional color characters.</p><div class="who"><img class="pic" src="assets/images/sarah.jpg" alt="Priya Nair"><b>Priya Nair<span>Video Marketer</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>My YouTube engagement jumped 40%</h3><p>I've tried several animation tools. InstaDoodle is on another level. I made my first professional-looking video within an hour, and my channel numbers moved the same week.</p><div class="who"><img class="pic" src="assets/images/mircea.jpg" alt="Marcus J. Rivera"><b>Marcus J. Rivera<span>YouTuber</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>Course completion went 35% to 70%</h3><p>I swapped boring slide recordings for InstaDoodle animations. Students actually stay engaged now, and completion rates doubled. Complex topics finally feel approachable.</p><div class="who"><img class="pic" src="assets/images/robert.jpg" alt="James Whitfield"><b>James Whitfield<span>Course Creator</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>We cut our training budget to almost nothing</h3><p>Our HR team used to pay agencies thousands for training content. Now we produce it all in-house, and employee feedback has never been better.</p><div class="who"><img class="pic" src="assets/images/lee.jpg" alt="Brian Caldwell"><b>Brian Caldwell<span>HR Lead</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>Hours saved every single week</h3><p>My agency uses InstaDoodle on nearly every client project. What took days with other tools now takes a couple of hours, and clients are always impressed by the output.</p><div class="who"><img class="pic" src="assets/images/simi.jpg" alt="David Okafor"><b>David Okafor<span>Agency Owner</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>Zero design skills, first video in 30 minutes</h3><p>I was intimidated at first. Within half an hour I had a doodle video ready to share. I use it for my listings now and my open-house attendance is up.</p><div class="who"><img class="pic" src="assets/images/lisa.jpg" alt="Sandra Mitchell"><b>Sandra Mitchell<span>Realtor</span></b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 · COST TABLE (dark) -->
+<section class="sec dark" id="worth">
+  <div class="wrap center">
+    <span class="eyebrow">Do the math</span>
+    <h2 class="mt1">What does one video like this actually cost?</h2>
+    <p class="lead">Hire it out the old way and here is the bill for a single professional explainer.</p>
+    <div class="costtable mt3">
+      <div class="row"><span>Video script writer</span><span>$79</span></div>
+      <div class="row"><span>Professional voiceover artist</span><span>$100</span></div>
+      <div class="row"><span>Commercial footage &amp; assets</span><span>$50</span></div>
+      <div class="row"><span>Designer</span><span>$200</span></div>
+      <div class="row"><span>Animation designer</span><span>$300</span></div>
+      <div class="row"><span>Transitions &amp; text effects</span><span>$30</span></div>
+      <div class="row"><span>Licensed music tracks</span><span>$30</span></div>
+      <div class="row"><span>Editing &amp; file sync</span><span>$100</span></div>
+      <div class="row"><span>Video maker software</span><span>$300</span></div>
+      <div class="row total"><span>Total for ONE video</span><span>$1,189</span></div>
+    </div>
+    <p class="lead mt3">InstaDoodle makes unlimited videos for a fraction of that. One time.</p>
+  </div>
+</section>
+
+<!-- 20 · GUARANTEE -->
+<section class="sec" id="guarantee">
+  <div class="wrap narrow">
+    <div class="guar">
+      <img src="assets/images/imagesupdated/moneyback.webp" alt="60 day money back guarantee">
+      <span class="eyebrow">Zero risk</span>
+      <h2 style="margin-top:-6px;">Create a video. Don't love it? Keep your money <span class="accent">and</span> the videos.</h2>
+      <p class="lead">You have a full 60 days. Make something with InstaDoodle, and if it isn't for you, email us for a complete refund. You still keep every video you created. That's how confident we are.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 21 · PRICE JUSTIFICATION + PRICING -->
+<section class="sec tintbg" id="pricing">
+  <div class="wrap">
+    <div class="center narrow" style="margin:0 auto;">
+      <span class="eyebrow">Now you have no risk and no excuses</span>
+      <h2 class="mt1">So how much is InstaDoodle?</h2>
+      <p class="lead mt2">Normally InstaDoodle runs $37 a month, which adds up to $564 a year. Set that next to the $5,000 a freelancer charges for a single video, and even the full price is a steal. But because you landed on this page, you don't pay monthly at all. You pay once and profit for life.</p>
+    </div>
+
+    <div class="prices">
+      <div class="price">
+        <h3>InstaDoodle</h3>
+        <p class="per">Lifetime access, one-time payment</p>
+        <div class="old">$564/year</div>
+        <div class="big">$37</div>
+        <div class="per">one time · no monthly fees</div>
+        <ul class="checks">
+          <li><i class="fa-solid fa-check"></i>Create unlimited videos</li>
+          <li><i class="fa-solid fa-check"></i>Drag &amp; drop editor</li>
+          <li><i class="fa-solid fa-check"></i>Works in any language</li>
+          <li><i class="fa-solid fa-check"></i>6 animation types + transitions</li>
+          <li><i class="fa-solid fa-check"></i>3 AI styles: caricature, cartoon, realistic</li>
+          <li><i class="fa-solid fa-check"></i>Built-in image editor + BG remover</li>
+          <li><i class="fa-solid fa-check"></i>14 templates · 7 hands · 1,000+ elements</li>
+          <li><i class="fa-solid fa-check"></i>150 AI credits · DoodleAI&trade; engine</li>
+          <li><i class="fa-solid fa-check"></i>1080p HD · free updates &amp; support</li>
+        </ul>
+        <a href="#" class="btn">Buy Now</a>
+        <div class="paystrip"><span class="lock"><i class="fa-solid fa-lock"></i> Secure Checkout</span><img src="assets/images/payment.webp" alt="Accepted payment methods"></div>
+      </div>
+
+      <div class="price pop">
+        <span class="tag">Most Popular</span>
+        <h3>InstaDoodle + Color</h3>
+        <p class="per">Lifetime access, one-time payment</p>
+        <div class="old">$564/year</div>
+        <div class="big">$67</div>
+        <div class="per">one time · no monthly fees</div>
+        <ul class="checks">
+          <li><i class="fa-solid fa-star" style="color:var(--accent);"></i><b>Generate full color elements</b></li>
+          <li><i class="fa-solid fa-check"></i>Everything in the $37 plan</li>
+          <li><i class="fa-solid fa-check"></i>Create unlimited videos</li>
+          <li><i class="fa-solid fa-check"></i>Works in any language</li>
+          <li><i class="fa-solid fa-check"></i>3 AI styles + all animation types</li>
+          <li><i class="fa-solid fa-check"></i>Built-in image editor + BG remover</li>
+          <li><i class="fa-solid fa-check"></i>14 templates · 7 hands · 1,000+ elements</li>
+          <li><i class="fa-solid fa-check"></i>150 AI credits · DoodleAI&trade; engine</li>
+          <li><i class="fa-solid fa-check"></i>1080p HD · free updates &amp; support</li>
+        </ul>
+        <a href="#" class="btn btn--hot">Buy Now</a>
+        <div class="paystrip"><span class="lock"><i class="fa-solid fa-lock"></i> Secure Checkout</span><img src="assets/images/payment.webp" alt="Accepted payment methods"></div>
+      </div>
+    </div>
+    <p class="center fud" style="color:var(--muted);">Backed by the 60-day keep-your-videos guarantee.</p>
+  </div>
+</section>
+
+<!-- 22 · FAQ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="center"><span class="eyebrow">Before you ask</span><h2 class="mt1">Frequently asked questions</h2></div>
+    <div class="faq mt3">
+      <div class="qa"><button>Do I need to install InstaDoodle?<span class="ic"><i class="fa-solid fa-plus"></i></span></button><div class="ans"><p>No. InstaDoodle is fully cloud based. You log in from any browser on Mac or Windows and start creating. Nothing to download, nothing to update manually.</p></div></div>
+      <div class="qa"><button>Are there ready-made characters and props?<span class="ic"><i class="fa-solid fa-plus"></i></span></button><div class="ans"><p>Yes. You get a library of 1,000+ doodle characters, elements, and props, plus 14 project templates so you can start from a proven layout instead of a blank canvas.</p></div></div>
+      <div class="qa"><button>Can I generate any image with the AI engine?<span class="ic"><i class="fa-solid fa-plus"></i></span></button><div class="ans"><p>Type what you want to show and DoodleAI&trade; draws it as a doodle element. You can also import your own photos and logos and convert them into hand-drawn sketches.</p></div></div>
+      <div class="qa"><button>Does it work on both Mac and Windows?<span class="ic"><i class="fa-solid fa-plus"></i></span></button><div class="ans"><p>Both, and any device with a browser. Because everything runs in the cloud, you can switch between machines and pick up right where you left off.</p></div></div>
+      <div class="qa"><button>Can I try InstaDoodle before committing?<span class="ic"><i class="fa-solid fa-plus"></i></span></button><div class="ans"><p>You are covered by a 60-day money-back guarantee. Create a video, and if it isn't for you, request a full refund and keep the videos you made. That is a risk-free trial with nothing to lose.</p></div></div>
+      <div class="qa"><button>How do I get support and my free bonuses?<span class="ic"><i class="fa-solid fa-plus"></i></span></button><div class="ans"><p>Support is included free for every plan. Your bonuses and login details are delivered to your email the moment your one-time payment goes through.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 · MORE TESTIMONIALS (dark) -->
+<section class="sec dark" id="more">
+  <div class="wrap">
+    <div class="center narrow" style="margin:0 auto;"><span class="eyebrow">Still on the fence?</span><h2 class="mt1">See why 2,601 marketers trust InstaDoodle</h2><p class="lead">Real results from real customers.</p></div>
+    <div class="twall mt3">
+      <div class="tw"><div class="stars">★★★★★</div><h3>Truly custom videos, fast</h3><p>No other program lets you use AI to design characters as doodles quite like this. Best purchase I've made. The team keeps shipping features I didn't know I needed.</p><div class="who"><img class="pic" src="assets/images/robert.jpg" alt="Anthony A."><b>Anthony A.<span>Content Creator</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>Perfect for product launches</h3><p>Creating an explainer for our new gadget was a breeze. It saved us serious effort and helped us reach far more people. If you need a great explainer, this is the tool.</p><div class="who"><img class="pic" src="assets/images/Emily.jpg" alt="Emily Johnson"><b>Emily Johnson<span>Marketing Director</span></b></div></div>
+      <div class="tw"><div class="stars">★★★★★</div><h3>Onboarding, transformed</h3><p>We built a series of explainer videos that walk new users through our software. The feedback has been incredible. A fantastic tool for any company improving onboarding.</p><div class="who"><img class="pic" src="assets/images/simi.jpg" alt="Michael Lee"><b>Michael Lee<span>Customer Success Manager</span></b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 24 · URGENCY CLOSE -->
+<section class="sec center" id="close">
+  <div class="wrap narrow">
+    <span class="pop-badge" style="font-size:1.1rem;">Founders pricing · 87% OFF</span>
+    <h1 class="mt2">Don't settle for boring. <span class="accent">The color update brings your ideas to life.</span></h1>
+    <p class="lead mt2">Close this page and come back later, and you risk paying full monthly price for what is one payment today. Lock in lifetime access now so you don't kick yourself later. See you inside.</p>
+    <div class="mt3"><a href="#pricing" class="btn btn--hot">Get InstaDoodle Lifetime Deal <i class="fa-solid fa-arrow-right"></i></a>
+      <div class="fud">One-time payment · No monthly fees · 60-day money-back guarantee</div>
+    </div>
+  </div>
+</section>
+
+<!-- 25 · FINAL + FOOTER -->
+<section class="sec dark center" id="final" style="padding-bottom:36px;">
+  <div class="wrap narrow">
+    <h2>So what video will you create today?</h2>
+    <div class="mt2"><a href="#pricing" class="btn btn--hot">Get InstaDoodle Lifetime Deal <i class="fa-solid fa-arrow-right"></i></a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap center" style="padding:44px var(--pad-x);">
+    <img src="assets/images/imagesupdated/logowhite.png" alt="InstaDoodle" style="height:30px;margin:0 auto 18px;">
+    <p style="font-size:.95rem;margin:0;color:#fff;">Copyright &copy; 2026 InstaDoodle. All rights reserved.</p>
+    <p style="font-size:.86rem;color:rgba(255,255,255,.6);margin:8px auto 0;max-width:520px;">Copy and design by Anas, portfolio demonstration piece.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.qa button').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var qa=btn.parentElement;
+    var ans=qa.querySelector('.ans');
+    var open=qa.classList.contains('open');
+    document.querySelectorAll('.qa').forEach(function(o){o.classList.remove('open');o.querySelector('.ans').style.maxHeight=null;});
+    if(!open){qa.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+  });
+});
+</script>
+</body>
+</html>
