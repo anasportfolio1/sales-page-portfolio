@@ -86,7 +86,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .nav-links{display:none;gap:28px}
 .nav-links a{font-size:.86rem;color:var(--muted);text-decoration:none;transition:color .2s}
 .nav-links a:hover{color:var(--accent)}
-.nav-cta{margin-left:auto;font-family:var(--f-display);font-size:.8rem;font-weight:700;color:#0B0B0D;background:var(--accent);
+.nav-cta{font-family:var(--f-display);font-size:.8rem;font-weight:700;color:#0B0B0D;background:var(--accent);
   padding:0 20px;height:44px;display:inline-flex;align-items:center;border-radius:40px;text-decoration:none;white-space:nowrap}
 @media(min-width:900px){.nav-links{display:flex}}
 
@@ -216,8 +216,9 @@ footer a:hover{color:var(--accent)}
 .social a:hover{color:var(--accent);border-color:var(--accent)}
 
 /* ===== hero fills the screen ===== */
-#top{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;
-  padding-top:64px;padding-bottom:40px}
+#top{min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-start;
+  padding-top:26px;padding-bottom:36px}
+@media(min-width:900px){#top{justify-content:center;padding-top:64px;padding-bottom:44px}}
 @supports not (min-height:100dvh){#top{min-height:100vh}}
 
 /* ===== every section heading block is centred ===== */
@@ -255,7 +256,7 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 
 /* ===== mobile menu ===== */
 .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;
-  margin-left:12px;background:none;border:0;cursor:pointer;padding:0}
+  margin-left:-6px;background:none;border:0;cursor:pointer;padding:0}
 .burger span{display:block;width:22px;height:2px;border-radius:2px;background:var(--ink);
   margin:0 auto;transition:transform .32s var(--e-out),opacity .22s}
 .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -401,14 +402,14 @@ html:not(.js) .sec h2::after{width:132px}
 
 <nav>
   <div class="wrap">
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-links">
       <a href="#about">About</a><a href="#services">What I Do</a><a href="#work">The Work</a>
       <a href="#breakdown">Breakdown</a><a href="#faq">FAQ</a>
     </div>
     <a href="contact.html" class="nav-cta">Get a free audit</a>
-    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </nav>
 
