@@ -23,6 +23,7 @@ PLACEHOLDERS TO REPLACE BEFORE LAUNCH
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.className+=" js";</script>
 <title>Muhammad Anas · Email Marketing for D2C Brands</title>
 <meta name="description" content="Email marketing for D2C ecommerce brands. Copy, design and sends from one person. 60+ emails written and designed across 23 verticals.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -34,7 +35,7 @@ PLACEHOLDERS TO REPLACE BEFORE LAUNCH
   --accent:#C9A227; --accent-2:#E4C566;
   --ink:#FFFFFF; --muted:#B8BCC4; --hairline:rgba(255,255,255,.10);
   --f-display:'Sora',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif;
-  --h1:clamp(2.1rem,7.4vw,4.2rem); --h2:clamp(1.55rem,5vw,2.7rem); --h3:1.12rem;
+  --h1:clamp(1.8rem,5vw,3rem); --h2:clamp(1.55rem,5vw,2.7rem); --h3:1.12rem;
   --lead:1.06rem; --eyebrow:.7rem; --stat:clamp(2.1rem,7vw,3.4rem);
   --pad-x:18px; --sec-y:64px; --radius:18px;
 }
@@ -90,18 +91,24 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 @media(min-width:900px){.nav-links{display:flex}}
 
 /* hero */
-.hero-grid{display:grid;grid-template-columns:1fr;gap:26px;align-items:start}
-@media(min-width:900px){.hero-grid{grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}}
-.hero-photo{position:relative;display:flex;justify-content:center;align-items:flex-end}
-.hero-photo img{width:100%;max-width:400px;position:relative;z-index:1}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:22px;align-items:start;position:relative}
+/* phones: the portrait sits behind the words so the hero fits one screen */
+.hero-photo{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;
+  opacity:.17;z-index:0;pointer-events:none}
+.hero-photo img{width:100%;max-width:320px;position:relative;z-index:1}
+#top .hero-grid>.rv:first-child{position:relative;z-index:2}
+@media(min-width:900px){
+  .hero-grid{grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+  .hero-photo{position:relative;inset:auto;opacity:1;align-items:flex-end;z-index:1}
+}
 /* warm halo so the red rim light reads as intentional against the gold */
 .hero-photo::before{content:"";position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);
   width:min(94%,420px);aspect-ratio:1;border-radius:50%;z-index:0;filter:blur(54px);
   background:radial-gradient(circle,rgba(201,162,39,.20) 0%,rgba(168,38,34,.16) 48%,transparent 72%)}
-@media(min-width:900px){.hero-photo img{max-width:470px}}
-.proofline{font-family:var(--f-display);font-size:clamp(1rem,2.6vw,1.26rem);font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:24px}
+@media(min-width:900px){.hero-photo img{max-width:460px}}
+.proofline{font-family:var(--f-display);font-size:clamp(.95rem,2.6vw,1.22rem);font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:20px}
 .proofline b{color:var(--accent);font-weight:700}
-.heroquote{border-left:2px solid var(--accent);padding-left:16px;margin-top:30px;max-width:480px}
+.heroquote{border-left:2px solid var(--accent);padding-left:16px;margin-top:22px;max-width:480px}
 .heroquote p{font-size:.93rem;color:var(--ink);font-style:italic;margin-bottom:8px}
 .heroquote .who{font-size:.74rem;color:var(--muted);font-style:normal;letter-spacing:1.1px;text-transform:uppercase}
 .stars{color:var(--accent);font-size:.76rem;letter-spacing:2px;margin-bottom:8px}
@@ -155,7 +162,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .mail:nth-child(even) img{animation-direction:alternate-reverse}
 .mail:nth-child(3n) img{animation-duration:54s}
 .mail:nth-child(3n+2) img{animation-duration:50s}
-.mail:hover img{animation-play-state:paused}
+
 @keyframes mailscroll{from{transform:translateY(0)}to{transform:translateY(calc(-100% + 400px))}}
 .mail .cap{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 14px;
   background:linear-gradient(to top,rgba(11,11,13,.96),rgba(11,11,13,0));
@@ -178,7 +185,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .bd-mail{height:460px;overflow:hidden;border-radius:14px;border:1px solid var(--hairline);background:#fff;position:relative}
 .bd-mail img{width:100%;animation:bdscroll 50s linear infinite alternate}
 @keyframes bdscroll{from{transform:translateY(0)}to{transform:translateY(calc(-100% + 460px))}}
-.bd-mail:hover img{animation-play-state:paused}
+
 
 /* numbers */
 .num{font-family:var(--f-display);font-size:var(--stat);font-weight:800;color:var(--accent);line-height:1}
@@ -199,8 +206,10 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .faq.open .ans{max-height:420px}
 .faq .ans p{padding-bottom:20px;font-size:.95rem}
 
-.rv{opacity:0;transform:translateY(36px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.3,1)}
-.rv.in{opacity:1;transform:none}
+/* content is visible by default; only hidden once JS confirms it can animate it back in */
+.rv{transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.3,1)}
+.js .rv{opacity:0;transform:translateY(36px)}
+.js .rv.in{opacity:1;transform:none}
 .tilt{perspective:1100px}
 .tilt>*{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
 .tilt:hover>*{transform:rotateX(3deg) rotateY(-4deg) translateY(-7px)}
@@ -211,10 +220,139 @@ footer a:hover{color:var(--accent)}
 .social{display:flex;gap:14px;margin-top:16px}
 .social a{width:40px;height:40px;border-radius:50%;border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.2s}
 .social a:hover{color:var(--accent);border-color:var(--accent)}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* ===== hero fills the screen ===== */
+#top{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:72px;padding-bottom:44px}
+@supports not (min-height:100dvh){#top{min-height:100vh}}
+
+/* ===== every section heading block is centred ===== */
+.intro{margin-inline:auto;text-align:center}
+.intro .lead{margin-inline:auto}
+.sec h2::after{left:50%;transform:translateX(-50%)}
+#faq .rv>.eyebrow,#faq .rv>h2{text-align:center}
+#faq .rv>.eyebrow{margin-inline:auto}
+#numbers .num,#numbers .numlabel{text-align:center}
+/* two column sections keep their body copy left, heading still centred */
+/* centred: single column sections. left: #about, which has the portrait beside it. */
+#problem h2,#services h2,#work h2,#breakdown h2,#faq h2,#fit h2,#cta h2{text-align:center}
+#about h2,#about .eyebrow{text-align:left}
+#about h2::after{left:0;transform:none}
+#fit .intro,#fit>.wrap>.grid>div:first-child{text-align:center}
+
+/* ===== typewriter on section headings ===== */
+h2 .ch{display:inline-block;white-space:pre}
+.js h2.tw .ch{visibility:hidden}
+.js h2.tw.typed .ch{visibility:visible}
+h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-align:-.12em;
+  background:var(--accent);opacity:0;border-radius:2px}
+.js h2.tw.typing .caret{opacity:1;animation:blink .8s steps(1,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+
+/* ===== leak carousel: compact, always moving left ===== */
+.lrail{margin-top:34px;overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.ltrack{display:flex;gap:16px;width:max-content;animation:lslide 48s linear infinite}
+@keyframes lslide{to{transform:translateX(-50%)}}
+.lrail:hover .ltrack{animation-play-state:paused}
+.lcard{flex:0 0 264px;background:var(--surface);border:1px solid var(--hairline);
+  border-radius:16px;padding:22px 20px;position:relative}
+.lcard .ln{font-family:var(--f-display);font-size:1.5rem;font-weight:800;color:rgba(201,162,39,.34);line-height:1;display:block;margin-bottom:10px}
+.lcard h3{font-size:1rem;margin-bottom:7px;line-height:1.3}
+.lcard p{font-size:.88rem;margin:0}
+@media(min-width:900px){.lcard{flex:0 0 310px;padding:26px 24px}}
+
+/* ============ MOTION LAYER ============ */
+/* easing tokens: one overshoot curve used everywhere so the page has one rhythm */
+:root{--e-out:cubic-bezier(.16,1,.3,1); --e-back:cubic-bezier(.34,1.56,.64,1)}
+
+/* 0 · gold scroll progress bar across the top */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));transform:scaleX(0);pointer-events:none}
+@supports (animation-timeline:scroll()){
+  .progress{animation:bar linear both;animation-timeline:scroll(root)}
+  @keyframes bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
+
+/* 1 · hero headline, character by character, with a blur-in */
+h1{perspective:900px}
+h1 .ch{display:inline-block;will-change:transform,opacity,filter}
+h1.split .ch{opacity:0;transform:translateY(64px) rotateX(-85deg) scale(.86);filter:blur(7px);
+  animation:chIn .95s var(--e-out) forwards}
+@keyframes chIn{60%{filter:blur(0)}to{opacity:1;transform:none;filter:blur(0)}}
+
+/* 2+3 · scroll parallax: photo drifts, glows counter-drift, hero text lifts away */
+@supports (animation-timeline:scroll()){
+  .hero-photo img{animation:heroPar linear both;animation-timeline:scroll(root);animation-range:0 90vh}
+  @keyframes heroPar{from{translate:0 0;scale:1;opacity:1}to{translate:0 150px;scale:.9;opacity:.45}}
+  #top .hero-grid>.rv:first-child{animation:heroText linear both;animation-timeline:scroll(root);animation-range:8vh 88vh}
+  @keyframes heroText{from{translate:0 0;opacity:1}to{translate:0 -70px;opacity:.3}}
+  .glow{animation:glowPar linear both;animation-timeline:scroll(root)}
+  @keyframes glowPar{from{translate:0 0;scale:1}to{translate:0 -420px;scale:1.45}}
+  .marquee .mq-track{animation-duration:44s}
+}
+
+/* 4 · the six leak rows arrive one after another, sliding in from the left */
+
+/* 5 · section reveals: more travel, slight scale, overshoot settle */
+.js .rv{opacity:0;transform:translateY(60px) scale(.97)}
+.js .rv.in{opacity:1;transform:none;transition:opacity .8s var(--e-out),transform .95s var(--e-back)}
+
+/* 6 · gold rule sweeps under every section heading */
+.sec h2{position:relative;padding-bottom:18px}
+.sec h2::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:0;border-radius:3px;
+  background:linear-gradient(90deg,var(--accent),rgba(201,162,39,0));
+  transition:width 1.15s var(--e-out) .25s}
+.js .rv.in h2::after{width:190px}
+html:not(.js) .sec h2::after{width:190px}
+
+/* 7 · service cards lean toward the cursor and lift their numeral */
+.svc{transform-style:preserve-3d;will-change:transform}
+.svc.lean{transition:transform .16s ease-out}
+.svc .ghost{transition:color .45s var(--e-out),transform .6s var(--e-back)}
+.svc:hover .ghost{color:rgba(201,162,39,.16);transform:translateY(-6px) scale(1.08)}
+
+/* 8 · the work grid pops in one card at a time */
+.js #work .grid.in .mail{animation:mailIn .8s var(--e-back) both}
+@keyframes mailIn{from{opacity:0;transform:translateY(44px) scale(.93)}to{opacity:1;transform:none}}
+.js #work .grid.in .mail:nth-child(1){animation-delay:0ms}
+.js #work .grid.in .mail:nth-child(2){animation-delay:90ms}
+.js #work .grid.in .mail:nth-child(3){animation-delay:180ms}
+.js #work .grid.in .mail:nth-child(4){animation-delay:270ms}
+.js #work .grid.in .mail:nth-child(5){animation-delay:360ms}
+.js #work .grid.in .mail:nth-child(6){animation-delay:450ms}
+.mail{transition:transform .5s var(--e-out),box-shadow .5s var(--e-out)}
+.mail:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 22px 60px rgba(201,162,39,.2)}
+
+/* 9 · the numbers scale up as they count */
+.num{font-variant-numeric:tabular-nums;display:inline-block;transition:transform .7s var(--e-back)}
+.js .rv.in .num{transform:scale(1)}
+.js .rv .num{transform:scale(.72)}
+
+/* 10 · buttons get a gold sweep on hover */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0;transform:translateX(-110%) skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.42),transparent);transition:transform .75s var(--e-out)}
+.btn:hover::after{transform:translateX(110%) skewX(-18deg)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  h1.split .ch,.js .leaks .leak,.js #work .grid .mail{opacity:1;transform:none;filter:none}
+  .js .rv{opacity:1;transform:none}
+  .js .rv .num{transform:none}
+  .progress{display:none}
+  .js h2.tw .ch{visibility:visible}
+  h2 .caret{display:none}
+  .js .rv.in h2::after{width:132px}
+html:not(.js) .sec h2::after{width:132px}
+}
 </style>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 
 <nav>
   <div class="wrap">
@@ -228,7 +366,7 @@ footer a:hover{color:var(--accent)}
 </nav>
 
 <!-- ===== HERO ===== -->
-<section class="sec" id="top" style="padding-top:44px;padding-bottom:36px">
+<section class="sec" id="top">
   <div class="glow" style="top:-150px;right:-170px"></div>
   <div class="wrap">
     <div class="hero-grid">
@@ -245,7 +383,7 @@ footer a:hover{color:var(--accent)}
         </div>
       </div>
       <div class="hero-photo rv">
-        <img src="assets/images/anas-hero.png" alt="Muhammad Anas, email marketer for D2C brands" fetchpriority="high" width="1139" height="1381">
+        <img src="assets/images/anas-hero.webp" alt="Muhammad Anas, email marketer for D2C brands" fetchpriority="high" width="940" height="1140">
       </div>
     </div>
   </div>
@@ -271,24 +409,13 @@ footer a:hover{color:var(--accent)}
 <!-- ===== THE LEAKS ===== -->
 <section class="sec sec--grad" id="problem">
   <div class="wrap">
-    <div class="rv" style="max-width:720px">
+    <div class="rv intro" style="max-width:720px">
       <div class="eyebrow">The part nobody checks</div>
       <h2>Your email is already running. It is just <span class="gold">leaking</span>.</h2>
       <p class="lead">I looked at 15 D2C brands before building this page. 14 already had email set up. Not one was getting what it was worth. The platform was never the problem.</p>
     </div>
-    <div class="leaks rv">
-      <div class="leak"><div class="n">01</div><h3>The welcome flow is one email</h3>
-        <p>The highest intent moment a subscriber will ever have, spent on a 10% code. Then silence.</p></div>
-      <div class="leak"><div class="n">02</div><h3>Cart recovery fires once, too late</h3>
-        <p>And only catches people who reached checkout. Everyone who browsed and left is never contacted.</p></div>
-      <div class="leak"><div class="n">03</div><h3>Every campaign leads with a discount</h3>
-        <p>So the list learns to wait for the sale. You trained your best customers to stop paying full price.</p></div>
-      <div class="leak"><div class="n">04</div><h3>The emails look nothing like the brand</h3>
-        <p>Premium site, premium packaging, then a plain email with one stock photo and a grey button.</p></div>
-      <div class="leak"><div class="n">05</div><h3>Post purchase is a receipt</h3>
-        <p>No review ask, no cross sell, no second order. Every customer has to be bought twice.</p></div>
-      <div class="leak"><div class="n">06</div><h3>One list, one send</h3>
-        <p>Buyers, cold subscribers and someone who ordered yesterday all get the same email on the same day.</p></div>
+    <div class="lrail rv" aria-label="Common email problems">
+      <div class="ltrack"><div class="lcard"><span class="ln">01</span><h3>The welcome flow is one email</h3><p>The highest intent moment a subscriber will ever have, spent on a 10% code. Then silence.</p></div><div class="lcard"><span class="ln">02</span><h3>Cart recovery fires once, too late</h3><p>And only catches people who reached checkout. Everyone who browsed and left is never contacted.</p></div><div class="lcard"><span class="ln">03</span><h3>Every campaign leads with a discount</h3><p>So the list learns to wait for the sale. You trained your best customers to stop paying full price.</p></div><div class="lcard"><span class="ln">04</span><h3>The emails look nothing like the brand</h3><p>Premium site, premium packaging, then a plain email with one stock photo and a grey button.</p></div><div class="lcard"><span class="ln">05</span><h3>Post purchase is a receipt</h3><p>No review ask, no cross sell, no second order. Every customer has to be bought twice.</p></div><div class="lcard"><span class="ln">06</span><h3>One list, one send</h3><p>Buyers, cold subscribers and someone who ordered yesterday all get the same email on the same day.</p></div><div class="lcard"><span class="ln">01</span><h3>The welcome flow is one email</h3><p>The highest intent moment a subscriber will ever have, spent on a 10% code. Then silence.</p></div><div class="lcard"><span class="ln">02</span><h3>Cart recovery fires once, too late</h3><p>And only catches people who reached checkout. Everyone who browsed and left is never contacted.</p></div><div class="lcard"><span class="ln">03</span><h3>Every campaign leads with a discount</h3><p>So the list learns to wait for the sale. You trained your best customers to stop paying full price.</p></div><div class="lcard"><span class="ln">04</span><h3>The emails look nothing like the brand</h3><p>Premium site, premium packaging, then a plain email with one stock photo and a grey button.</p></div><div class="lcard"><span class="ln">05</span><h3>Post purchase is a receipt</h3><p>No review ask, no cross sell, no second order. Every customer has to be bought twice.</p></div><div class="lcard"><span class="ln">06</span><h3>One list, one send</h3><p>Buyers, cold subscribers and someone who ordered yesterday all get the same email on the same day.</p></div></div>
     </div>
   </div>
 </section>
@@ -297,7 +424,7 @@ footer a:hover{color:var(--accent)}
 <section class="sec" id="about">
   <div class="wrap">
     <div class="grid g2 rv" style="gap:38px;align-items:center">
-      <div class="about-photo tilt"><img src="assets/images/anas-alt.png" alt="Muhammad Anas" width="1122" height="1402" loading="lazy"></div>
+      <div class="about-photo tilt"><img src="assets/images/anas-alt.webp" alt="Muhammad Anas" width="940" height="1175" loading="lazy"></div>
       <div>
         <div class="eyebrow">Hello</div>
         <h2>I'm Anas.<br>I <span class="gold">sell things</span> with emails.</h2>
@@ -313,7 +440,7 @@ footer a:hover{color:var(--accent)}
 <section class="sec sec--surface" id="services">
   <div class="glow" style="bottom:-190px;left:-200px"></div>
   <div class="wrap">
-    <div class="rv" style="max-width:700px">
+    <div class="rv intro" style="max-width:700px">
       <div class="eyebrow">What I do</div>
       <h2>Three jobs. <span class="gold">One person.</span></h2>
       <p class="lead">Most brands hire a copywriter, then a designer, then someone to run the platform. Three invoices, three calendars, and nobody owning the result.</p>
@@ -352,23 +479,23 @@ footer a:hover{color:var(--accent)}
 <!-- ===== THE WORK ===== -->
 <section class="sec" id="work">
   <div class="wrap">
-    <div class="rv" style="max-width:700px">
+    <div class="rv intro" style="max-width:700px">
       <div class="eyebrow">The work</div>
       <h2>Emails I wrote <span class="gold">and</span> designed.</h2>
       <p class="lead">Every one of these scrolls on its own. Hover to stop it where you want and read.</p>
     </div>
     <div class="grid g3 rv" style="margin-top:38px">
-      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/01-huel-welcome.png" alt="Welcome flow email design" width="1200" height="13555">
+      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/01-huel-welcome.webp" alt="Welcome flow email design" width="1200" height="13555">
         <div class="cap">Flow</div></div>
-      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/02-glossier.png" alt="Welcome flow email design" width="1200" height="7034">
+      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/02-glossier.webp" alt="Welcome flow email design" width="1200" height="7034">
         <div class="cap">Flow</div></div>
-      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/03-aprilfools-a.png" alt="Holiday campaign email design" width="1200" height="5887">
+      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/03-aprilfools-a.webp" alt="Holiday campaign email design" width="1200" height="5887">
         <div class="cap">Campaign</div></div>
-      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/04-aprilfools-b.png" alt="Holiday campaign email design" width="1200" height="10166">
+      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/04-aprilfools-b.webp" alt="Holiday campaign email design" width="1200" height="10166">
         <div class="cap">Campaign</div></div>
-      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/05-sailaway.png" alt="Seasonal campaign email design" width="750" height="7300">
+      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/05-sailaway.webp" alt="Seasonal campaign email design" width="750" height="7300">
         <div class="cap">Campaign</div></div>
-      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/06-sunset-honest-ask.png" alt="Winback flow email design" width="1200" height="5324">
+      <div class="mail"><span class="hint">Paused</span><img loading="lazy" src="assets/emails/06-sunset-honest-ask.webp" alt="Winback flow email design" width="1200" height="5324">
         <div class="cap">Flow</div></div>
     </div>
   </div>
@@ -377,7 +504,7 @@ footer a:hover{color:var(--accent)}
 <!-- ===== BREAKDOWN ===== -->
 <section class="sec sec--grad" id="breakdown">
   <div class="wrap">
-    <div class="rv" style="max-width:720px">
+    <div class="rv intro" style="max-width:720px">
       <div class="eyebrow">Breakdown</div>
       <h2>A welcome flow, <span class="gold">decision by decision</span>.</h2>
       <p class="lead">Anyone can show you a nice looking email. Here is the thinking underneath one, so you can judge whether I know what I am doing.</p>
@@ -395,35 +522,11 @@ footer a:hover{color:var(--accent)}
         <div class="tl-step"><div class="k">The design</div><h3>Built to be skimmed</h3>
           <p>Every section is one idea with one image and one button. Thumb scrolls, eye lands on the button, nothing competes with it.</p></div>
       </div>
-      <div class="bd-mail"><img loading="lazy" src="assets/emails/01-huel-welcome.png" alt="The welcome flow email being broken down" width="1200" height="13555"></div>
+      <div class="bd-mail"><img loading="lazy" src="assets/emails/01-huel-welcome.webp" alt="The welcome flow email being broken down" width="1200" height="13555"></div>
     </div>
   </div>
 </section>
 
-<!-- ===== BEYOND EMAIL ===== -->
-<section class="sec" id="beyond">
-  <div class="wrap">
-    <div class="rv" style="max-width:680px">
-      <div class="eyebrow">Beyond email</div>
-      <h2>Email is the specialty. <span class="gold">Not the ceiling.</span></h2>
-      <p class="lead">I am a direct response copywriter first. If the work sits next to the email, I can write that too.</p>
-    </div>
-    <div class="grid g4 rv" style="margin-top:34px">
-      <a href="https://drive.google.com/drive/folders/1q9Yzya6BxqltdI0W8W8J_JFdnEhoRDKL" target="_blank" rel="noopener" style="text-decoration:none"><div class="card">
-        <div class="icn"><i class="fa-solid fa-file-lines"></i></div><h3>Sales pages</h3><p style="font-size:.9rem">Long form pages and advertorials.</p>
-        <span class="gold" style="font-size:.8rem;font-weight:700">View →</span></div></a>
-      <a href="https://drive.google.com/drive/folders/1SNwPKOrqNuy7sbDY5ENIdCYKWp5Pk2s2" target="_blank" rel="noopener" style="text-decoration:none"><div class="card">
-        <div class="icn"><i class="fa-solid fa-bullhorn"></i></div><h3>Ad copy</h3><p style="font-size:.9rem">Facebook and Instagram, hooks and angles.</p>
-        <span class="gold" style="font-size:.8rem;font-weight:700">View →</span></div></a>
-      <a href="https://drive.google.com/drive/folders/1UmaVzmseJSa3ND-Colm6n32nEdGB8OcC" target="_blank" rel="noopener" style="text-decoration:none"><div class="card">
-        <div class="icn"><i class="fa-solid fa-video"></i></div><h3>VSL and video scripts</h3><p style="font-size:.9rem">Short form and long form scripts.</p>
-        <span class="gold" style="font-size:.8rem;font-weight:700">View →</span></div></a>
-      <a href="https://drive.google.com/drive/folders/1fLNpZl9NxvGYj4AH-wMW1eE77UEKvgX5" target="_blank" rel="noopener" style="text-decoration:none"><div class="card">
-        <div class="icn"><i class="fa-solid fa-diagram-project"></i></div><h3>Website copy</h3><p style="font-size:.9rem">Full site copy and funnel pages.</p>
-        <span class="gold" style="font-size:.8rem;font-weight:700">View →</span></div></a>
-    </div>
-  </div>
-</section>
 
 <!-- ===== NUMBERS ===== -->
 <section class="sec sec--surface" id="numbers">
@@ -486,7 +589,7 @@ footer a:hover{color:var(--accent)}
 <section class="sec" id="cta">
   <div class="glow" style="top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px"></div>
   <div class="wrap">
-    <div class="grid g2 rv" style="gap:36px;align-items:center">
+    <div class="rv intro" style="max-width:700px">
       <div>
         <div class="eyebrow">Free, and genuinely free</div>
         <h2>I will audit your email <span class="gold">before you pay me anything</span>.</h2>
@@ -495,7 +598,6 @@ footer a:hover{color:var(--accent)}
         <a href="contact.html" class="btn" style="margin-top:8px">Get a free email marketing audit</a>
         <div class="fud"><i class="fa-solid fa-shield-halved"></i>Takes you two minutes to ask for. Costs nothing.</div>
       </div>
-      <div><img src="assets/images/anas-cutout.png" alt="Muhammad Anas" width="1792" height="1433" loading="lazy" style="filter:grayscale(1) contrast(1.05);mix-blend-mode:lighten"></div>
     </div>
   </div>
 </section>
@@ -527,13 +629,162 @@ footer a:hover{color:var(--accent)}
 </footer>
 
 <script>
-const io=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('in')),{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* reveal on scroll, replays every time a section comes back into view */
+const revealables=document.querySelectorAll('.rv, #work .grid');
+const revealAll=()=>revealables.forEach(el=>el.classList.add('in'));
+if(!('IntersectionObserver' in window)||reduced){
+  revealAll();
+}else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    e.target.classList.toggle('in', e.isIntersecting);
+  }),{threshold:.12});
+  revealables.forEach(el=>io.observe(el));
+  setTimeout(()=>{ if(!document.querySelector('.rv.in')) revealAll(); },2500);
+}
+
+/* FAQ accordion */
 document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',()=>{
   const f=b.parentElement, open=f.classList.contains('open');
   document.querySelectorAll('.faq').forEach(x=>x.classList.remove('open'));
   if(!open) f.classList.add('open');
 }));
+
+/* 1 · split the hero headline into characters, keeping <br> and the gold span intact */
+(function(){
+  const h1=document.querySelector('h1');
+  if(!h1||reduced) return;
+  let i=0;
+  const walk=node=>{
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        [...n.textContent].forEach(c=>{
+          if(c===' '){ frag.appendChild(document.createTextNode(' ')); return; }
+          const s=document.createElement('span');
+          s.className='ch'; s.textContent=c;
+          s.style.animationDelay=(i++*34)+'ms';
+          frag.appendChild(s);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1 && n.tagName!=='BR'){ walk(n); }
+    });
+  };
+  walk(h1);
+  h1.classList.add('split');
+  const chars=[...h1.querySelectorAll('.ch')];
+  const hio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){
+      h1.classList.remove('split');
+      void h1.offsetWidth;            // force reflow so the animation restarts
+      h1.classList.add('split');
+      chars.forEach((c,n)=>c.style.animationDelay=(n*34)+'ms');
+    }
+  }),{threshold:.5});
+  hio.observe(h1);
+})();
+
+/* typewriter on every section heading, fired when it scrolls into view */
+(function(){
+  const splitInto=(node,bucket)=>{
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        [...n.textContent].forEach(c=>{
+          const sp=document.createElement('span');
+          sp.className='ch'; sp.textContent=c;
+          frag.appendChild(sp); bucket.push(sp);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1 && n.tagName!=='BR'){ splitInto(n,bucket); }
+    });
+  };
+  document.querySelectorAll('.sec h2').forEach(h2=>{
+    if(reduced) return;
+    const chars=[];
+    splitInto(h2,chars);
+    if(!chars.length) return;
+    const caret=document.createElement('span');
+    caret.className='caret'; caret.setAttribute('aria-hidden','true');
+    h2.appendChild(caret);
+    h2.classList.add('tw');
+    h2._reset=()=>{
+      clearTimeout(h2._t);
+      h2.classList.remove('typing','typed');
+      for(let k=0;k<chars.length;k++) chars[k].style.visibility='hidden';
+      h2._running=false;
+    };
+    h2._type=()=>{
+      if(h2._running) return;
+      h2._running=true;
+      h2.classList.remove('typed');
+      h2.classList.add('typing');
+      for(let k=0;k<chars.length;k++) chars[k].style.visibility='hidden';
+      let i=0;
+      const step=()=>{
+        chars[i].style.visibility='visible'; i++;
+        if(i<chars.length){ h2._t=setTimeout(step, chars[i-1].textContent===' '?26:22); }
+        else { h2.classList.remove('typing'); h2.classList.add('typed'); h2._running=false; }
+      };
+      step();
+    };
+  });
+  const tio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.target._type) return;
+    if(e.isIntersecting) e.target._type(); else e.target._reset();
+  }),{threshold:.35});
+  document.querySelectorAll('.sec h2').forEach(h=>tio.observe(h));
+})();
+
+/* 5 · count the numbers up when the strip scrolls in */
+(function(){
+  const nums=[...document.querySelectorAll('.num')];
+  if(!nums.length) return;
+  const run=el=>{
+    if(el._running) return;
+    const raw=el.dataset.final || el.textContent.trim();
+    el.dataset.final=raw;
+    const m=raw.match(/^([\d.]+)(.*)$/);
+    if(!m) return;
+    const target=parseFloat(m[1]), suffix=m[2], dec=(m[1].split('.')[1]||'').length;
+    if(reduced){ el.textContent=raw; return; }
+    el._running=true;
+    const dur=1100, t0=performance.now();
+    const tick=t=>{
+      const p=Math.min((t-t0)/dur,1);
+      const eased=1-Math.pow(1-p,3);
+      el.textContent=(target*eased).toFixed(dec)+suffix;
+      if(p<1){ requestAnimationFrame(tick); } else { el._running=false; }
+    };
+    requestAnimationFrame(tick);
+  };
+  const nio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ run(e.target); }
+    else { e.target._armed=true; }
+  }),{threshold:.55});
+  nums.forEach(n=>nio.observe(n));
+})();
+
+/* 7 · service cards lean toward the cursor */
+(function(){
+  if(reduced||matchMedia('(hover: none)').matches) return;
+  document.querySelectorAll('.svc').forEach(card=>{
+    const base=getComputedStyle(card).transform;
+    const lift=card.classList.contains('svc--mid')?'translateY(-22px)':'';
+    card.addEventListener('pointermove',e=>{
+      const r=card.getBoundingClientRect();
+      const rx=((e.clientY-r.top)/r.height-.5)*-7;
+      const ry=((e.clientX-r.left)/r.width-.5)*9;
+      card.classList.add('lean');
+      card.style.transform=`${lift} perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
+    });
+    card.addEventListener('pointerleave',()=>{
+      card.classList.remove('lean');
+      card.style.transform='';
+    });
+  });
+})();
 </script>
 </body>
 </html>
