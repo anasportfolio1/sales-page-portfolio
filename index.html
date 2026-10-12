@@ -42,8 +42,8 @@ OPEN ITEMS
 @media(min-width:900px){ :root{ --pad-x:26px; --sec-y:104px; } }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;overflow-x:clip}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.62;overflow-x:clip;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;overflow-x:clip;background:var(--bg)}
+body{background:transparent;color:var(--ink);font-family:var(--f-body);line-height:1.62;overflow-x:clip;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 var(--pad-x)}
@@ -254,6 +254,17 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 
 
 
+
+/* ===== reactive dot grid, fixed behind the whole page ===== */
+#dots{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* sections let the grid show through */
+.sec{background:transparent}
+.sec--grad{background:linear-gradient(135deg,rgba(11,11,13,.80) 0%,rgba(22,24,29,.80) 55%,rgba(16,18,23,.80) 100%)}
+.sec--surface{background:linear-gradient(160deg,rgba(18,20,25,.86) 0%,rgba(26,28,32,.86) 100%)}
+/* no grid behind the email work or the portraits */
+#work,#about{background:#0B0B0D}
+@media(prefers-reduced-motion:reduce){#dots{display:none}}
+
 /* ===== mobile menu ===== */
 .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;
   margin-left:-6px;background:none;border:0;cursor:pointer;padding:0}
@@ -398,6 +409,7 @@ html:not(.js) .sec h2::after{width:132px}
 </style>
 </head>
 <body>
+<canvas id="dots" aria-hidden="true"></canvas>
 <div class="progress" aria-hidden="true"></div>
 
 <nav>
@@ -757,6 +769,48 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
     }
   }),{threshold:.5});
   hio.observe(h1);
+})();
+
+/* reactive dot grid: static until the pointer moves, then it wakes for a moment */
+(function(){
+  const c=document.getElementById('dots');
+  if(!c||reduced) return;
+  const x=c.getContext('2d',{alpha:true});
+  let w=0,h=0,dots=[],m={x:-9999,y:-9999},running=false,sleep=null;
+  const GAP=30, REACH=130;
+
+  function size(){
+    const dpr=Math.min(devicePixelRatio||1,2);
+    w=innerWidth; h=innerHeight;
+    c.width=w*dpr; c.height=h*dpr;
+    x.setTransform(dpr,0,0,dpr,0,0);
+    dots.length=0;
+    for(let i=GAP/2;i<w;i+=GAP) for(let j=GAP/2;j<h;j+=GAP) dots.push(i,j);
+  }
+  function draw(){
+    x.clearRect(0,0,w,h);
+    const mx=m.x,my=m.y;
+    for(let k=0;k<dots.length;k+=2){
+      const dx=dots[k]-mx, dy=dots[k+1]-my;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      const near = d<REACH ? 1-d/REACH : 0;
+      x.beginPath();
+      x.arc(dots[k],dots[k+1],1+near*2.2,0,6.283185);
+      x.fillStyle='rgba(201,162,39,'+(0.10+near*0.74).toFixed(3)+')';
+      x.fill();
+    }
+    if(running) requestAnimationFrame(draw);
+  }
+  function wake(){
+    if(!running){ running=true; requestAnimationFrame(draw); }
+    clearTimeout(sleep);
+    sleep=setTimeout(()=>{ running=false; m.x=m.y=-9999; draw(); },700);
+  }
+  size(); draw();
+  addEventListener('resize',()=>{ size(); draw(); },{passive:true});
+  addEventListener('pointermove',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
+  addEventListener('pointerdown',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden){ running=false; clearTimeout(sleep); } });
 })();
 
 /* mobile drawer */
