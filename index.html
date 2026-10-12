@@ -259,8 +259,8 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 #dots{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 /* sections let the grid show through */
 .sec{background:transparent}
-.sec--grad{background:linear-gradient(135deg,rgba(11,11,13,.25) 0%,rgba(26,28,34,.28) 55%,rgba(16,18,23,.25) 100%)}
-.sec--surface{background:linear-gradient(160deg,rgba(20,22,28,.30) 0%,rgba(28,30,35,.32) 100%)}
+.sec--grad{background:linear-gradient(135deg,rgba(11,11,13,.55) 0%,rgba(24,26,32,.58) 55%,rgba(16,18,23,.55) 100%)}
+.sec--surface{background:linear-gradient(160deg,rgba(19,21,26,.60) 0%,rgba(27,29,34,.62) 100%)}
 /* no grid behind the email work or the portraits */
 #work,#about{background:#0B0B0D}
 @media(prefers-reduced-motion:reduce){#dots{display:none}}
@@ -790,14 +790,19 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   function draw(){
     x.clearRect(0,0,w,h);
     const mx=m.x,my=m.y;
-    for(let k=0;k<dots.length;k+=2){
-      const dx=dots[k]-mx, dy=dots[k+1]-my;
-      const d=Math.sqrt(dx*dx+dy*dy);
-      const near = d<REACH ? 1-d/REACH : 0;
-      x.beginPath();
-      x.arc(dots[k],dots[k+1],1.8+near*2.8,0,6.283185);
-      x.fillStyle='rgba(201,162,39,'+(0.38+near*0.62).toFixed(3)+')';
-      x.fill();
+    // nothing is drawn unless the pointer is on the page: no permanent grid
+    if(mx>-1000){
+      for(let k=0;k<dots.length;k+=2){
+        const dx=dots[k]-mx, dy=dots[k+1]-my;
+        if(dx>REACH||dx<-REACH||dy>REACH||dy<-REACH) continue;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d>=REACH) continue;
+        const near=1-d/REACH;
+        x.beginPath();
+        x.arc(dots[k],dots[k+1],1+near*2.8,0,6.283185);
+        x.fillStyle='rgba(201,162,39,'+(near*near*0.95).toFixed(3)+')';
+        x.fill();
+      }
     }
     if(running) requestAnimationFrame(draw);
   }
@@ -806,7 +811,7 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
     clearTimeout(sleep);
     sleep=setTimeout(()=>{ running=false; m.x=m.y=-9999; draw(); },700);
   }
-  size(); draw();
+  size();
   addEventListener('resize',()=>{ size(); draw(); },{passive:true});
   addEventListener('pointermove',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
   addEventListener('pointerdown',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
