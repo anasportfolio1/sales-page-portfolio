@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<!--
+=====================================================================
+Real Estate Media Growth Assistants
+=====================================================================
+Purpose    : Real client. Nothing invented. Gaps marked [NEEDED: ...].
+Archetype  : E · done for you service. Calm B2B, transparent pricing tiers.
+Awareness  : Cold and problem aware. Opens on the problem.
+Wireframe  : W1 · hero centric, one primary CTA, sticky nav CTA
+Buyer      : Real estate photographers and real estate media companies
+Owner      : Solomon Smith
+
+TOKENS  bg #050A0C · surface rgba glass · accent #16B9D4 · text #FFF · muted #9FB2BA
+FONTS   Manrope (headings) · Inter (body). Spec requires readable sans serif.
+STYLE   Glassmorphism cards on near black. Client brand colours only: cyan, white, black.
+
+COMPLIANCE BUILT IN, from the client specification
+  no guaranteed leads, appointments, bookings or revenue anywhere
+  AI QC flags and human review described separately
+  no invented experience, years, team size or results
+  every future number must carry its measurement period
+  reviews and proofs are placeholders until genuine ones are supplied
+
+STILL NEEDED
+  Calendly link for every CTA · logo · exact cyan sampled from logo
+  hero image · owner photo · owner story · QC, outreach and delivery proofs
+  three client reviews · privacy policy · terms of service
+  AI photo QC price
+=====================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.className+=" js";</script>
+<title>Real Estate Media Growth Assistants · Outreach, Media QC, Delivery and Admin</title>
+<meta name="description" content="Virtual assistance for real estate photographers and media companies. Outreach, media quality control, delivery, content and admin, handled under one monthly service.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#050A0C; --bg2:#0A161B;
+  --glass:rgba(255,255,255,.045); --glass-brd:rgba(255,255,255,.11);
+  --accent:#16B9D4; --accent-2:#4ED6EA;
+  --ink:#FFFFFF; --muted:#9FB2BA; --hairline:rgba(255,255,255,.10);
+  --f-display:'Manrope',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif;
+  --h1:clamp(1.8rem,4.8vw,3rem); --h2:clamp(1.45rem,4.2vw,2.3rem); --h3:1.1rem;
+  --lead:1.04rem; --eyebrow:.7rem; --stat:clamp(2rem,6.4vw,3rem);
+  --pad-x:18px; --sec-y:58px; --radius:16px;
+  --e-out:cubic-bezier(.16,1,.3,1); --e-back:cubic-bezier(.34,1.4,.64,1);
+}
+@media(min-width:900px){ :root{ --pad-x:26px; --sec-y:96px; } }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip;background:var(--bg)}
+body{background:transparent;color:var(--ink);font-family:var(--f-body);line-height:1.62;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 var(--pad-x)}
+.sec{padding:var(--sec-y) 0;position:relative;background:transparent}
+.sec--grad{background:linear-gradient(135deg,rgba(5,10,12,.55) 0%,rgba(13,31,38,.58) 55%,rgba(7,18,23,.55) 100%)}
+.sec--surface{background:linear-gradient(160deg,rgba(10,22,27,.6) 0%,rgba(18,34,40,.62) 100%)}
+
+.eyebrow{font-size:var(--eyebrow);font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+h1{font-family:var(--f-display);font-size:var(--h1);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-bottom:16px}
+h2{font-family:var(--f-display);font-size:var(--h2);font-weight:700;line-height:1.18;margin-bottom:14px;position:relative;padding-bottom:16px;text-align:center}
+h2::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:3px;width:0;border-radius:3px;
+  background:linear-gradient(90deg,var(--accent),rgba(22,185,212,0));transition:width 1.1s var(--e-out) .25s}
+.js .rv.in h2::after{width:170px}
+html:not(.js) h2::after{width:170px}
+h3{font-family:var(--f-display);font-size:var(--h3);font-weight:700;margin-bottom:8px}
+.cy{color:var(--accent)}
+.lead{font-size:var(--lead);color:var(--muted);max-width:640px}
+p{color:var(--muted);margin-bottom:13px}
+p:last-child{margin-bottom:0}
+.intro{max-width:720px;margin:0 auto;text-align:center}
+.intro .lead{margin-inline:auto}
+
+.btn{position:relative;overflow:hidden;display:block;width:100%;text-align:center;background:var(--accent);color:#04151A;
+  font-family:var(--f-display);font-weight:700;font-size:.98rem;padding:16px 30px;border-radius:10px;text-decoration:none;
+  box-shadow:0 10px 32px rgba(22,185,212,.24);transition:transform .25s var(--e-out),box-shadow .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(22,185,212,.38)}
+.btn::after{content:"";position:absolute;inset:0;transform:translateX(-110%) skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transition:transform .75s var(--e-out)}
+.btn:hover::after{transform:translateX(110%) skewX(-18deg)}
+.btn--ghost{background:transparent;color:var(--ink);border:1px solid var(--glass-brd);box-shadow:none}
+.btn--ghost:hover{border-color:var(--accent);box-shadow:none}
+@media(min-width:640px){.btn{display:inline-block;width:auto}}
+.fud{font-size:.82rem;color:var(--muted);margin-top:13px}
+.fud i{color:var(--accent);margin-right:7px}
+
+/* glassmorphism cards */
+.card{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--glass-brd);border-radius:var(--radius);padding:26px 22px;height:100%;
+  transition:transform .45s var(--e-out),border-color .45s,background .45s}
+.card:hover{transform:translateY(-6px);border-color:rgba(22,185,212,.42);background:rgba(255,255,255,.07)}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+.icn{width:46px;height:46px;border-radius:12px;background:rgba(22,185,212,.13);border:1px solid rgba(22,185,212,.32);
+  display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1.02rem;margin-bottom:16px}
+.tick{list-style:none;margin-top:4px}
+.tick li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:.9rem;color:var(--muted)}
+.tick i{color:var(--accent);margin-top:5px;font-size:.74rem}
+
+.slot{border:1.5px dashed rgba(22,185,212,.42);border-radius:var(--radius);
+  background:repeating-linear-gradient(135deg,rgba(22,185,212,.04) 0 12px,transparent 12px 24px);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:26px 18px;
+  font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);min-height:150px}
+.slot--tall{min-height:280px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:60;background:rgba(5,10,12,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--hairline)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.nav-links{display:none;gap:26px}
+.nav-links a{font-size:.85rem;color:var(--muted);text-decoration:none;transition:color .25s}
+.nav-links a:hover{color:var(--accent)}
+@media(min-width:900px){.nav-links{display:flex}}
+.nav-cta{font-family:var(--f-display);font-size:.79rem;font-weight:700;color:#04151A;background:var(--accent);
+  padding:0 18px;height:44px;display:inline-flex;align-items:center;border-radius:8px;text-decoration:none;white-space:nowrap}
+
+/* hero */
+#top{min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-start;padding-top:28px;padding-bottom:38px}
+@media(min-width:900px){#top{justify-content:center;padding-top:70px;padding-bottom:46px}}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:22px;align-items:start}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.08fr .92fr;gap:36px;align-items:center}}
+h1 .w,h2 .w{display:inline-block;white-space:nowrap}
+h1 .ch{display:inline-block;will-change:transform,opacity,filter}
+.js h1.split .ch{opacity:0;transform:translateY(58px) rotateX(-80deg) scale(.88);filter:blur(6px);
+  animation:chIn .9s var(--e-out) forwards}
+@keyframes chIn{60%{filter:blur(0)}to{opacity:1;transform:none;filter:blur(0)}}
+h2 .ch{display:inline-block}
+h2 .ch.sp{white-space:pre}
+.js h2.tw .ch{visibility:hidden}
+.js h2.tw.typed .ch{visibility:visible}
+h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-align:-.12em;background:var(--accent);opacity:0;border-radius:2px}
+.js h2.tw.typing .caret{opacity:1;animation:blink .8s steps(1,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* marquee */
+.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:16px 0;background:rgba(8,18,22,.7)}
+.mq{display:flex;gap:40px;width:max-content;animation:sl 46s linear infinite}
+.mq span{font-family:var(--f-display);font-size:.77rem;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.mq i{color:var(--accent);margin-right:12px;font-size:.4rem;vertical-align:middle}
+@keyframes sl{to{transform:translateX(-50%)}}
+
+/* numbers */
+.num{font-family:var(--f-display);font-size:var(--stat);font-weight:800;color:var(--accent);line-height:1;
+  font-variant-numeric:tabular-nums;display:inline-block;transition:transform .7s var(--e-back)}
+.js .rv .num{transform:scale(.74)} .js .rv.in .num{transform:scale(1)}
+.numlabel{font-size:.71rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+/* pricing */
+.price{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--glass-brd);border-radius:var(--radius);padding:28px 24px;position:relative;height:100%;
+  display:flex;flex-direction:column;transition:transform .45s var(--e-out),border-color .45s}
+.price:hover{transform:translateY(-6px);border-color:rgba(22,185,212,.42)}
+.price.feat{border-color:var(--accent);box-shadow:0 0 36px rgba(22,185,212,.18)}
+.price .amt{font-family:var(--f-display);font-size:2.1rem;font-weight:800;color:var(--accent);line-height:1}
+.price .per{font-size:.82rem;color:var(--muted);margin-bottom:14px}
+.price .btn{margin-top:auto}
+.ribbon{position:absolute;top:-11px;left:24px;background:var(--accent);color:#04151A;font-size:.6rem;font-weight:800;
+  letter-spacing:1.3px;text-transform:uppercase;padding:5px 12px;border-radius:30px}
+.ptable{width:100%;border-collapse:collapse;margin-top:16px;background:var(--glass);backdrop-filter:blur(14px);
+  border:1px solid var(--glass-brd);border-radius:var(--radius);overflow:hidden}
+.ptable td{padding:15px 20px;border-bottom:1px solid var(--hairline);font-size:.93rem;color:var(--muted)}
+.ptable tr:last-child td{border-bottom:0}
+.ptable td:last-child{text-align:right;color:var(--accent);font-weight:700;font-family:var(--f-display);white-space:nowrap}
+.sublabel{font-family:var(--f-display);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin:34px 0 4px;text-align:center}
+
+/* faq */
+.faq{border-bottom:1px solid var(--hairline)}
+.faq button{width:100%;background:none;border:0;color:var(--ink);font-family:var(--f-display);font-weight:700;
+  font-size:1rem;text-align:left;padding:20px 42px 20px 0;cursor:pointer;position:relative}
+.faq button i{position:absolute;right:4px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:.85rem;transition:transform .3s}
+.faq.open button i{transform:translateY(-50%) rotate(45deg)}
+.faq .ans{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq.open .ans{max-height:440px}
+.faq .ans p{padding-bottom:20px;font-size:.94rem}
+
+/* reveal + stagger */
+.rv{transition:opacity .8s var(--e-out),transform .9s var(--e-back)}
+.js .rv{opacity:0;transform:translateY(54px) scale(.975)}
+.js .rv.in{opacity:1;transform:none}
+.js .stag.in > *{animation:stagIn .62s var(--e-back) both}
+@keyframes stagIn{from{opacity:0;transform:translateY(26px) scale(.94)}to{opacity:1;transform:none}}
+.js .stag.in > *:nth-child(1){animation-delay:0ms}
+.js .stag.in > *:nth-child(2){animation-delay:70ms}
+.js .stag.in > *:nth-child(3){animation-delay:140ms}
+.js .stag.in > *:nth-child(4){animation-delay:210ms}
+.js .stag.in > *:nth-child(5){animation-delay:280ms}
+.js .stag.in > *:nth-child(6){animation-delay:350ms}
+
+/* background dot grid, lights only around the pointer */
+#dots{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));transform:scaleX(0);pointer-events:none}
+@supports (animation-timeline:scroll()){
+  .progress{animation:bar linear both;animation-timeline:scroll(root)}
+  @keyframes bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
+
+/* mobile drawer */
+.burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;margin-left:-6px;background:none;border:0;cursor:pointer;padding:0}
+.burger span{display:block;width:22px;height:2px;border-radius:2px;background:var(--ink);margin:0 auto;transition:transform .32s var(--e-out),opacity .22s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(min-width:900px){.burger{display:none}}
+.scrim{position:fixed;inset:0;background:rgba(3,6,8,.7);backdrop-filter:blur(3px);z-index:120;opacity:0;transition:opacity .32s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(82vw,330px);z-index:130;
+  background:linear-gradient(160deg,#0A161B 0%,#050A0C 100%);border-left:1px solid var(--hairline);
+  padding:84px 26px 32px;transform:translateX(102%);transition:transform .4s var(--e-out);display:flex;flex-direction:column}
+.drawer nav{display:flex;flex-direction:column;position:static;background:none;border:0}
+.drawer a.dl{font-family:var(--f-display);font-weight:700;font-size:1.06rem;color:var(--ink);text-decoration:none;
+  padding:15px 0;border-bottom:1px solid var(--hairline);transition:color .25s,padding-left .25s}
+.drawer a.dl:hover{color:var(--accent);padding-left:7px}
+.drawer-close{position:absolute;top:22px;right:20px;width:44px;height:44px;background:none;border:0;color:var(--muted);font-size:1.3rem;cursor:pointer}
+body.locked{overflow:hidden}
+
+.needbox{background:rgba(255,170,60,.08);border:1px solid rgba(255,170,60,.34);border-radius:10px;
+  padding:13px 16px;font-size:.82rem;color:#FFC87A;margin-top:18px}
+footer{background:rgba(3,7,9,.9);border-top:1px solid var(--hairline);padding:56px 0 32px;text-align:center}
+.fname{font-family:var(--f-display);font-weight:800;font-size:clamp(1.2rem,3.6vw,1.6rem);margin-bottom:8px}
+.ftag{font-size:.92rem;color:var(--accent);margin-bottom:26px}
+.flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-bottom:24px}
+.flinks a{font-size:.88rem;color:var(--muted);text-decoration:none;transition:color .25s}
+.flinks a:hover{color:var(--accent)}
+.social{display:flex;gap:14px;justify-content:center;margin-bottom:22px}
+.social a{width:42px;height:42px;border-radius:10px;border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.25s;text-decoration:none}
+.social a:hover{color:var(--accent);border-color:var(--accent)}
+.fbottom{border-top:1px solid var(--hairline);padding-top:20px;font-size:.78rem;color:#55707A}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .js .rv,.js .stag.in > *{opacity:1;transform:none}
+  .js h1.split .ch{opacity:1;transform:none;filter:none}
+  .js h2.tw .ch{visibility:visible}
+  h2 .caret,#dots,.progress{display:none}
+  .js .rv .num{transform:none}
+  .js .rv.in h2::after{width:170px}
+}
+</style>
+</head>
+<body>
+<canvas id="dots" aria-hidden="true"></canvas>
+<div class="progress" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="#services">Services</a><a href="#how">How It Works</a><a href="#proofs">Proofs</a>
+      <a href="#pricing">Pricing</a><a href="#about">About</a><a href="#faq">FAQ</a>
+    </div>
+    <a href="#contact" class="nav-cta">Book a Meeting</a>
+  </div>
+</nav>
+
+<div class="scrim" hidden></div>
+<aside id="drawer" class="drawer" aria-hidden="true">
+  <button class="drawer-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+  <nav aria-label="Mobile">
+    <a class="dl" href="#services">Services</a><a class="dl" href="#how">How It Works</a>
+    <a class="dl" href="#proofs">Proofs</a><a class="dl" href="#pricing">Pricing</a>
+    <a class="dl" href="#about">About</a><a class="dl" href="#faq">FAQ</a>
+  </nav>
+  <a href="#contact" class="btn" style="margin-top:22px">Book a Meeting</a>
+</aside>
+
+<!-- ===== HERO ===== -->
+<section class="sec" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="rv">
+        <div class="eyebrow">For real estate photographers and media companies</div>
+        <h1>The shoot is yours.<br><span class="cy">Everything after it</span><br>is ours.</h1>
+        <p class="lead">Outreach, media quality control, delivery, content and admin, handled under one monthly service so you can stay behind the camera instead of in the inbox.</p>
+        <a href="#contact" class="btn" style="margin-top:8px">Book a Meeting</a>
+        <div class="fud"><i class="fa-solid fa-circle-check"></i>No obligation. We agree the scope and the responsibilities before any work begins.</div>
+        <div class="grid g3 stag" style="margin-top:30px;gap:14px">
+          <div><div class="num">5</div><div class="numlabel">Service areas covered</div></div>
+          <div><div class="num">65</div><div class="numlabel">Properties on the standard plan</div></div>
+          <div><div class="num">150</div><div class="numlabel">Entry price per month, USD</div></div>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="slot slot--tall">[NEEDED: hero image<br>real estate media or workspace photo]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="mq">
+  <span><i class="fa-solid fa-circle"></i>Social media outreach</span><span><i class="fa-solid fa-circle"></i>Email outreach</span>
+  <span><i class="fa-solid fa-circle"></i>Cold calling</span><span><i class="fa-solid fa-circle"></i>Media quality control</span>
+  <span><i class="fa-solid fa-circle"></i>Media delivery</span><span><i class="fa-solid fa-circle"></i>Content creation</span>
+  <span><i class="fa-solid fa-circle"></i>Personal branding</span><span><i class="fa-solid fa-circle"></i>Admin support</span>
+  <span><i class="fa-solid fa-circle"></i>Social media outreach</span><span><i class="fa-solid fa-circle"></i>Email outreach</span>
+  <span><i class="fa-solid fa-circle"></i>Cold calling</span><span><i class="fa-solid fa-circle"></i>Media quality control</span>
+  <span><i class="fa-solid fa-circle"></i>Media delivery</span><span><i class="fa-solid fa-circle"></i>Content creation</span>
+  <span><i class="fa-solid fa-circle"></i>Personal branding</span><span><i class="fa-solid fa-circle"></i>Admin support</span>
+</div></div>
+
+<!-- ===== PROBLEM ===== -->
+<section class="sec sec--grad" id="problem">
+  <div class="wrap">
+    <div class="rv intro">
+      <div class="eyebrow">The part that eats the week</div>
+      <h2>The shoot takes two hours. <span class="cy">The rest takes the week.</span></h2>
+      <p class="lead">Running a real estate media business is mostly not photography. It is follow ups, order chasing, file checking, delivery links, and the outreach you keep meaning to get to.</p>
+    </div>
+    <div class="grid g3 stag rv" style="margin-top:38px">
+      <div class="card"><div class="icn"><i class="fa-solid fa-inbox"></i></div>
+        <h3>The inbox never closes</h3>
+        <p>Booking requests, revision notes and agent questions arrive all day. Every one of them interrupts an edit you were halfway through.</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-folder-open"></i></div>
+        <h3>Delivery is a second job</h3>
+        <p>Check the files, organise the folders, upload, send the link, then remember which orders are still outstanding and which editor owes you a fix.</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-user-clock"></i></div>
+        <h3>Outreach keeps slipping</h3>
+        <p>New work needs prospecting. Prospecting needs hours. The hours go to the orders already booked, so next month looks like last month.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="rv intro">
+      <div class="eyebrow">What we handle</div>
+      <h2>Five jobs. <span class="cy">One partner.</span></h2>
+      <p class="lead">Take one service or all five. Scope, responsibilities and communication are agreed with you before anything starts.</p>
+    </div>
+    <div class="grid g3 stag rv" style="margin-top:38px">
+
+      <div class="card"><div class="icn"><i class="fa-solid fa-bullhorn"></i></div>
+        <h3>Outreach</h3>
+        <p>Social media, email and phone prospecting aimed at real estate agents who book media.</p>
+        <ul class="tick">
+          <li><i class="fa-solid fa-check"></i>Identify and research relevant agent prospects</li>
+          <li><i class="fa-solid fa-check"></i>Build and organise prospect lists</li>
+          <li><i class="fa-solid fa-check"></i>Personalised messages based on each prospect's business</li>
+          <li><i class="fa-solid fa-check"></i>Follow ups on the agreed sequence</li>
+          <li><i class="fa-solid fa-check"></i>Manage replies and flag interested prospects</li>
+        </ul></div>
+
+      <div class="card"><div class="icn"><i class="fa-solid fa-image"></i></div>
+        <h3>Media quality control</h3>
+        <p>Completed property media checked against your standards before it reaches your client.</p>
+        <ul class="tick">
+          <li><i class="fa-solid fa-check"></i>Exposure, brightness, colour and white balance</li>
+          <li><i class="fa-solid fa-check"></i>Alignment, vertical lines and presentation</li>
+          <li><i class="fa-solid fa-check"></i>Visible editing errors and inconsistencies</li>
+          <li><i class="fa-solid fa-check"></i>File completeness against the order</li>
+          <li><i class="fa-solid fa-check"></i>Flag images needing correction, coordinate revisions</li>
+        </ul></div>
+
+      <div class="card"><div class="icn"><i class="fa-solid fa-truck-fast"></i></div>
+        <h3>Media delivery</h3>
+        <p>The daily admin of getting finished work to the client, off your desk.</p>
+        <ul class="tick">
+          <li><i class="fa-solid fa-check"></i>Organise completed property orders</li>
+          <li><i class="fa-solid fa-check"></i>Confirm required files are present before sending</li>
+          <li><i class="fa-solid fa-check"></i>Upload through your delivery platform</li>
+          <li><i class="fa-solid fa-check"></i>Check order details and delivery links</li>
+          <li><i class="fa-solid fa-check"></i>Send notifications and track what is outstanding</li>
+        </ul></div>
+
+      <div class="card"><div class="icn"><i class="fa-solid fa-pen-nib"></i></div>
+        <h3>Content and personal branding</h3>
+        <p>A consistent professional presence that shows the work you are already doing.</p>
+        <ul class="tick">
+          <li><i class="fa-solid fa-check"></i>Content planning, posts and carousels</li>
+          <li><i class="fa-solid fa-check"></i>Captions and educational content ideas</li>
+          <li><i class="fa-solid fa-check"></i>Content from recent property shoots</li>
+          <li><i class="fa-solid fa-check"></i>Profile optimisation and brand messaging</li>
+          <li><i class="fa-solid fa-check"></i>Scheduling and publishing approved content</li>
+        </ul></div>
+
+      <div class="card"><div class="icn"><i class="fa-solid fa-headset"></i></div>
+        <h3>Admin and operations</h3>
+        <p>The recurring work that fills a day without moving the business forward.</p>
+        <ul class="tick">
+          <li><i class="fa-solid fa-check"></i>Inbox triage, flagging and approved replies</li>
+          <li><i class="fa-solid fa-check"></i>Business calls, messages and routing</li>
+          <li><i class="fa-solid fa-check"></i>Booking enquiries and order updates</li>
+          <li><i class="fa-solid fa-check"></i>Editor coordination and deadline follow up</li>
+          <li><i class="fa-solid fa-check"></i>Records, spreadsheets and task lists</li>
+        </ul></div>
+
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+        <div class="icn"><i class="fa-solid fa-robot"></i></div>
+        <h3>AI photo QC handling</h3>
+        <p>We review AI generated QC flags, check questionable images by hand, and coordinate corrections. Automated checks and human review are two different things and we treat them that way.</p>
+        <a href="#contact" class="btn btn--ghost" style="margin-top:14px">Discuss Your Requirements</a></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="sec sec--surface" id="how">
+  <div class="wrap">
+    <div class="rv intro">
+      <div class="eyebrow">How we work</div>
+      <h2>Your workflow. <span class="cy">Not ours.</span></h2>
+      <p class="lead">We do not arrive with a system you have to adopt. We learn the one you already run, then take the parts you hand over.</p>
+    </div>
+    <div class="grid g4 stag rv" style="margin-top:36px">
+      <div class="card"><div class="num" style="font-size:1.6rem">01</div>
+        <h3 style="margin-top:12px">Understand</h3>
+        <p>We go through your existing processes, tools and standards before suggesting anything.</p></div>
+      <div class="card"><div class="num" style="font-size:1.6rem">02</div>
+        <h3 style="margin-top:12px">Agree</h3>
+        <p>Responsibilities, communication and service expectations are written down and confirmed.</p></div>
+      <div class="card"><div class="num" style="font-size:1.6rem">03</div>
+        <h3 style="margin-top:12px">Follow</h3>
+        <p>We work to your preferred workflow and your quality standards, not a generic template.</p></div>
+      <div class="card"><div class="num" style="font-size:1.6rem">04</div>
+        <h3 style="margin-top:12px">Report</h3>
+        <p>Tasks and open issues stay organised, and we escalate anything that needs your decision.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="grid g2 rv" style="gap:38px;align-items:center">
+      <div class="slot slot--tall">[NEEDED: owner photo<br>Solomon Smith]</div>
+      <div>
+        <div class="eyebrow">Who we are</div>
+        <h2 style="text-align:left">Your partner in media operations and <span class="cy">business growth.</span></h2>
+        <p>Real Estate Media Growth Assistants supports real estate photographers and media companies with the operational and business development tasks that keep a business moving. Outreach and prospect management, media quality control, delivery, content, and administrative support.</p>
+        <p>Running a real estate media business involves much more than taking great photographs. It also requires consistent communication, organised order management, reliable delivery workflows, client relationships, and ongoing business development. Our services exist so you can delegate those parts.</p>
+        <p><b style="color:var(--ink)">Our mission.</b> To support real estate media professionals with practical, dependable assistance across client acquisition, media operations and business administration.</p>
+        <p><b style="color:var(--ink)">Our goal.</b> Give media business owners more time to focus on their craft, serve their clients, and develop their businesses.</p>
+        <div class="needbox">[NEEDED: Solomon's background, experience and team details. Nothing will be written here until supplied. No invented years of experience or results.]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOFS ===== -->
+<section class="sec sec--surface" id="proofs">
+  <div class="wrap">
+    <div class="rv intro">
+      <div class="eyebrow">Proofs and results</div>
+      <h2>Judge the work, <span class="cy">not the claim.</span></h2>
+      <p class="lead">Samples are published only with client permission, with prospect data redacted. Any figure shown carries the period it was measured over.</p>
+    </div>
+    <div class="grid g3 stag rv" style="margin-top:36px">
+      <div class="slot">[NEEDED: QC proof<br>before and after edits, checklists,<br>examples of issues caught]</div>
+      <div class="slot">[NEEDED: outreach proof<br>campaign screenshots, activity reports,<br>response rates with the measurement period]</div>
+      <div class="slot">[NEEDED: delivery proof<br>redacted delivery records,<br>order workflow, turnaround]</div>
+    </div>
+    <div class="rv needbox">Messages sent, replies received, qualified leads, appointments and actual bookings will be shown as separate figures, never merged into one number.</div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section class="sec sec--grad" id="reviews">
+  <div class="wrap">
+    <div class="rv intro">
+      <div class="eyebrow">Client reviews</div>
+      <h2>What our clients say</h2>
+    </div>
+    <div class="grid g3 stag rv" style="margin-top:34px">
+      <div class="slot">[NEEDED: review 1<br>quote, name, company,<br>service used, with permission]</div>
+      <div class="slot">[NEEDED: review 2]</div>
+      <div class="slot">[NEEDED: review 3]</div>
+    </div>
+    <div class="rv needbox">No reviews are written here until genuine ones are supplied and permission is given. This section can be hidden entirely until then, which looks better than empty cards.</div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <div class="rv intro">
+      <div class="eyebrow">Pricing, in USD</div>
+      <h2>Monthly subscriptions. <span class="cy">Scope agreed first.</span></h2>
+      <p class="lead">Every plan below is a recurring monthly service. Deliverable volumes and working hours are confirmed with you in writing before the first month starts.</p>
+    </div>
+
+    <div class="rv">
+      <div class="sublabel">Outreach</div>
+      <table class="ptable">
+        <tr><td>Social media outreach</td><td>$360 / month</td></tr>
+        <tr><td>Email outreach</td><td>$360 / month</td></tr>
+        <tr><td>Cold calling</td><td>$360 / month</td></tr>
+        <tr><td><b style="color:var(--ink)">All in One Outreach</b>, all three channels coordinated</td><td>$500 / month</td></tr>
+      </table>
+    </div>
+
+    <div class="rv">
+      <div class="sublabel">Media quality control and delivery</div>
+      <div class="grid g3 stag" style="margin-top:16px">
+        <div class="price">
+          <h3>Standard monthly</h3>
+          <div class="amt">$450</div><div class="per">per month</div>
+          <ul class="tick">
+            <li><i class="fa-solid fa-check"></i>Quality control and delivery, both included</li>
+            <li><i class="fa-solid fa-check"></i>Covers up to 65 properties per month</li>
+            <li><i class="fa-solid fa-check"></i>Each property above 65 adds $3</li>
+            <li><i class="fa-solid fa-check"></i>70 properties is $465. 80 is $495.</li>
+          </ul>
+          <a href="#contact" class="btn" style="margin-top:18px">Book a Meeting</a>
+        </div>
+        <div class="price feat">
+          <span class="ribbon">No volume cap</span>
+          <h3>Unlimited volume</h3>
+          <div class="amt">$599</div><div class="per">per month</div>
+          <ul class="tick">
+            <li><i class="fa-solid fa-check"></i>Quality control and delivery, both included</li>
+            <li><i class="fa-solid fa-check"></i>Covers every property delivered that month</li>
+            <li><i class="fa-solid fa-check"></i>No per property fee above 65</li>
+            <li><i class="fa-solid fa-check"></i>For studios with heavy or unpredictable months</li>
+          </ul>
+          <a href="#contact" class="btn" style="margin-top:18px">Book a Meeting</a>
+        </div>
+        <div class="price">
+          <h3>Weekend only</h3>
+          <div class="amt">$3</div><div class="per">per property</div>
+          <ul class="tick">
+            <li><i class="fa-solid fa-check"></i>A separate weekend service</li>
+            <li><i class="fa-solid fa-check"></i>Charged per property, not monthly</li>
+            <li><i class="fa-solid fa-check"></i>Not an automatic add on to the monthly plans</li>
+            <li><i class="fa-solid fa-check"></i>For covering weekend turnaround only</li>
+          </ul>
+          <a href="#contact" class="btn btn--ghost" style="margin-top:18px">Discuss Your Requirements</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv">
+      <div class="sublabel">Content and admin</div>
+      <table class="ptable">
+        <tr><td>Content creation and personal branding</td><td>$399 / month</td></tr>
+        <tr><td>Administrative support</td><td>$150 / month</td></tr>
+        <tr><td>AI photo QC handling</td><td>[NEEDED: price]</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== FAQ ===== -->
+<section class="sec sec--surface" id="faq">
+  <div class="wrap" style="max-width:820px">
+    <div class="rv intro">
+      <div class="eyebrow">Questions</div>
+      <h2>The things you are <span class="cy">actually wondering.</span></h2>
+    </div>
+    <div class="rv" style="margin-top:28px">
+      <div class="faq"><button>Do you guarantee leads, appointments or new clients?<i class="fa-solid fa-plus"></i></button>
+        <div class="ans"><p>No, and we will not pretend otherwise. We run the outreach activity, consistently and on an agreed sequence, and we report what actually happened. Messages sent, replies, and qualified prospects are reported separately so you can see the real picture. If you want a specific measurable commitment, we agree it in writing first rather than promising it on a website.</p></div></div>
+
+      <div class="faq"><button>How does the 65 property limit work?<i class="fa-solid fa-plus"></i></button>
+        <div class="ans"><p>The Standard plan is $450 a month and includes quality control and delivery for up to 65 properties. Every property above 65 adds $3. So 70 properties is $465 and 80 is $495. If your volume is high or unpredictable, the $599 unlimited plan removes the per property fee entirely.</p></div></div>
+
+      <div class="faq"><button>Is the quality control done by a person or by software?<i class="fa-solid fa-plus"></i></button>
+        <div class="ans"><p>Both, and we keep them clearly separate. Media quality control is human review against your standards. AI photo QC handling is a different service where we manage an automated tool's output, review what it flags, and check questionable images by hand. We will never claim every image is error free, or that we support every AI QC platform.</p></div></div>
+
+      <div class="faq"><button>Which delivery platforms and file types do you support?<i class="fa-solid fa-plus"></i></button>
+        <div class="ans"><p>That depends on what you already use. Supported platforms, file types, turnaround times and procedures are confirmed against your systems during setup rather than assumed. Tell us your stack on the call and we will tell you honestly what we can take on.</p></div></div>
+
+      <div class="faq"><button>What exactly is included in my scope?<i class="fa-solid fa-plus"></i></button>
+        <div class="ans"><p>Whatever we agree, written down before the first month. Deliverable quantities, outreach volume, follow up cadence, calling hours, monthly working hours and communication coverage are all set per client. The prices on this page are the service rates. The scope behind them is yours to define.</p></div></div>
+
+      <div class="faq"><button>How do we start?<i class="fa-solid fa-plus"></i></button>
+        <div class="ans"><p>Book a meeting. We go through your current workflow, what is taking your time, and which parts you would hand over first. You leave with a clear scope and a price, with no obligation to continue.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="sec sec--grad" id="contact">
+  <div class="wrap" style="max-width:760px">
+    <div class="rv intro">
+      <div class="eyebrow">Start here</div>
+      <h2>Tell us what is taking your time. <span class="cy">We will scope the rest.</span></h2>
+      <p class="lead">A short call to understand your workflow, agree what you want handed over, and set the responsibilities in writing. No obligation to continue afterwards.</p>
+      <a href="#contact" class="btn" style="margin-top:10px">Book a Meeting</a>
+      <div class="fud"><i class="fa-solid fa-circle-check"></i>Scope and responsibilities agreed before any work begins.</div>
+    </div>
+    <div class="grid g2 stag rv" style="margin-top:28px;text-align:left">
+      <a class="card" href="https://wa.me/923269076048" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="icn"><i class="fa-brands fa-whatsapp"></i></div>
+        <h3>WhatsApp</h3><p>+92 3269076048</p></a>
+      <a class="card" href="mailto:thecorporatecallagency@gmail.com" style="text-decoration:none">
+        <div class="icn"><i class="fa-solid fa-envelope"></i></div>
+        <h3>Email</h3><p>thecorporatecallagency@gmail.com</p></a>
+    </div>
+    <div class="rv needbox">[NEEDED: Calendly link. Every Book a Meeting button points at this section until it is supplied, then all five switch to the booking link.]</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fname">Real Estate Media Growth Assistants</div>
+    <div class="ftag">Supporting the work behind your growth</div>
+    <div class="flinks">
+      <a href="#services">Services</a><a href="#how">How It Works</a><a href="#proofs">Proofs</a>
+      <a href="#pricing">Pricing</a><a href="#about">About</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+    </div>
+    <div class="social">
+      <a href="https://www.instagram.com/re_media_growth_assistants/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61574909167134" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="https://wa.me/923269076048" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="mailto:thecorporatecallagency@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+    <div style="font-size:.88rem;color:var(--muted);margin-bottom:22px">
+      <a href="mailto:thecorporatecallagency@gmail.com" style="color:var(--muted);text-decoration:none">thecorporatecallagency@gmail.com</a>
+      <span style="color:#2A3F47;margin:0 10px">·</span>
+      <a href="https://wa.me/923269076048" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none">+92 3269076048</a>
+    </div>
+    <div class="flinks" style="margin-bottom:18px">
+      <a href="#">Privacy policy [NEEDED]</a><a href="#">Terms of service [NEEDED]</a>
+    </div>
+    <div class="fbottom">&copy; 2026 Real Estate Media Growth Assistants</div>
+  </div>
+</footer>
+
+<script>
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* scroll reveal + stagger, replays every time a section returns */
+const revealables=document.querySelectorAll('.rv, .stag');
+const revealAll=()=>revealables.forEach(el=>el.classList.add('in'));
+if(!('IntersectionObserver' in window)||reduced){ revealAll(); }
+else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('in', e.isIntersecting)),{threshold:.12});
+  revealables.forEach(el=>io.observe(el));
+  setTimeout(()=>{ if(!document.querySelector('.rv.in')) revealAll(); },2500);
+}
+
+/* FAQ */
+document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',()=>{
+  const f=b.parentElement, open=f.classList.contains('open');
+  document.querySelectorAll('.faq').forEach(x=>x.classList.remove('open'));
+  if(!open) f.classList.add('open');
+}));
+
+/* hero headline, character by character, words kept whole */
+(function(){
+  const h1=document.querySelector('h1');
+  if(!h1||reduced) return;
+  let i=0;
+  const walk=node=>{
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok) return;
+          if(/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(' ')); return; }
+          const w=document.createElement('span'); w.className='w';
+          [...tok].forEach(c=>{
+            const s=document.createElement('span'); s.className='ch'; s.textContent=c;
+            s.style.animationDelay=(i++*32)+'ms'; w.appendChild(s);
+          });
+          frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1 && n.tagName!=='BR'){ walk(n); }
+    });
+  };
+  walk(h1); h1.classList.add('split');
+  const chars=[...h1.querySelectorAll('.ch')];
+  new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){
+      h1.classList.remove('split'); void h1.offsetWidth; h1.classList.add('split');
+      chars.forEach((c,n)=>c.style.animationDelay=(n*32)+'ms');
+    }
+  }),{threshold:.5}).observe(h1);
+})();
+
+/* typewriter on every section heading, replays on re-entry */
+(function(){
+  const splitInto=(node,bucket)=>{
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok) return;
+          if(/^\s+$/.test(tok)){
+            const sp=document.createElement('span'); sp.className='ch sp'; sp.textContent=' ';
+            frag.appendChild(sp); bucket.push(sp); return;
+          }
+          const w=document.createElement('span'); w.className='w';
+          [...tok].forEach(c=>{
+            const sp=document.createElement('span'); sp.className='ch'; sp.textContent=c;
+            w.appendChild(sp); bucket.push(sp);
+          });
+          frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1 && n.tagName!=='BR'){ splitInto(n,bucket); }
+    });
+  };
+  document.querySelectorAll('.sec h2').forEach(h2=>{
+    if(reduced) return;
+    const chars=[]; splitInto(h2,chars);
+    if(!chars.length) return;
+    const caret=document.createElement('span');
+    caret.className='caret'; caret.setAttribute('aria-hidden','true');
+    h2.appendChild(caret); h2.classList.add('tw');
+    h2._reset=()=>{ clearTimeout(h2._t); h2.classList.remove('typing','typed');
+      for(let k=0;k<chars.length;k++) chars[k].style.visibility='hidden'; h2._running=false; };
+    h2._type=()=>{
+      if(h2._running) return; h2._running=true;
+      h2.classList.remove('typed'); h2.classList.add('typing');
+      for(let k=0;k<chars.length;k++) chars[k].style.visibility='hidden';
+      let i=0;
+      const step=()=>{
+        chars[i].style.visibility='visible'; i++;
+        if(i<chars.length){ h2._t=setTimeout(step, chars[i-1].textContent===' '?26:22); }
+        else { h2.classList.remove('typing'); h2.classList.add('typed'); h2._running=false; }
+      };
+      step();
+    };
+  });
+  const tio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.target._type) return;
+    if(e.isIntersecting) e.target._type(); else e.target._reset();
+  }),{threshold:.35});
+  document.querySelectorAll('.sec h2').forEach(h=>tio.observe(h));
+})();
+
+/* counters */
+(function(){
+  const nums=[...document.querySelectorAll('.num')].filter(n=>/^\d/.test(n.textContent.trim()));
+  if(!nums.length) return;
+  const run=el=>{
+    if(el._running) return;
+    const raw=el.dataset.final || el.textContent.trim();
+    el.dataset.final=raw;
+    const m=raw.match(/^([\d.]+)(.*)$/); if(!m) return;
+    const target=parseFloat(m[1]), suffix=m[2], dec=(m[1].split('.')[1]||'').length, pad=m[1].startsWith('0');
+    if(reduced){ el.textContent=raw; return; }
+    el._running=true;
+    const dur=1100, t0=performance.now();
+    const tick=t=>{
+      const p=Math.min((t-t0)/dur,1), eased=1-Math.pow(1-p,3);
+      let v=(target*eased).toFixed(dec);
+      if(pad && v.length<2) v='0'+v;
+      el.textContent=v+suffix;
+      if(p<1){ requestAnimationFrame(tick); } else { el.textContent=raw; el._running=false; }
+    };
+    requestAnimationFrame(tick);
+  };
+  const nio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) run(e.target); }),{threshold:.55});
+  nums.forEach(n=>nio.observe(n));
+})();
+
+/* mobile drawer */
+(function(){
+  const burger=document.querySelector('.burger'), drawer=document.getElementById('drawer'),
+        scrim=document.querySelector('.scrim'), close=document.querySelector('.drawer-close');
+  if(!burger||!drawer) return;
+  const setOpen=open=>{
+    burger.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',open);
+    drawer.style.transform = open ? 'translateX(0)' : 'translateX(102%)';
+    drawer.setAttribute('aria-hidden',!open);
+    document.body.classList.toggle('locked',open);
+    if(open){ scrim.hidden=false; void scrim.offsetWidth; scrim.style.opacity='1'; }
+    else { scrim.style.opacity='0'; setTimeout(()=>{ if(drawer.getAttribute('aria-hidden')==='true') scrim.hidden=true; },320); }
+  };
+  burger.addEventListener('click',()=>setOpen(drawer.getAttribute('aria-hidden')!=='false'));
+  close.addEventListener('click',()=>setOpen(false));
+  scrim.addEventListener('click',()=>setOpen(false));
+  drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
+  addEventListener('keydown',e=>{ if(e.key==='Escape') setOpen(false); });
+  addEventListener('resize',()=>{ if(innerWidth>=900) setOpen(false); });
+})();
+
+/* cyan dot grid, lights only around the pointer, empty at rest */
+(function(){
+  const c=document.getElementById('dots');
+  if(!c||reduced) return;
+  const x=c.getContext('2d',{alpha:true});
+  let w=0,h=0,dots=[],m={x:-9999,y:-9999},running=false,sleep=null;
+  const GAP=30, REACH=175;
+  function size(){
+    const dpr=Math.min(devicePixelRatio||1,2);
+    w=innerWidth; h=innerHeight; c.width=w*dpr; c.height=h*dpr;
+    x.setTransform(dpr,0,0,dpr,0,0);
+    dots.length=0;
+    for(let i=GAP/2;i<w;i+=GAP) for(let j=GAP/2;j<h;j+=GAP) dots.push(i,j);
+  }
+  function draw(){
+    x.clearRect(0,0,w,h);
+    const mx=m.x,my=m.y;
+    if(mx>-1000){
+      for(let k=0;k<dots.length;k+=2){
+        const dx=dots[k]-mx, dy=dots[k+1]-my;
+        if(dx>REACH||dx<-REACH||dy>REACH||dy<-REACH) continue;
+        const d=Math.sqrt(dx*dx+dy*dy); if(d>=REACH) continue;
+        const near=1-d/REACH;
+        x.beginPath(); x.arc(dots[k],dots[k+1],1+near*2.8,0,6.283185);
+        x.fillStyle='rgba(22,185,212,'+(near*near*0.95).toFixed(3)+')'; x.fill();
+      }
+    }
+    if(running) requestAnimationFrame(draw);
+  }
+  function wake(){
+    if(!running){ running=true; requestAnimationFrame(draw); }
+    clearTimeout(sleep);
+    sleep=setTimeout(()=>{ running=false; m.x=m.y=-9999; draw(); },700);
+  }
+  size();
+  addEventListener('resize',()=>{ size(); draw(); },{passive:true});
+  addEventListener('pointermove',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
+  addEventListener('pointerdown',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden){ running=false; clearTimeout(sleep); } });
+})();
+</script>
+</body>
+</html>
