@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<!--
+=====================================================================
+WIREFRAME · Real Estate Media Growth Assistants
+=====================================================================
+Purpose    : Real client. Nothing invented. Gaps shown as visible placeholders.
+Archetype  : E · done for you service. Calm B2B, transparent pricing tiers.
+Awareness  : Cold and problem aware. Opens on the problem.
+Wireframe  : W1
+Buyer      : Real estate photographers and real estate media companies
+Owner      : Solomon Smith
+
+TOKENS  bg #050A0C · surface #111F25 · accent #16B9D4 · text #FFF · muted #9FB2BA
+FONTS   Manrope (headings) · Inter (body)
+
+Every text slot below shows its COPYWRITING ROLE, not final copy, in the real
+colour, size and weight the live text will use.
+=====================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe · Real Estate Media Growth Assistants</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#050A0C; --bg2:#0A161B; --surface:#111F25;
+  --accent:#16B9D4; --accent-2:#4ED6EA;
+  --ink:#FFFFFF; --muted:#9FB2BA; --hairline:rgba(255,255,255,.10);
+  --f-display:'Manrope',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif;
+  --h1:clamp(1.8rem,5vw,3rem); --h2:clamp(1.5rem,4.6vw,2.4rem); --h3:1.12rem;
+  --lead:1.05rem; --eyebrow:.7rem; --stat:clamp(2rem,6.5vw,3.1rem);
+  --pad-x:18px; --sec-y:58px; --radius:16px;
+}
+@media(min-width:900px){ :root{ --pad-x:26px; --sec-y:92px; } }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.62;overflow-x:clip}
+.wrap{max-width:1140px;margin:0 auto;padding:0 var(--pad-x)}
+.sec{padding:var(--sec-y) 0;position:relative}
+.sec--grad{background:linear-gradient(135deg,#050A0C 0%,#0C1D24 55%,#071217 100%)}
+.sec--surface{background:linear-gradient(160deg,#0A161B 0%,#122228 100%)}
+
+/* wireframe labels */
+.tag{display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:#55707A;border:1px dashed #27424B;padding:3px 9px;border-radius:30px;margin-bottom:12px}
+.lbl-eyebrow{font-size:var(--eyebrow);font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.lbl-h1{font-family:var(--f-display);font-size:var(--h1);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-bottom:16px}
+.lbl-h2{font-family:var(--f-display);font-size:var(--h2);font-weight:700;line-height:1.16;margin-bottom:14px}
+.lbl-h3{font-family:var(--f-display);font-size:var(--h3);font-weight:700;margin-bottom:7px}
+.lbl-lead{font-size:var(--lead);color:var(--muted);max-width:620px;margin-bottom:18px}
+.lbl-body{font-size:.93rem;color:var(--muted)}
+.cy{color:var(--accent)}
+.lbl-stat{font-family:var(--f-display);font-size:var(--stat);font-weight:800;color:var(--accent);line-height:1}
+.lbl-statlabel{font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:7px}
+
+.btn{display:block;width:100%;text-align:center;background:var(--accent);color:#04151A;
+  font-family:var(--f-display);font-weight:700;font-size:.98rem;padding:16px 30px;border-radius:10px;
+  text-decoration:none;box-shadow:0 10px 30px rgba(22,185,212,.22)}
+.btn--ghost{background:transparent;color:var(--ink);border:1px solid var(--hairline);box-shadow:none}
+@media(min-width:640px){.btn{display:inline-block;width:auto}}
+.fud{font-size:.8rem;color:var(--muted);margin-top:12px}
+.fud i{color:var(--accent);margin-right:7px}
+
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:24px 22px;height:100%}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+.icn{width:44px;height:44px;border-radius:10px;background:rgba(22,185,212,.12);border:1px solid rgba(22,185,212,.3);
+  display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1rem;margin-bottom:15px}
+
+.slot{border:1.5px dashed rgba(22,185,212,.45);border-radius:var(--radius);
+  background:repeating-linear-gradient(135deg,rgba(22,185,212,.04) 0 12px,transparent 12px 24px);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:24px 16px;
+  font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);min-height:140px}
+.slot--tall{min-height:260px}
+.need{border-color:rgba(255,170,60,.6);color:#FFAA3C;background:repeating-linear-gradient(135deg,rgba(255,170,60,.05) 0 12px,transparent 12px 24px)}
+
+nav{position:sticky;top:0;z-index:60;background:rgba(5,10,12,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--hairline)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.navlinks{display:none;gap:24px}
+.navlinks span{font-size:.84rem;color:var(--muted)}
+@media(min-width:900px){.navlinks{display:flex}}
+.navcta{font-family:var(--f-display);font-size:.78rem;font-weight:700;color:#04151A;background:var(--accent);padding:0 18px;height:42px;display:inline-flex;align-items:center;border-radius:8px}
+
+.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:15px 0;background:#081216}
+.mq{display:flex;gap:38px;width:max-content;animation:sl 42s linear infinite}
+.mq span{font-family:var(--f-display);font-size:.76rem;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.mq i{color:var(--accent);margin-right:12px;font-size:.4rem;vertical-align:middle}
+@keyframes sl{to{transform:translateX(-50%)}}
+
+.price{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:26px 22px;position:relative}
+.price.feat{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.price .amt{font-family:var(--f-display);font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+.price .per{font-size:.82rem;color:var(--muted)}
+.ribbon{position:absolute;top:-11px;left:22px;background:var(--accent);color:#04151A;font-size:.6rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;padding:4px 11px;border-radius:30px}
+.ptable{width:100%;border-collapse:collapse;margin-top:14px}
+.ptable td{padding:11px 0;border-bottom:1px solid var(--hairline);font-size:.9rem;color:var(--muted)}
+.ptable td:last-child{text-align:right;color:var(--accent);font-weight:700;font-family:var(--f-display)}
+
+.faqrow{border-bottom:1px solid var(--hairline);padding:17px 0;display:flex;justify-content:space-between;gap:14px}
+.faqrow i{color:var(--accent)}
+footer{background:#030709;border-top:1px solid var(--hairline);padding:48px 0 30px;text-align:center}
+.note{background:rgba(255,170,60,.08);border:1px solid rgba(255,170,60,.35);border-radius:10px;padding:13px 16px;font-size:.82rem;color:#FFC87A;margin-top:16px}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="slot" style="min-height:auto;padding:7px 14px;font-size:.6rem" >[LOGO NEEDED]</div>
+  <div class="navlinks"><span>Services</span><span>Pricing</span><span>Proofs</span><span>Reviews</span><span>About</span></div>
+  <span class="navcta">[CTA: "Book a Meeting"]</span>
+</div></nav>
+
+<!-- 1 HERO -->
+<section class="sec" id="top" style="padding-top:44px">
+  <div class="wrap">
+    <div class="grid g2" style="gap:30px;align-items:center">
+      <div>
+        <span class="tag">Section 1 · Hero</span>
+        <div class="lbl-eyebrow">[EYEBROW: who this is for, real estate photographers and media companies]</div>
+        <div class="lbl-h1">[HERO HEADLINE = the outcome: more time on the craft, the admin and outreach handled]</div>
+        <div class="lbl-lead">[SUBHEADLINE = who we are and what we cover: outreach, media QC, delivery, content, admin. One partner.]</div>
+        <a href="#" class="btn">[CTA: "Book a Meeting"]</a>
+        <div class="fud" style="margin-top:8px"><i class="fa-solid fa-calendar-check"></i>[CALENDLY LINK NEEDED: every CTA points here]</div>
+        <div class="fud"><i class="fa-solid fa-circle-check"></i>[FUD-REDUCER: no obligation, scope agreed before anything starts]</div>
+        <div class="grid g3" style="margin-top:26px;gap:12px">
+          <div><div class="lbl-stat">5</div><div class="lbl-statlabel">[service areas]</div></div>
+          <div><div class="lbl-stat">65</div><div class="lbl-statlabel">[properties, standard plan]</div></div>
+          <div><div class="lbl-stat">$150</div><div class="lbl-statlabel">[entry price per month]</div></div>
+        </div>
+      </div>
+      <div class="slot slot--tall need">[HERO IMAGE NEEDED<br>real estate media or workspace photo]</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="mq">
+  <span><i class="fa-solid fa-circle"></i>Social media outreach</span><span><i class="fa-solid fa-circle"></i>Email outreach</span>
+  <span><i class="fa-solid fa-circle"></i>Cold calling</span><span><i class="fa-solid fa-circle"></i>Media QC</span>
+  <span><i class="fa-solid fa-circle"></i>Media delivery</span><span><i class="fa-solid fa-circle"></i>Content creation</span>
+  <span><i class="fa-solid fa-circle"></i>Admin support</span>
+  <span><i class="fa-solid fa-circle"></i>Social media outreach</span><span><i class="fa-solid fa-circle"></i>Email outreach</span>
+  <span><i class="fa-solid fa-circle"></i>Cold calling</span><span><i class="fa-solid fa-circle"></i>Media QC</span>
+  <span><i class="fa-solid fa-circle"></i>Media delivery</span><span><i class="fa-solid fa-circle"></i>Content creation</span>
+  <span><i class="fa-solid fa-circle"></i>Admin support</span>
+</div></div>
+
+<!-- 2 PROBLEM -->
+<section class="sec sec--grad" id="problem">
+  <div class="wrap">
+    <div style="max-width:720px;margin:0 auto;text-align:center">
+      <span class="tag">Section 2 · Problem and agitation</span>
+      <div class="lbl-eyebrow">[EYEBROW]</div>
+      <div class="lbl-h2">[PROBLEM: the shoot is the small part. The rest is <span class="cy">eating the week</span>.]</div>
+      <div class="lbl-lead" style="margin:0 auto">[AGITATION: what the admin actually costs. Late deliveries, missed follow ups, no time left to win new work.]</div>
+    </div>
+    <div class="grid g3" style="margin-top:34px">
+      <div class="card"><div class="icn"><i class="fa-solid fa-inbox"></i></div><div class="lbl-h3">[PAIN 1]</div><div class="lbl-body">[one line of consequence]</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-clock"></i></div><div class="lbl-h3">[PAIN 2]</div><div class="lbl-body">[one line of consequence]</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-user-slash"></i></div><div class="lbl-h3">[PAIN 3]</div><div class="lbl-body">[one line of consequence]</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 SERVICES -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div style="max-width:700px;margin:0 auto;text-align:center">
+      <span class="tag">Section 3 · The five service groups</span>
+      <div class="lbl-eyebrow">[EYEBROW: "What we handle"]</div>
+      <div class="lbl-h2">[SOLUTION headline: five jobs, <span class="cy">one partner</span>]</div>
+      <div class="lbl-lead" style="margin:0 auto">[SUBHEAD: scope is agreed per client before anything starts]</div>
+    </div>
+    <div class="grid g3" style="margin-top:34px">
+      <div class="card"><div class="icn"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="lbl-h3">[A · Outreach]</div>
+        <div class="lbl-body">[social DMs, email, cold calling. Deliverables list, 6 to 7 bullets]</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-image"></i></div>
+        <div class="lbl-h3">[B · Media quality control]</div>
+        <div class="lbl-body">[exposure, colour, alignment, file completeness. Human review, AI flags handled separately]</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-truck-fast"></i></div>
+        <div class="lbl-h3">[C · Media delivery]</div>
+        <div class="lbl-body">[organise orders, upload, check links, notify clients, track pending]</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-pen-nib"></i></div>
+        <div class="lbl-h3">[D · Content and personal branding]</div>
+        <div class="lbl-body">[planning, posts, carousels, captions, scheduling, profile optimisation]</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-headset"></i></div>
+        <div class="lbl-h3">[E · Admin and operations]</div>
+        <div class="lbl-body">[inbox, phone, client comms, team coordination, records]</div></div>
+      <div class="card" style="display:flex;align-items:center;justify-content:center">
+        <a href="#pricing" class="btn btn--ghost">[CTA: "See pricing"]</a></div>
+    </div>
+    <div class="note"><b>Compliance:</b> no guaranteed leads, appointments or clients anywhere in this section. AI checks and human review stated separately.</div>
+  </div>
+</section>
+
+<!-- 4 HOW IT WORKS -->
+<section class="sec sec--surface" id="how">
+  <div class="wrap">
+    <div style="max-width:680px;margin:0 auto;text-align:center">
+      <span class="tag">Section 4 · Named mechanism</span>
+      <div class="lbl-eyebrow">[EYEBROW]</div>
+      <div class="lbl-h2">[MECHANISM: name the process, then <span class="cy">five steps</span>]</div>
+    </div>
+    <div class="grid g4" style="margin-top:30px">
+      <div class="card"><div class="lbl-stat" style="font-size:1.5rem">01</div><div class="lbl-h3">[Understand your process]</div><div class="lbl-body">[detail]</div></div>
+      <div class="card"><div class="lbl-stat" style="font-size:1.5rem">02</div><div class="lbl-h3">[Agree responsibilities]</div><div class="lbl-body">[detail]</div></div>
+      <div class="card"><div class="lbl-stat" style="font-size:1.5rem">03</div><div class="lbl-h3">[Follow your workflow]</div><div class="lbl-body">[detail]</div></div>
+      <div class="card"><div class="lbl-stat" style="font-size:1.5rem">04</div><div class="lbl-h3">[Keep it organised]</div><div class="lbl-body">[detail]</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 ABOUT -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="grid g2" style="gap:34px;align-items:center">
+      <div class="slot slot--tall need">[OWNER PHOTO NEEDED<br>Solomon Smith]</div>
+      <div>
+        <span class="tag">Section 5 · About us</span>
+        <div class="lbl-eyebrow">[EYEBROW: "Who we are"]</div>
+        <div class="lbl-h2">[ABOUT headline: your partner in media operations and <span class="cy">business growth</span>]</div>
+        <div class="lbl-body" style="margin-bottom:12px">[P1: what the company does, from the document]</div>
+        <div class="lbl-body" style="margin-bottom:12px">[P2: running a media business is more than photographs]</div>
+        <div class="lbl-body" style="margin-bottom:12px">[MISSION + GOAL, from the document]</div>
+        <div class="note">[OWNER STORY NEEDED: Solomon's background, experience, team. Document forbids inventing years of experience or results.]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 PROOFS -->
+<section class="sec sec--grad" id="proofs">
+  <div class="wrap">
+    <div style="max-width:700px;margin:0 auto;text-align:center">
+      <span class="tag">Section 6 · Proofs and results</span>
+      <div class="lbl-eyebrow">[EYEBROW]</div>
+      <div class="lbl-h2">[PROOF headline: <span class="cy">look at the work</span>, not a claim about it]</div>
+      <div class="lbl-lead" style="margin:0 auto">[SUBHEAD: every number carries its measurement period]</div>
+    </div>
+    <div class="grid g3" style="margin-top:32px">
+      <div class="slot need">[QC PROOF NEEDED<br>before and after edits, checklists]</div>
+      <div class="slot need">[OUTREACH PROOF NEEDED<br>campaign screenshots, response rates]</div>
+      <div class="slot need">[DELIVERY PROOF NEEDED<br>redacted delivery records]</div>
+    </div>
+    <div class="note"><b>Compliance:</b> messages sent, replies, qualified leads, appointments and bookings shown as separate figures. Redact prospect data. No unsupported guarantees.</div>
+  </div>
+</section>
+
+<!-- 7 REVIEWS -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div style="max-width:660px;margin:0 auto;text-align:center">
+      <span class="tag">Section 7 · Client reviews</span>
+      <div class="lbl-eyebrow">[EYEBROW]</div>
+      <div class="lbl-h2">[REVIEWS headline: what our clients say]</div>
+    </div>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="slot need">[REVIEW 1 NEEDED<br>quote, name, company, service used]</div>
+      <div class="slot need">[REVIEW 2 NEEDED]</div>
+      <div class="slot need">[REVIEW 3 NEEDED]</div>
+    </div>
+    <div class="note"><b>Document rule:</b> reviews must never be fabricated. If none exist at launch I hide this section entirely rather than fake it. Say the word.</div>
+  </div>
+</section>
+
+<!-- 8 PRICING -->
+<section class="sec sec--surface" id="pricing">
+  <div class="wrap">
+    <div style="max-width:700px;margin:0 auto;text-align:center">
+      <span class="tag">Section 8 · Pricing, all real from the document</span>
+      <div class="lbl-eyebrow">[EYEBROW: "Pricing, in USD"]</div>
+      <div class="lbl-h2">[PRICE headline: <span class="cy">monthly subscriptions</span>, scope agreed first]</div>
+    </div>
+
+    <div class="lbl-h3" style="margin-top:30px">Outreach</div>
+    <table class="ptable">
+      <tr><td>Social media outreach</td><td>$360 / mo</td></tr>
+      <tr><td>Email outreach</td><td>$360 / mo</td></tr>
+      <tr><td>Cold calling</td><td>$360 / mo</td></tr>
+      <tr><td>All in one outreach, all three channels</td><td>$500 / mo</td></tr>
+    </table>
+
+    <div class="lbl-h3" style="margin-top:30px">Media QC and delivery</div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="price"><div class="lbl-h3">Standard monthly</div><div class="amt">$450</div><div class="per">per month</div>
+        <div class="lbl-body" style="margin-top:12px">QC and delivery included. Up to 65 properties. Each property above 65 adds $3.</div>
+        <a href="#contact" class="btn" style="margin-top:16px">[CTA: "Book a Meeting"]</a></div>
+      <div class="price feat"><span class="ribbon">No volume cap</span><div class="lbl-h3">Unlimited volume</div><div class="amt">$599</div><div class="per">per month</div>
+        <div class="lbl-body" style="margin-top:12px">QC and delivery included. All properties delivered that month. No per property fee.</div>
+        <a href="#contact" class="btn" style="margin-top:16px">[CTA: "Book a Meeting"]</a></div>
+      <div class="price"><div class="lbl-h3">Weekend only</div><div class="amt">$3</div><div class="per">per property</div>
+        <div class="lbl-body" style="margin-top:12px">A separate weekend service. Not an add on charge to the monthly packages.</div>
+        <a href="#contact" class="btn btn--ghost" style="margin-top:16px">[CTA: "Discuss Your Requirements"]</a></div>
+    </div>
+
+    <div class="lbl-h3" style="margin-top:30px">Content and admin</div>
+    <table class="ptable">
+      <tr><td>Content creation and personal branding</td><td>$399 / mo</td></tr>
+      <tr><td>Administrative support</td><td>$150 / mo</td></tr>
+      <tr><td>AI photo QC handling</td><td>[PRICE TO CONFIRM]</td></tr>
+    </table>
+    <div class="note"><b>Document requirements covered:</b> all USD, labelled monthly, 65 limit shown, $3 overage explained, $599 clearly separate, weekend service separate, CTA on every card.</div>
+  </div>
+</section>
+
+<!-- 9 FAQ -->
+<section class="sec sec--grad" id="faq">
+  <div class="wrap" style="max-width:800px">
+    <div style="text-align:center">
+      <span class="tag">Section 9 · Objections</span>
+      <div class="lbl-eyebrow">[EYEBROW]</div>
+      <div class="lbl-h2">[FAQ headline]</div>
+    </div>
+    <div style="margin-top:24px">
+      <div class="faqrow"><span class="lbl-h3" style="margin:0">[Q: what exactly is included in my scope?]</span><i class="fa-solid fa-plus"></i></div>
+      <div class="faqrow"><span class="lbl-h3" style="margin:0">[Q: do you guarantee leads or bookings?]</span><i class="fa-solid fa-plus"></i></div>
+      <div class="faqrow"><span class="lbl-h3" style="margin:0">[Q: how does the 65 property limit work?]</span><i class="fa-solid fa-plus"></i></div>
+      <div class="faqrow"><span class="lbl-h3" style="margin:0">[Q: which delivery platforms do you support?]</span><i class="fa-solid fa-plus"></i></div>
+      <div class="faqrow"><span class="lbl-h3" style="margin:0">[Q: is the QC done by a person or by AI?]</span><i class="fa-solid fa-plus"></i></div>
+      <div class="faqrow"><span class="lbl-h3" style="margin:0">[Q: how do we start and how fast?]</span><i class="fa-solid fa-plus"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 FINAL CTA -->
+<section class="sec" id="contact" style="text-align:center">
+  <div class="wrap" style="max-width:700px">
+    <span class="tag">Section 10 · The close</span>
+    <div class="lbl-eyebrow">[EYEBROW]</div>
+    <div class="lbl-h1">[FINAL CTA headline: tell us what you need and we scope it]</div>
+    <div class="lbl-lead" style="margin:0 auto">[WHAT HAPPENS NEXT: we agree responsibilities, procedures and expectations before any work starts]</div>
+    <div class="grid g2" style="margin-top:22px;text-align:left">
+      <div class="card"><div class="icn"><i class="fa-brands fa-whatsapp"></i></div><div class="lbl-h3">[WhatsApp]</div><div class="lbl-body">+92 3269076048</div></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-envelope"></i></div><div class="lbl-h3">[Email]</div><div class="lbl-body">thecorporatecallagency@gmail.com</div></div>
+    </div>
+    <div class="note" style="text-align:left"><b>CTA destination:</b> all buttons book a meeting. Calendly link to be supplied, placeholder in place until then.<br><br><b>Contact form:</b> GitHub Pages cannot process form submissions. Without a Formspree or Getform endpoint this section runs on WhatsApp and email only, which is how your own site works. Give me an endpoint and I will add the full form with name, business, email, service of interest and message.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="lbl-h3">[COMPANY NAME: Real Estate Media Growth Assistants]</div>
+    <div class="lbl-body" style="margin-bottom:16px">[TAGLINE: supporting the work behind your growth]</div>
+    <div class="lbl-body" style="margin-bottom:10px">[NAV: Services · Pricing · Proofs · Reviews · About · Contact]</div>
+    <div class="lbl-body" style="margin-bottom:10px">[SOCIAL: Instagram · Facebook · WhatsApp · Email]</div>
+    <div class="lbl-body" style="margin-bottom:10px">[LEGAL: Privacy policy · Terms of service]</div>
+    <div class="note" style="text-align:left">[PRIVACY POLICY AND TERMS NEEDED: the document requires both in the footer. Neither exists yet. I can link them as pages to be supplied, or Solomon provides the text.]</div>
+    <div class="lbl-body" style="margin-top:16px;font-size:.76rem;color:#55707A">&copy; 2026 Real Estate Media Growth Assistants</div>
+  </div>
+</footer>
+
+</body>
+</html>
