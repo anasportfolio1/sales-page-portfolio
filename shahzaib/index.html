@@ -13,6 +13,8 @@ Owner      : Solomon Smith
 TOKENS  bg #050A0C · surface rgba glass · accent #16B9D4 · text #FFF · muted #9FB2BA
 FONTS   Manrope (headings) · Inter (body). Spec requires readable sans serif.
 STYLE   Glassmorphism cards on near black. Client brand colours only: cyan, white, black.
+        No cursor driven background effect. Motion is typewriter headings, scroll
+        reveals, staggered cards, count up stats and the scroll progress bar.
 
 COMPLIANCE BUILT IN, from the client specification
   no guaranteed leads, appointments, bookings or revenue anywhere
@@ -54,13 +56,13 @@ STILL NEEDED
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;overflow-x:clip;background:var(--bg)}
-body{background:transparent;color:var(--ink);font-family:var(--f-body);line-height:1.62;overflow-x:clip;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.62;overflow-x:clip;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 var(--pad-x)}
 .sec{padding:var(--sec-y) 0;position:relative;background:transparent}
-.sec--grad{background:linear-gradient(135deg,rgba(5,10,12,.55) 0%,rgba(13,31,38,.58) 55%,rgba(7,18,23,.55) 100%)}
-.sec--surface{background:linear-gradient(160deg,rgba(10,22,27,.6) 0%,rgba(18,34,40,.62) 100%)}
+.sec--grad{background:linear-gradient(135deg,#050A0C 0%,#0D1F26 55%,#071217 100%)}
+.sec--surface{background:linear-gradient(160deg,#0A161B 0%,#122228 100%)}
 
 .eyebrow{font-size:var(--eyebrow);font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
 h1{font-family:var(--f-display);font-size:var(--h1);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-bottom:16px}
@@ -138,7 +140,7 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 @keyframes blink{50%{opacity:0}}
 
 /* marquee */
-.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:16px 0;background:rgba(8,18,22,.7)}
+.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:16px 0;background:#081216}
 .mq{display:flex;gap:40px;width:max-content;animation:sl 46s linear infinite}
 .mq span{font-family:var(--f-display);font-size:.77rem;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .mq i{color:var(--accent);margin-right:12px;font-size:.4rem;vertical-align:middle}
@@ -192,8 +194,6 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 .js .stag.in > *:nth-child(5){animation-delay:280ms}
 .js .stag.in > *:nth-child(6){animation-delay:350ms}
 
-/* background dot grid, lights only around the pointer */
-#dots{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;transform-origin:0 50%;
   background:linear-gradient(90deg,var(--accent),var(--accent-2));transform:scaleX(0);pointer-events:none}
 @supports (animation-timeline:scroll()){
@@ -221,7 +221,7 @@ body.locked{overflow:hidden}
 
 .needbox{background:rgba(255,170,60,.08);border:1px solid rgba(255,170,60,.34);border-radius:10px;
   padding:13px 16px;font-size:.82rem;color:#FFC87A;margin-top:18px}
-footer{background:rgba(3,7,9,.9);border-top:1px solid var(--hairline);padding:56px 0 32px;text-align:center}
+footer{background:#030709;border-top:1px solid var(--hairline);padding:56px 0 32px;text-align:center}
 .fname{font-family:var(--f-display);font-weight:800;font-size:clamp(1.2rem,3.6vw,1.6rem);margin-bottom:8px}
 .ftag{font-size:.92rem;color:var(--accent);margin-bottom:26px}
 .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-bottom:24px}
@@ -237,14 +237,13 @@ footer{background:rgba(3,7,9,.9);border-top:1px solid var(--hairline);padding:56
   .js .rv,.js .stag.in > *{opacity:1;transform:none}
   .js h1.split .ch{opacity:1;transform:none;filter:none}
   .js h2.tw .ch{visibility:visible}
-  h2 .caret,#dots,.progress{display:none}
+  h2 .caret,.progress{display:none}
   .js .rv .num{transform:none}
   .js .rv.in h2::after{width:170px}
 }
 </style>
 </head>
 <body>
-<canvas id="dots" aria-hidden="true"></canvas>
 <div class="progress" aria-hidden="true"></div>
 
 <nav>
@@ -777,46 +776,6 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   addEventListener('resize',()=>{ if(innerWidth>=900) setOpen(false); });
 })();
 
-/* cyan dot grid, lights only around the pointer, empty at rest */
-(function(){
-  const c=document.getElementById('dots');
-  if(!c||reduced) return;
-  const x=c.getContext('2d',{alpha:true});
-  let w=0,h=0,dots=[],m={x:-9999,y:-9999},running=false,sleep=null;
-  const GAP=30, REACH=175;
-  function size(){
-    const dpr=Math.min(devicePixelRatio||1,2);
-    w=innerWidth; h=innerHeight; c.width=w*dpr; c.height=h*dpr;
-    x.setTransform(dpr,0,0,dpr,0,0);
-    dots.length=0;
-    for(let i=GAP/2;i<w;i+=GAP) for(let j=GAP/2;j<h;j+=GAP) dots.push(i,j);
-  }
-  function draw(){
-    x.clearRect(0,0,w,h);
-    const mx=m.x,my=m.y;
-    if(mx>-1000){
-      for(let k=0;k<dots.length;k+=2){
-        const dx=dots[k]-mx, dy=dots[k+1]-my;
-        if(dx>REACH||dx<-REACH||dy>REACH||dy<-REACH) continue;
-        const d=Math.sqrt(dx*dx+dy*dy); if(d>=REACH) continue;
-        const near=1-d/REACH;
-        x.beginPath(); x.arc(dots[k],dots[k+1],1+near*2.8,0,6.283185);
-        x.fillStyle='rgba(22,185,212,'+(near*near*0.95).toFixed(3)+')'; x.fill();
-      }
-    }
-    if(running) requestAnimationFrame(draw);
-  }
-  function wake(){
-    if(!running){ running=true; requestAnimationFrame(draw); }
-    clearTimeout(sleep);
-    sleep=setTimeout(()=>{ running=false; m.x=m.y=-9999; draw(); },700);
-  }
-  size();
-  addEventListener('resize',()=>{ size(); draw(); },{passive:true});
-  addEventListener('pointermove',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
-  addEventListener('pointerdown',e=>{ m.x=e.clientX; m.y=e.clientY; wake(); },{passive:true});
-  document.addEventListener('visibilitychange',()=>{ if(document.hidden){ running=false; clearTimeout(sleep); } });
-})();
 </script>
 </body>
 </html>
