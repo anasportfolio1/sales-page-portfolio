@@ -225,6 +225,20 @@ footer{background:transparent;border-top:1px solid var(--hairline);padding:58px 
 #top h1{text-align:center}
 .hero-proof{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;align-items:center;justify-content:center}
 
+/* Shown only when the WebGL fluid cannot run: a cheap pointer glow that any
+   machine can draw, so the page is never just flat black. Composited on the
+   GPU as a transform, no per frame layout. */
+#fxlite{position:fixed;left:0;top:0;width:60vmax;height:60vmax;margin:-30vmax 0 0 -30vmax;
+  pointer-events:none;z-index:-1;opacity:0;transition:opacity .9s ease;
+  background:radial-gradient(circle closest-side,
+    rgba(255,107,90,.30),rgba(255,138,123,.18) 32%,rgba(20,184,166,.14) 56%,transparent 74%);
+  will-change:transform}
+#fxlite.on{opacity:1}
+/* reduce motion: a still wash, nothing that moves */
+#fxlite.still{opacity:1;transition:none;left:50%;top:38%;
+  background:radial-gradient(circle closest-side,
+    rgba(255,107,90,.13),rgba(20,184,166,.08) 52%,transparent 72%)}
+
 /* ---------- services slideshow ---------- */
 .slides{margin-top:40px;max-width:1120px;margin-inline:auto}
 .slides-stage{position:relative;aspect-ratio:1600/533;border-radius:var(--radius);
@@ -1153,15 +1167,42 @@ function fluid(canvas, mode, cfg){
     return{texelSizeX:a.texelSizeX,texelSizeY:a.texelSizeY,
       get read(){return a},get write(){return b},swap(){const t=a;a=b;b=t;}};}
 
-  // 1024 is noticeably crisper, but it is a lot of fragment work for a phone
-  const SIM=128, DYE=(innerWidth<900||(navigator.hardwareConcurrency||8)<=4)?512:1024;
-  const dye=DBL(DYE,DYE,RGBA,FILTER), vel=DBL(SIM,SIM,RG,FILTER);
-  const divg=FBO(SIM,SIM,R,gl.NEAREST), curlF=FBO(SIM,SIM,R,gl.NEAREST), pres=DBL(SIM,SIM,R,gl.NEAREST);
+  /* Quality tiers. Tier 0 is the full thing. The page starts at a tier guessed
+     from the device, then MEASURES its own frame time for the first second and
+     settles on the heaviest tier the machine can actually hold at 60fps, so a
+     fast laptop keeps full quality and a slow one still gets the effect rather
+     than nothing. The dye grid is the dominant cost: it is a full screen pass
+     per frame at that resolution. */
+  const TIERS=[
+    {dye:1024, sim:128, pres:10, bloom:cfg.bIter,                div:2.0},
+    {dye:768,  sim:112, pres:9,  bloom:cfg.bIter,                div:2.0},
+    {dye:512,  sim:96,  pres:7,  bloom:Math.max(3,cfg.bIter-1),  div:2.2},
+    {dye:384,  sim:80,  pres:5,  bloom:3,                        div:2.6},
+    {dye:256,  sim:64,  pres:4,  bloom:2,                        div:3.0}
+  ];
+  const hints=()=>{
+    const cores=navigator.hardwareConcurrency||4, mem=navigator.deviceMemory||4;
+    const px=innerWidth*innerHeight*(devicePixelRatio||1);
+    if(innerWidth<900) return 2;                  // phones start mid
+    if(cores<=2||mem<=2) return 4;
+    if(cores<=4||mem<=4) return 3;
+    if(px>2600000) return 1;                      // big or hidpi screen, more pixels to push
+    return 0;
+  };
+  let tier=hints();
+  let SIM, DYE, dye, vel, divg, curlF, pres;
+  function build(t){
+    const T=TIERS[t]; SIM=T.sim; DYE=T.dye;
+    dye=DBL(DYE,DYE,RGBA,FILTER); vel=DBL(SIM,SIM,RG,FILTER);
+    divg=FBO(SIM,SIM,R,gl.NEAREST); curlF=FBO(SIM,SIM,R,gl.NEAREST); pres=DBL(SIM,SIM,R,gl.NEAREST);
+  }
+  build(tier);
 
   /* bloom: Dobryakov's chain, using the plugin's own numbers
      (they ship them as FLASH_* with the feature switched off)
      8 iterations, 256 base resolution, 0.8 intensity, 0.6 threshold, 0.7 knee */
   const B_ITER=cfg.bIter, B_RES=256, B_INT=cfg.bInt, B_THRESH=cfg.bThresh, B_KNEE=0.60;
+  let bloomUse=TIERS[tier].bloom, presIt=TIERS[tier].pres, rdiv=TIERS[tier].div;
   const bloomTarget=FBO(B_RES,B_RES,RGBA,FILTER);
   const bloomChain=[];
   for(let i=0;i<B_ITER;i++){
@@ -1182,7 +1223,8 @@ function fluid(canvas, mode, cfg){
   const noiseAttach=i=>{gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,noiseTex);return i;};
 
   function applyBloom(src,dst){
-    if(bloomChain.length<2) return;
+    const nLv=Math.max(2,Math.min(bloomUse,bloomChain.length));
+    if(nLv<2) return;
     let last=dst;
     gl.disable(gl.BLEND);
     // prefilter: keep only what is above the threshold, with a soft knee
@@ -1194,7 +1236,7 @@ function fluid(canvas, mode, cfg){
     blit(last);
     // downsample
     gl.useProgram(P.blur.p);
-    for(let i=0;i<bloomChain.length;i++){
+    for(let i=0;i<nLv;i++){
       const b=bloomChain[i];
       gl.uniform2f(P.blur.u.texelSize,last.texelSizeX,last.texelSizeY);
       gl.uniform1i(P.blur.u.uTexture,last.attach(0));
@@ -1202,7 +1244,7 @@ function fluid(canvas, mode, cfg){
     }
     // upsample, adding each level back
     gl.blendFunc(gl.ONE,gl.ONE); gl.enable(gl.BLEND);
-    for(let i=bloomChain.length-2;i>=0;i--){
+    for(let i=nLv-2;i>=0;i--){
       const b=bloomChain[i];
       gl.uniform2f(P.blur.u.texelSize,last.texelSizeX,last.texelSizeY);
       gl.uniform1i(P.blur.u.uTexture,last.attach(0));
@@ -1216,8 +1258,8 @@ function fluid(canvas, mode, cfg){
     blit(dst);
   }
 
-  const resize=()=>{   // half CSS resolution, as the plugin does
-    const w=Math.max(2,Math.round(innerWidth/2)), h=Math.max(2,Math.round(innerHeight/2));
+  const resize=()=>{   // half CSS resolution by default, as the plugin does
+    const w=Math.max(2,Math.round(innerWidth/rdiv)), h=Math.max(2,Math.round(innerHeight/rdiv));
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
   };
   resize();
@@ -1238,8 +1280,34 @@ function fluid(canvas, mode, cfg){
   let last=performance.now(), idle=0, running=true;
   let pt={px:0,py:0,travel:0,init:false};
 
+  /* Watch real frame cost and drop a tier if this machine cannot hold it.
+     Only ever steps down, and only while the effect is actually working, so a
+     brief stall from something else on the page cannot ratchet it to nothing. */
+  let samples=[], governed=false, graceUntil=performance.now()+600;
+  function govern(frameMs){
+    if(governed||performance.now()<graceUntil) return;
+    samples.push(frameMs);
+    if(samples.length<40) return;
+    samples.sort((a,b)=>a-b);
+    const median=samples[samples.length>>1];
+    samples.length=0;
+    if(median>19 && tier<TIERS.length-1){     // under ~52fps, step down and re-measure
+      tier++;
+      const T=TIERS[tier];
+      bloomUse=T.bloom; presIt=T.pres; rdiv=T.div;
+      build(tier); resize();
+      graceUntil=performance.now()+500;
+      if(window.valencyFX) window.valencyFX.tier=tier;
+    } else if(median<=19){
+      governed=true;                           // comfortable here, stop adjusting
+      if(window.valencyFX) window.valencyFX.tier=tier;
+    }
+  }
+
   function step(){
-    const now=performance.now(); const dt=Math.min((now-last)/1000,0.0166); last=now;
+    const now=performance.now(); const frameMs=now-last;
+    const dt=Math.min(frameMs/1000,0.0166); last=now;
+    if(frameMs<200) govern(frameMs);      // ignore tab-switch sized gaps
     resize(); gl.disable(gl.BLEND);
     gl.useProgram(P.curl.p); gl.uniform2f(P.curl.u.texelSize,vel.texelSizeX,vel.texelSizeY);
     gl.uniform1i(P.curl.u.uVelocity,vel.read.attach(0)); blit(curlF);
@@ -1252,7 +1320,7 @@ function fluid(canvas, mode, cfg){
     gl.uniform1f(P.clear.u.value,0.8); blit(pres.write); pres.swap();
     gl.useProgram(P.pres.p); gl.uniform2f(P.pres.u.texelSize,vel.texelSizeX,vel.texelSizeY);
     gl.uniform1i(P.pres.u.uDivergence,divg.attach(0));
-    for(let i=0;i<10;i++){ gl.uniform1i(P.pres.u.uPressure,pres.read.attach(1)); blit(pres.write); pres.swap(); }
+    for(let i=0;i<presIt;i++){ gl.uniform1i(P.pres.u.uPressure,pres.read.attach(1)); blit(pres.write); pres.swap(); }
     gl.useProgram(P.grad.p); gl.uniform2f(P.grad.u.texelSize,vel.texelSizeX,vel.texelSizeY);
     gl.uniform1i(P.grad.u.uPressure,pres.read.attach(0)); gl.uniform1i(P.grad.u.uVelocity,vel.read.attach(1));
     blit(vel.write); vel.swap();
@@ -1302,11 +1370,44 @@ function fluid(canvas, mode, cfg){
   if(!cv){ fx.reason='no canvas element'; return; }
   const test=cv.getContext('webgl2')||cv.getContext('webgl');
   fx.webgl = test ? (test instanceof WebGL2RenderingContext ? 'webgl2' : 'webgl1') : false;
-  if(reduced){ fx.reason='this computer has reduce motion turned on in its system accessibility settings'; return; }
-  if(!fx.webgl){ fx.reason='this browser has no WebGL, usually hardware acceleration is switched off'; return; }
-  if(fluid(cv,'spectrum',LEVEL)){ fx.running=true; fx.reason='ok'; }
-  else { fx.reason='WebGL present but the simulation could not start on this GPU'; }
-  if(!fx.running) console.warn('[valency] background effect off: '+fx.reason);
+  if(reduced){
+    fx.reason="reduce motion is turned on in this computer's accessibility settings, so the moving version is off on purpose";
+    lite(true); return;
+  }
+  if(!fx.webgl){
+    fx.reason='this browser has no WebGL, usually hardware acceleration is switched off';
+    lite(false); return;
+  }
+  if(fluid(cv,'spectrum',LEVEL)){ fx.running=true; fx.mode='fluid'; fx.reason='ok'; }
+  else {
+    fx.reason='WebGL is present but the simulation could not start on this GPU';
+    lite(false);
+  }
+  if(!fx.running) console.warn('[valency] '+fx.reason+' (showing the light version instead)');
+
+  /* The light version. No WebGL, no simulation, just a glow that follows the
+     pointer, so the lowest end machine still gets a live background instead
+     of nothing. still=true means hold it motionless for reduce motion. */
+  function lite(still){
+    const d=document.createElement('div'); d.id='fxlite'; d.setAttribute('aria-hidden','true');
+    document.body.appendChild(d);
+    fx.mode = still ? 'static' : 'lite';
+    if(still){ d.className='still'; return; }
+    let x=innerWidth/2, y=innerHeight*0.42, cx=x, cy=y, raf=null, seen=false;
+    const draw=()=>{
+      cx+=(x-cx)*0.085; cy+=(y-cy)*0.085;
+      d.style.transform='translate3d('+cx.toFixed(1)+'px,'+cy.toFixed(1)+'px,0)';
+      raf=(Math.abs(x-cx)>0.5||Math.abs(y-cy)>0.5) ? requestAnimationFrame(draw) : null;
+    };
+    d.style.transform='translate3d('+cx+'px,'+cy+'px,0)';
+    addEventListener('pointermove',e=>{
+      x=e.clientX; y=e.clientY;
+      if(!seen){ seen=true; d.classList.add('on'); }
+      if(!raf) raf=requestAnimationFrame(draw);
+    },{passive:true});
+    setTimeout(()=>d.classList.add('on'),400);   // visible even before the first move
+    fx.running=true;
+  }
 })();
 })();
 </script>
