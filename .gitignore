@@ -1,0 +1,25 @@
+# local working files, not part of the published site
+/Emails/
+/anas-wireframe.html
+.claude/
+/TwistedDough_*.html
+/TwistedDough_*.png
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# versioned backups, never published
+*-BACKUP-*.html
+
+# local tools and working docs
+/effects-demo.html
+/COPY-STRUCTURE.md
+/README.md
+/Twisted Dough*.html
+/valency/choose-background.html
+/valency/choose-font.html
+
+# source originals; the published versions are the .webp next to them
+assets/emails/*.png
+assets/images/*.png
+/assets/images/anas-hero-web.webp
