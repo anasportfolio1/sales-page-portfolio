@@ -59,8 +59,8 @@ img,video{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 var(--pad-x)}
 .sec{padding:var(--sec-y) 0;position:relative;background:transparent}
-.sec--grad{background:linear-gradient(135deg,rgba(10,10,11,.55) 0%,rgba(23,25,30,.58) 55%,rgba(14,16,20,.55) 100%)}
-.sec--surface{background:linear-gradient(160deg,rgba(18,20,24,.60) 0%,rgba(26,28,33,.62) 100%)}
+.sec--grad{background:transparent;border-top:1px solid var(--hairline)}
+.sec--surface{background:transparent;border-top:1px solid var(--hairline)}
 
 .eyebrow{font-size:var(--eyebrow);font-weight:600;letter-spacing:2.6px;text-transform:uppercase;color:var(--coral);margin-bottom:16px}
 h1{color:var(--head);font-family:var(--f-display);font-size:var(--h1);font-weight:500;line-height:1.08;letter-spacing:-.035em;margin-bottom:18px}
@@ -117,7 +117,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .hero-proof i{color:var(--teal)}
 
 /* marquee */
-.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:22px 0;background:rgba(14,15,18,.6)}
+.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:22px 0;background:transparent}
 .mq-track{display:flex;gap:46px;width:max-content;animation:slide 42s linear infinite}
 .mq-track .lg{width:132px;height:44px;border:1px dashed rgba(255,255,255,.16);border-radius:8px;
   display:flex;align-items:center;justify-content:center;font-size:.6rem;letter-spacing:1.4px;
@@ -192,7 +192,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .faq .ans p{padding-bottom:20px;font-size:.95rem}
 
 /* footer */
-footer{background:#070708;border-top:1px solid var(--hairline);padding:58px 0 34px;position:relative}
+footer{background:transparent;border-top:1px solid var(--hairline);padding:58px 0 34px;position:relative}
 .fcenter{text-align:center;max-width:620px;margin:0 auto}
 .fname{color:var(--head);font-family:var(--f-display);font-weight:700;font-size:clamp(1.4rem,4vw,1.9rem);letter-spacing:-.02em;margin-bottom:8px}
 .ftag{font-size:.92rem;color:var(--coral);margin-bottom:26px}
