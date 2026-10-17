@@ -1047,11 +1047,21 @@ function fluid(canvas, mode, cfg){
     const u={},n=gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);
     for(let i=0;i<n;i++){const nm=gl.getActiveUniform(p,i).name;u[nm]=gl.getUniformLocation(p,nm);}
     return{p,u};};
-  const VS=sh(gl.VERTEX_SHADER,`precision highp float;attribute vec2 aPosition;
-    varying vec2 vUv,vL,vR,vT,vB;uniform vec2 texelSize;
+  /* highp in a FRAGMENT shader is optional on older integrated GPUs. Ask the
+     driver what it actually supports rather than assuming, or the shader fails
+     to compile and the whole effect silently does nothing on that machine.
+     The qualifier has to be the same in BOTH shaders. texelSize is declared
+     in the vertex and the fragment shader, and a shared uniform that is highp
+     in one and mediump in the other is a link error, not a compile error, so
+     it fails silently with an empty shader log. */
+  const hp=gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,gl.HIGH_FLOAT);
+  const P_=(hp&&hp.precision>0)?'highp':'mediump';
+  const VS=sh(gl.VERTEX_SHADER,`precision ${P_} float;attribute vec2 aPosition;
+    varying ${P_} vec2 vUv,vL,vR,vT,vB;uniform vec2 texelSize;
     void main(){vUv=aPosition*0.5+0.5;vL=vUv-vec2(texelSize.x,0.);vR=vUv+vec2(texelSize.x,0.);
     vT=vUv+vec2(0.,texelSize.y);vB=vUv-vec2(0.,texelSize.y);gl_Position=vec4(aPosition,0.,1.);}`);
-  const FS=s=>sh(gl.FRAGMENT_SHADER,'precision highp float;precision highp sampler2D;varying highp vec2 vUv,vL,vR,vT,vB;'+s);
+  const FS=s=>sh(gl.FRAGMENT_SHADER,
+    'precision '+P_+' float;precision '+P_+' sampler2D;varying '+P_+' vec2 vUv,vL,vR,vT,vB;'+s);
 
   const P={
     clear: prog(VS,FS(`uniform sampler2D uTexture;uniform float value;void main(){gl_FragColor=value*texture2D(uTexture,vUv);}`)),
@@ -1283,11 +1293,21 @@ function fluid(canvas, mode, cfg){
   return true;
 }
 
-if(!reduced){
+/* Report what happened. Open the console on any machine and read
+   window.valencyFX to see exactly why the background is or is not running. */
+(function(){
   const cv=document.getElementById('dots');
-  // if WebGL is missing the canvas just stays transparent, nothing else breaks
-  if(cv) fluid(cv,'spectrum',LEVEL);
-}
+  const fx={reducedMotion:reduced, canvas:!!cv, webgl:null, running:false, reason:''};
+  window.valencyFX=fx;
+  if(!cv){ fx.reason='no canvas element'; return; }
+  const test=cv.getContext('webgl2')||cv.getContext('webgl');
+  fx.webgl = test ? (test instanceof WebGL2RenderingContext ? 'webgl2' : 'webgl1') : false;
+  if(reduced){ fx.reason='this computer has reduce motion turned on in its system accessibility settings'; return; }
+  if(!fx.webgl){ fx.reason='this browser has no WebGL, usually hardware acceleration is switched off'; return; }
+  if(fluid(cv,'spectrum',LEVEL)){ fx.running=true; fx.reason='ok'; }
+  else { fx.reason='WebGL present but the simulation could not start on this GPU'; }
+  if(!fx.running) console.warn('[valency] background effect off: '+fx.reason);
+})();
 })();
 </script>
 </body>
