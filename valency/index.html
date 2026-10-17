@@ -229,9 +229,13 @@ footer{background:transparent;border-top:1px solid var(--hairline);padding:58px 
 .slides{margin-top:40px;max-width:1120px;margin-inline:auto}
 .slides-stage{position:relative;aspect-ratio:1600/533;border-radius:var(--radius);
   overflow:hidden;border:1px solid var(--hairline);background:#101114}
-.slide{position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;
-  transform:scale(1.025);transition:opacity .72s var(--e-out),transform 1.1s var(--e-out),visibility 0s .72s}
-.slide.is-on{opacity:1;visibility:visible;transform:scale(1);transition-delay:0s}
+/* The outgoing slide is held fully opaque UNDERNEATH while the incoming one
+   fades in on top. A plain two way crossfade dips through a half transparent
+   middle, which on full bleed photos reads as a grey flicker. */
+.slide{position:absolute;inset:0;margin:0;opacity:0;z-index:0;transform:scale(1.035);
+  transition:opacity .85s cubic-bezier(.4,0,.2,1),transform 1.5s cubic-bezier(.16,1,.3,1)}
+.slide.was-on{opacity:1;z-index:1;transform:scale(1);transition:none}
+.slide.is-on{opacity:1;z-index:2;transform:scale(1)}
 .slide img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* arrows: always in the DOM for keyboard, quiet until hover or focus */
@@ -353,7 +357,7 @@ body.locked{overflow:hidden}
   h1.split .ch{opacity:1;transform:none;filter:none}
   .js h2.tw .ch{visibility:visible}
   h2 .caret,#dots,.progress{display:none}
-  .slide{transition:none}
+  .slide,.slide.is-on{transition:none}
   .s-bar{display:none}
   .js .rv.in h2::after{width:180px}
   .js .rv .num{transform:none}
@@ -892,26 +896,33 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   const live=root.querySelector('.s-live');
   const label=i=>dots[i].getAttribute('aria-label');
 
-  let at=0, timer=null, paused=reduced, hovering=false, focused=false, onscreen=true;
+  let at=0, timer=null, paused=reduced, focused=false, onscreen=true;
 
   const arm=()=>{
     clearTimeout(timer); timer=null;
     if(!fill) return;
     bar.classList.remove('run'); fill.style.transition='none'; fill.style.width='0';
     void fill.offsetWidth;                       // commit the reset before re-arming
-    if(paused||hovering||focused||!onscreen) return;
+    if(paused||focused||!onscreen) return;
     fill.style.transition='width '+DWELL+'ms linear';
     bar.classList.add('run');
     timer=setTimeout(()=>go(at+1), DWELL);
   };
 
+  let settle=null;
   function go(n, announce){
+    const from=at;
     at=(n+slides.length)%slides.length;
+    if(from!==at) slides[from].classList.add('was-on');
     slides.forEach((el,i)=>{
       const on=i===at;
       el.classList.toggle('is-on',on);
       if(on) el.removeAttribute('aria-hidden'); else el.setAttribute('aria-hidden','true');
     });
+    /* drop the held layer on a timer, never on transitionend, so a burst of
+       clicks can never strand a slide half visible */
+    clearTimeout(settle);
+    settle=setTimeout(()=>slides.forEach(el=>el.classList.remove('was-on')), 900);
     dots.forEach((d,i)=>{
       d.classList.toggle('is-on',i===at);
       d.setAttribute('aria-selected', i===at?'true':'false');
@@ -933,9 +944,10 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   play.addEventListener('click',()=>{ paused=!paused; setPlay(); arm(); });
   if(reduced){ setPlay(); }
 
-  /* stop while the pointer is on it or while anything inside has keyboard focus */
-  root.addEventListener('pointerenter',()=>{hovering=true;arm();});
-  root.addEventListener('pointerleave',()=>{hovering=false;arm();});
+  /* Deliberately NO pause on hover. The page background reacts to the cursor,
+     so the pointer sits over this element almost all the time and hover pause
+     froze the slideshow permanently. The pause button and keyboard focus pause
+     are the controls. */
   root.addEventListener('focusin',()=>{focused=true;arm();});
   root.addEventListener('focusout',e=>{
     if(!root.contains(e.relatedTarget)){ focused=false; arm(); }
