@@ -1481,6 +1481,9 @@ function fluid(canvas, mode, cfg){
     kick();
   },{passive:true});
   document.addEventListener('pointerleave',()=>{pt.init=false;});
+  /* the loop sleeps when idle, so a window resize while asleep would leave the
+     canvas at its old size until the next pointer move */
+  addEventListener('resize',()=>{ resize(); kick(); },{passive:true});
   document.addEventListener('visibilitychange',()=>{ if(document.hidden) idle=1e9; });
   requestAnimationFrame(step);
   return true;
