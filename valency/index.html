@@ -117,13 +117,30 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .hero-proof i{color:var(--teal)}
 
 /* marquee */
-.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:22px 0;background:transparent}
-.mq-track{display:flex;gap:46px;width:max-content;animation:slide 42s linear infinite}
-.mq-track .lg{width:132px;height:44px;border:1px dashed rgba(255,255,255,.16);border-radius:8px;
-  display:flex;align-items:center;justify-content:center;font-size:.6rem;letter-spacing:1.4px;
-  text-transform:uppercase;color:#5A6069;flex:0 0 auto}
-@keyframes slide{to{transform:translateX(-50%)}}
-.marquee:hover .mq-track{animation-play-state:paused}
+/* Two rows travelling opposite ways. Same clients in both, different order,
+   so the second row does not read as a copy of the first. Each row holds its
+   list twice and shifts exactly -50%, which is what makes the loop seamless. */
+.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);
+  padding:26px 0;background:transparent;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.mq-row{display:flex;gap:80px;width:max-content;align-items:center}
+.mq-row+.mq-row{margin-top:26px}
+.mq-row.ltr{animation:mqLeft 34s linear infinite}
+.mq-row.rtl{animation:mqRight 41s linear infinite}
+@keyframes mqLeft{from{transform:translateX(0)}to{transform:translateX(-25%)}}
+@keyframes mqRight{from{transform:translateX(-25%)}to{transform:translateX(0)}}
+.mq-row img{height:34px;width:auto;flex:0 0 auto;opacity:.62;
+  transition:opacity .3s var(--e-out),transform .3s var(--e-out)}
+.mq-row img:hover{opacity:1;transform:scale(1.06)}
+/* no logo supplied for this one, so it is set as a wordmark in the heading face */
+.mq-row .wm{flex:0 0 auto;font-family:var(--f-display);font-weight:600;font-size:1.32rem;
+  letter-spacing:-.02em;color:#fff;opacity:.62;line-height:34px;white-space:nowrap;
+  transition:opacity .3s var(--e-out),transform .3s var(--e-out)}
+.mq-row .wm:hover{opacity:1;transform:scale(1.06)}
+@media(max-width:700px){
+  .mq-row{gap:50px} .mq-row img{height:28px} .mq-row .wm{font-size:1.1rem;line-height:28px}
+}
 
 /* problem list */
 .leaks{margin-top:38px;border-top:1px solid var(--hairline)}
@@ -378,6 +395,8 @@ body.locked{overflow:hidden}
   .js h2.tw .ch{visibility:visible}
   h2 .caret,#dots,.progress{display:none}
   .slide,.slide.is-on{transition:none}
+  .mq-row.ltr,.mq-row.rtl{animation:none}
+  .marquee{overflow-x:auto}
   .s-bar{display:none}
   .js .rv .num{transform:none}
 }
@@ -439,12 +458,82 @@ body.locked{overflow:hidden}
 
 <!-- ===== CLIENT LOGOS ===== -->
 <div class="marquee" aria-label="Clients we work with">
-  <div class="mq-track">
-    <span class="lg">Logo 1</span><span class="lg">Logo 2</span><span class="lg">Logo 3</span><span class="lg">Logo 4</span>
-    <span class="lg">Logo 5</span><span class="lg">Logo 6</span><span class="lg">Logo 7</span><span class="lg">Logo 8</span>
-    <span class="lg">Logo 1</span><span class="lg">Logo 2</span><span class="lg">Logo 3</span><span class="lg">Logo 4</span>
-    <span class="lg">Logo 5</span><span class="lg">Logo 6</span><span class="lg">Logo 7</span><span class="lg">Logo 8</span>
-  </div>
+    <div class="mq-row ltr">
+      <img src="assets/logos/brewchi.webp" alt="Brewchi" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/erhan.webp" alt="Erhan" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/lumi-skin.webp" alt="Lumi Skin" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/midas.webp" alt="Midas Barbers" height="34" loading="lazy" decoding="async">
+      <span class="wm">æverything</span>
+      <img src="assets/logos/yogi.webp" alt="Yogi" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/lineage.webp" alt="Lineage Financial Group" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/celavie.webp" alt="Cé La Vie" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/zaya.webp" alt="Zaya" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/brewchi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/erhan.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lumi-skin.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/midas.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <span class="wm" aria-hidden="true">æverything</span>
+      <img src="assets/logos/yogi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lineage.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/celavie.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/zaya.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/brewchi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/erhan.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lumi-skin.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/midas.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <span class="wm" aria-hidden="true">æverything</span>
+      <img src="assets/logos/yogi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lineage.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/celavie.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/zaya.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/brewchi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/erhan.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lumi-skin.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/midas.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <span class="wm" aria-hidden="true">æverything</span>
+      <img src="assets/logos/yogi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lineage.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/celavie.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/zaya.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+    </div>
+    <div class="mq-row rtl">
+      <img src="assets/logos/midas.webp" alt="Midas Barbers" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/zaya.webp" alt="Zaya" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/celavie.webp" alt="Cé La Vie" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/yogi.webp" alt="Yogi" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/brewchi.webp" alt="Brewchi" height="34" loading="lazy" decoding="async">
+      <span class="wm">æverything</span>
+      <img src="assets/logos/lineage.webp" alt="Lineage Financial Group" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/erhan.webp" alt="Erhan" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/lumi-skin.webp" alt="Lumi Skin" height="34" loading="lazy" decoding="async">
+      <img src="assets/logos/midas.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/zaya.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/celavie.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/yogi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/brewchi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <span class="wm" aria-hidden="true">æverything</span>
+      <img src="assets/logos/lineage.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/erhan.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lumi-skin.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/midas.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/zaya.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/celavie.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/yogi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/brewchi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <span class="wm" aria-hidden="true">æverything</span>
+      <img src="assets/logos/lineage.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/erhan.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lumi-skin.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/midas.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/zaya.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/celavie.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/yogi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/brewchi.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <span class="wm" aria-hidden="true">æverything</span>
+      <img src="assets/logos/lineage.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/erhan.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+      <img src="assets/logos/lumi-skin.webp" alt="" height="34" loading="lazy" decoding="async" aria-hidden="true">
+    </div>
 </div>
 
 <!-- ===== THE PROBLEM ===== -->
