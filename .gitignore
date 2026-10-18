@@ -23,3 +23,6 @@ desktop.ini
 assets/emails/*.png
 assets/images/*.png
 /assets/images/anas-hero-web.webp
+
+# working notes, stays on disk, not served publicly
+/valency/PROJECT-STATE.md
