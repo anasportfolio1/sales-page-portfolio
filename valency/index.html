@@ -192,18 +192,29 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .faq .ans p{padding-bottom:20px;font-size:.95rem}
 
 /* footer */
-footer{background:transparent;border-top:1px solid var(--hairline);padding:58px 0 34px;position:relative}
-.fcenter{text-align:center;max-width:620px;margin:0 auto}
+footer{background:transparent;border-top:1px solid var(--hairline);padding:62px 0 28px;position:relative}
+.fgrid{display:grid;gap:40px 28px;grid-template-columns:1fr;margin-bottom:46px}
+@media(min-width:720px){.fgrid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.fgrid{grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:28px}}
+.fcol{display:flex;flex-direction:column;align-items:flex-start}
+.fhead{font-family:var(--f-display);font-size:.74rem;font-weight:600;letter-spacing:2.2px;
+  text-transform:uppercase;color:var(--coral);margin-bottom:18px}
+.fcol a{font-size:.9rem;color:var(--muted);text-decoration:none;padding:6px 0;transition:color .25s}
+.fcol a:hover{color:var(--teal)}
+.fbrand{max-width:320px}
 .fname{color:var(--head);font-family:var(--f-display);font-weight:700;font-size:clamp(1.4rem,4vw,1.9rem);letter-spacing:-.02em;margin-bottom:8px}
-.ftag{font-size:.92rem;color:var(--coral);margin-bottom:26px}
-.flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-bottom:24px}
-.flinks a{font-size:.88rem;color:var(--muted);text-decoration:none;transition:color .25s}
-.flinks a:hover{color:var(--teal)}
-.social{display:flex;gap:14px;justify-content:center;margin-bottom:22px}
-.social a{width:40px;height:40px;border-radius:50%;border:1px solid var(--hairline);display:flex;
-  align-items:center;justify-content:center;color:var(--muted);transition:.2s}
-.social a:hover{color:var(--teal);border-color:var(--teal)}
-.fbottom{border-top:1px solid var(--hairline);padding-top:20px;font-size:.78rem;color:#5A6069}
+.ftag{font-size:.92rem;color:var(--coral);margin-bottom:24px}
+.social{display:flex;gap:12px}
+.social a{width:44px;height:44px;border-radius:50%;border:1px solid var(--hairline);display:grid;
+  place-items:center;color:var(--muted);padding:0;transition:color .25s,border-color .25s,background .25s}
+.social a:hover{color:#0A0A0B;background:var(--teal);border-color:var(--teal)}
+.fcontact{display:flex;align-items:center;gap:10px}
+.fcontact i{color:var(--teal);width:16px;font-size:.85rem}
+.fbtn{margin-top:18px;padding:11px 20px;font-size:.82rem}
+.fbottom{border-top:1px solid var(--hairline);padding-top:22px;font-size:.78rem;color:#5A6069;
+  display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between}
+.fbottom a{color:#5A6069;text-decoration:none;transition:color .25s}
+.fbottom a:hover{color:var(--teal)}
 
 
 /* ===== full bleed top video banner ===== */
@@ -379,9 +390,12 @@ body.locked{overflow:hidden}
 <nav>
   <div class="wrap">
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+    <!-- Page style nav. These point at the matching section on this page for now,
+         so the preview works. Swap each href to /services/ /work/ /about/ /contact/
+         once those pages exist. -->
     <div class="nav-links">
-      <a href="#problem">The Problem</a><a href="#services">What We Do</a><a href="#work">The Work</a>
-      <a href="#model">The Model</a><a href="#faq">FAQ</a>
+      <a href="#top">Home</a><a href="#services">Services</a><a href="#work">Work</a>
+      <a href="#about">About</a><a href="#contact">Contact</a>
     </div>
     <a href="#contact" class="nav-cta">Let's Talk</a>
   </div>
@@ -391,8 +405,8 @@ body.locked{overflow:hidden}
 <aside id="drawer" class="drawer" aria-hidden="true">
   <button class="drawer-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
   <nav aria-label="Mobile">
-    <a class="dl" href="#problem">The Problem</a><a class="dl" href="#services">What We Do</a>
-    <a class="dl" href="#work">The Work</a><a class="dl" href="#model">The Model</a><a class="dl" href="#faq">FAQ</a>
+    <a class="dl" href="#top">Home</a><a class="dl" href="#services">Services</a>
+    <a class="dl" href="#work">Work</a><a class="dl" href="#about">About</a><a class="dl" href="#contact">Contact</a>
   </nav>
   <a href="#contact" class="btn" style="margin-top:22px">Let's Build Something Valuable</a>
 </aside>
@@ -695,21 +709,49 @@ body.locked{overflow:hidden}
 
 <footer>
   <div class="wrap">
-    <div class="fcenter">
-      <div class="fname">Valency</div>
-      <div class="ftag">Where Creativity Creates Value.</div>
-      <nav class="flinks" aria-label="Footer">
-        <a href="#problem">The Problem</a><a href="#services">What We Do</a><a href="#work">The Work</a>
-        <a href="#model">The Model</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
-      </nav>
-      <div class="social">
-        <a href="[PLACEHOLDER]" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="[PLACEHOLDER]" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="[PLACEHOLDER]" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="[PLACEHOLDER]" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+    <div class="fgrid">
+
+      <div class="fcol fbrand">
+        <div class="fname">Valency</div>
+        <div class="ftag">Where Creativity Creates Value.</div>
+        <div class="social">
+          <a href="[PLACEHOLDER]" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          <a href="[PLACEHOLDER]" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="[PLACEHOLDER]" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+        </div>
       </div>
-      <p style="font-size:.9rem;margin-bottom:26px">[PLACEHOLDER: email] · [PLACEHOLDER: phone]</p>
-      <div class="fbottom">&copy; 2026 Valency. All rights reserved.</div>
+
+      <nav class="fcol" aria-label="Services">
+        <h3 class="fhead">What We Do</h3>
+        <a href="#services">AI Video Creation</a>
+        <a href="#services">Web Design &amp; Development</a>
+        <a href="#services">Social Media Management</a>
+        <a href="#services">Email Marketing</a>
+        <a href="#services">Meta &amp; Google Ads</a>
+        <a href="#services">SEO</a>
+      </nav>
+
+      <nav class="fcol" aria-label="Company">
+        <h3 class="fhead">Company</h3>
+        <a href="#top">Home</a>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#model">How We Work</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="fcol">
+        <h3 class="fhead">Get In Touch</h3>
+        <a href="#contact" class="fcontact"><i class="fa-solid fa-envelope" aria-hidden="true"></i>[PLACEHOLDER: email]</a>
+        <a href="#contact" class="fcontact"><i class="fa-solid fa-phone" aria-hidden="true"></i>[PLACEHOLDER: phone]</a>
+        <a href="#contact" class="btn btn--ghost fbtn">Book a Call</a>
+      </div>
+
+    </div>
+    <div class="fbottom">
+      <span>&copy; 2026 Valency. All rights reserved.</span>
+      <a href="#">Privacy Policy</a>
     </div>
   </div>
 </footer>
