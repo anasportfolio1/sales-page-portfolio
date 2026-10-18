@@ -48,8 +48,8 @@ img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 var(--pad-x)}
 .sec{padding:var(--sec-y) 0;position:relative}
-.sec--grad{background:linear-gradient(135deg,#0B0B0D 0%,#16181D 55%,#101217 100%)}
-.sec--surface{background:linear-gradient(160deg,#121419 0%,#1A1C20 100%)}
+.sec--grad{background:transparent}
+.sec--surface{background:transparent}
 
 .eyebrow{font-size:var(--eyebrow);font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 h1{font-family:var(--f-display);font-size:var(--h1);font-weight:800;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px}
@@ -111,7 +111,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .stars{color:var(--accent);font-size:.76rem;letter-spacing:2px;margin-bottom:8px}
 
 /* marquee */
-.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:17px 0;background:#0E1013}
+.marquee{overflow:hidden;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:17px 0;background:transparent}
 .mq-track{display:flex;gap:42px;width:max-content;animation:slide 44s linear infinite}
 .mq-track span{font-family:var(--f-display);font-size:.8rem;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .mq-track i{color:var(--accent);margin-right:14px;font-size:.42rem;vertical-align:middle}
@@ -264,10 +264,11 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 #dots{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 /* sections let the grid show through */
 .sec{background:transparent}
-.sec--grad{background:linear-gradient(135deg,rgba(11,11,13,.55) 0%,rgba(24,26,32,.58) 55%,rgba(16,18,23,.55) 100%)}
-.sec--surface{background:linear-gradient(160deg,rgba(19,21,26,.60) 0%,rgba(27,29,34,.62) 100%)}
-/* no grid behind the email work or the portraits */
-#work,#about{background:#0B0B0D}
+.sec--grad{background:transparent;border-top:1px solid var(--hairline)}
+.sec--surface{background:transparent;border-top:1px solid var(--hairline)}
+/* these two were solid black to keep the old dot grid off the creatives.
+   The fluid is wanted everywhere, so they let it through now. */
+#work,#about{background:transparent}
 @media(prefers-reduced-motion:reduce){#dots{display:none}}
 
 /* ===== mobile menu ===== */
@@ -297,7 +298,7 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 body.locked{overflow:hidden}
 
 /* ===== footer ===== */
-footer{background:#08090B;border-top:1px solid var(--hairline);padding:58px 0 34px;position:relative}
+footer{background:transparent;border-top:1px solid var(--hairline);padding:58px 0 34px;position:relative}
 .fcenter{text-align:center;max-width:620px;margin:0 auto}
 .fname{font-family:var(--f-display);font-weight:800;font-size:clamp(1.4rem,4vw,1.9rem);letter-spacing:-.02em;margin-bottom:8px}
 .ftag{font-size:.92rem;color:var(--accent);margin-bottom:26px}
@@ -782,7 +783,7 @@ function hsv2rgb(h,s,v){
   switch(i%6){case 0:return[v,t,p];case 1:return[q,v,p];case 2:return[p,v,t];
               case 3:return[p,q,v];case 4:return[t,p,v];default:return[v,p,q];}
 }
-const H_GOLD=0.118, H_WARM=0.055;   // #C9A227 and its warm neighbour
+
 
 /* Each mode returns [r,g,b] already scaled. Velocity uses 0.15. Single hue
    modes can take more, because nothing cancels against them. */
@@ -796,15 +797,10 @@ const H_GOLD=0.118, H_WARM=0.055;   // #C9A227 and its warm neighbour
    along the stroke no matter how fast or slow you move. A slow time drift is
    added on top so a stationary wiggle still shifts colour.                  */
 const MODES={
-  /* Valency runs the whole colour wheel. This site is strictly black and gold,
-     so the hue only travels the narrow band around #C9A227, warm amber up to
-     pale gold. Same mechanism: hue advances with distance travelled, so one
-     stroke still paints a gradient instead of a single flat colour. */
-  gold: (travel,lvl)=>{
-    const t=(Math.sin(travel*3.1 + Date.now()/9000)+1)/2;
-    return hsv2rgb(H_WARM+(H_GOLD-H_WARM)*t, 0.80, 1).map(v=>v*lvl);
-  }
+  // identical to Valency: the full colour wheel, advanced by distance travelled
+  spectrum: (travel,lvl)=> hsv2rgb(travel*0.70 + (Date.now()/14000), 0.95, 1).map(v=>v*lvl)
 };
+
 
 
 /* What was washing the whole screen was the BLOOM, not the smoke. Bloom
@@ -1172,7 +1168,7 @@ function fluid(canvas, mode, cfg){
     fx.reason='this browser has no WebGL, usually hardware acceleration is switched off';
     lite(false); return;
   }
-  if(fluid(cv,'gold',LEVEL)){ fx.running=true; fx.mode='fluid'; fx.reason='ok'; }
+  if(fluid(cv,'spectrum',LEVEL)){ fx.running=true; fx.mode='fluid'; fx.reason='ok'; }
   else {
     fx.reason='WebGL is present but the simulation could not start on this GPU';
     lite(false);
