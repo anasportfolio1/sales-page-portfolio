@@ -258,13 +258,30 @@ p:last-child{margin-bottom:0}
 /* ===== before / after slider =====
    Both images are full size and stacked; the top one is clipped by clip-path at
    --p, so there is no width maths and it stays correct at any container size. */
+.ba-wrap{perspective:1200px}
 .ba{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/2;
   border:1px solid var(--brd);background:var(--surf);cursor:ew-resize;
-  touch-action:pan-y;user-select:none;-webkit-user-select:none;--p:50%}
+  touch-action:pan-y;user-select:none;-webkit-user-select:none;--p:50%;
+  transform-style:preserve-3d;will-change:transform;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .55s var(--e-out),box-shadow .55s var(--e-out)}
+/* while the pointer is on it the tilt has to track, not glide, or it lags
+   behind the cursor; the slow curve comes back when the pointer leaves */
+.ba--tilt{transition:transform .08s linear,box-shadow .4s var(--e-out);
+  box-shadow:0 26px 60px rgba(0,0,0,.42)}
+/* the divider and the labels sit above the picture plane, which is what sells
+   the depth once the card is tilted */
+.ba-h{transform:translateZ(34px)}
+.ba-tag{transform:translateZ(24px)}
+.ba .ba-after{transform:translateZ(.1px)}
+@media(prefers-reduced-motion:reduce){
+  .ba,.ba-h,.ba-tag,.ba .ba-after{transform:none!important;transition:none}
+}
 .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .ba .ba-after{clip-path:inset(0 calc(100% - var(--p)) 0 0)}
 .ba-h{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;
-  background:var(--white);box-shadow:0 0 0 1px rgba(0,0,0,.28);pointer-events:none}
+  background:var(--white);box-shadow:0 0 0 1px rgba(0,0,0,.28);pointer-events:none;
+  transition:left .18s linear}
 .ba-h::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:42px;height:42px;border-radius:50%;background:var(--white);
   box-shadow:0 4px 18px rgba(0,0,0,.34)}
@@ -280,12 +297,19 @@ p:last-child{margin-bottom:0}
 
 
 /* nav */
-nav{position:sticky;top:0;z-index:60;background:rgba(7,20,24,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
-.nav-links{display:none;gap:26px}
-.nav-links a{font-size:.85rem;color:var(--sub);text-decoration:none;transition:color .25s}
-.nav-links a:hover{color:var(--acc)}
-@media(min-width:900px){.nav-links{display:flex}}
+/* scrolls away with the page: it is not pinned */
+nav{position:relative;z-index:60;background:rgba(7,20,24,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px}
+.nav-links{display:none;gap:24px}
+.nav-links a{font-size:.85rem;color:var(--sub);text-decoration:none;transition:color .25s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.current{color:var(--acc)}
+/* taken out of the flex flow and pinned to the centre of the bar, so the links
+   are optically centred whatever the logo and the button measure, and can never
+   run into the button the way they did when all three shared one flex row */
+@media(min-width:1040px){
+  nav .wrap{position:relative}
+  .nav-links{display:flex;position:absolute;left:50%;transform:translateX(-50%)}
+}
 .nav-cta{font-family:var(--f-display);font-size:.79rem;font-weight:700;color:#04151A;background:var(--cyan);
   padding:0 18px;height:44px;display:inline-flex;align-items:center;border-radius:8px;text-decoration:none;white-space:nowrap}
 
@@ -387,7 +411,7 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(min-width:900px){.burger{display:none}}
+@media(min-width:1040px){.burger{display:none}}
 .scrim{position:fixed;inset:0;background:rgba(3,6,8,.7);backdrop-filter:blur(3px);z-index:120;opacity:0;transition:opacity .32s}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(82vw,330px);z-index:130;
   background:linear-gradient(160deg,#0C1F25 0%,#071418 100%);border-left:1px solid var(--brd);
@@ -401,16 +425,35 @@ body.locked{overflow:hidden}
 
 .needbox{background:rgba(255,170,60,.08);border:1px solid rgba(255,170,60,.34);border-radius:10px;
   padding:13px 16px;font-size:.82rem;color:#FFC87A;margin-top:18px}
-footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,255,.12);padding:56px 0 32px;text-align:center;--surf:rgba(255,255,255,.05);--brd:rgba(255,255,255,.12);--sub:#9FB2BA;--acc:var(--cyan)}
-.fname{font-family:var(--f-display);font-weight:800;font-size:clamp(1.2rem,3.6vw,1.6rem);margin-bottom:8px}
-.ftag{font-size:.92rem;color:var(--acc);margin-bottom:26px}
-.flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-bottom:24px}
-.flinks a{font-size:.88rem;color:var(--sub);text-decoration:none;transition:color .25s}
-.flinks a:hover{color:var(--acc)}
-.social{display:flex;gap:14px;justify-content:center;margin-bottom:22px}
-.social a{width:42px;height:42px;border-radius:10px;border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;color:var(--sub);transition:.25s;text-decoration:none}
-.social a:hover{color:var(--acc);border-color:var(--acc)}
-.fbottom{border-top:1px solid var(--brd);padding-top:20px;font-size:.78rem;color:#55707A}
+footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,255,.12);
+  padding:58px 0 26px;--surf:rgba(255,255,255,.05);--brd:rgba(255,255,255,.12);--sub:#9FB2BA;--acc:var(--cyan)}
+/* four columns on desktop, two on a tablet, one stacked on a phone */
+.fgrid{display:grid;grid-template-columns:1fr;gap:34px 26px;text-align:center}
+@media(min-width:620px){.fgrid{grid-template-columns:repeat(2,1fr);text-align:left}}
+@media(min-width:1000px){.fgrid{grid-template-columns:1.5fr 1fr 1.2fr 1.4fr;gap:40px}}
+.fcol{display:flex;flex-direction:column;align-items:center}
+@media(min-width:620px){.fcol{align-items:flex-start}}
+.fcol h4{font-family:var(--f-display);font-size:.74rem;font-weight:700;letter-spacing:1.6px;
+  text-transform:uppercase;color:var(--acc);margin-bottom:14px}
+.fcol a{font-size:.87rem;color:var(--sub);text-decoration:none;padding:5px 0;
+  transition:color .25s,transform .25s var(--e-out);display:flex;align-items:center;gap:9px}
+.fcol a:hover{color:var(--white)}
+@media(min-width:620px){.fcol a:hover{transform:translateX(3px)}}
+.fcol a i{font-size:.78rem;color:var(--acc);width:15px;flex:0 0 auto}
+.flogo{height:84px;width:auto;margin-bottom:14px}
+@media(min-width:620px){.flogo{margin-left:-4px}}
+.ftag{font-size:.88rem;color:var(--sub);margin-bottom:18px;max-width:24ch}
+.social{display:flex;gap:10px}
+.social a{width:40px;height:40px;border-radius:10px;border:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:center;color:var(--sub);
+  transition:color .25s,border-color .25s,background .25s}
+.social a:hover{color:#04151A;background:var(--cyan);border-color:var(--cyan);transform:none}
+.social a i{color:inherit;width:auto}
+.fcta{margin-top:16px;width:auto;display:inline-flex;justify-content:center;font-size:.84rem;padding:11px 20px}
+.fcta:hover{transform:translateY(-2px)}
+.fbottom{border-top:1px solid var(--brd);margin-top:40px;padding-top:20px;font-size:.78rem;color:#55707A;
+  display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;text-align:center}
+@media(min-width:760px){.fbottom{justify-content:space-between;text-align:left}}
 
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -438,8 +481,8 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
       <span class="brand-word">Real Estate <b>Media Growth</b> Assistants</span></a>
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
     <div class="nav-links">
-      <a href="#services">Services</a><a href="#how">How It Works</a><a href="#proofs">Proofs</a>
-      <a href="#pricing">Pricing</a><a href="#about">About</a><a href="#faq">FAQ</a>
+      <a href="#top">Home</a><a href="#services">Services</a><a href="#how">How It Works</a>
+      <a href="#proofs">Proofs</a><a href="#about">About</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
     </div>
     <a href="#contact" class="nav-cta">Book a Meeting</a>
   </div>
@@ -449,9 +492,10 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
 <aside id="drawer" class="drawer" aria-hidden="true">
   <button class="drawer-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
   <nav aria-label="Mobile">
-    <a class="dl" href="#services">Services</a><a class="dl" href="#how">How It Works</a>
-    <a class="dl" href="#proofs">Proofs</a><a class="dl" href="#pricing">Pricing</a>
-    <a class="dl" href="#about">About</a><a class="dl" href="#faq">FAQ</a>
+    <a class="dl" href="#top">Home</a><a class="dl" href="#services">Services</a>
+    <a class="dl" href="#how">How It Works</a><a class="dl" href="#proofs">Proofs</a>
+    <a class="dl" href="#about">About</a><a class="dl" href="#pricing">Pricing</a>
+    <a class="dl" href="#faq">FAQ</a>
   </nav>
   <a href="#contact" class="btn" style="margin-top:22px">Book a Meeting</a>
 </aside>
@@ -1006,25 +1050,46 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
 
 <footer>
   <div class="wrap">
-    <img class="flogo" src="assets/brand/logo-light.png" alt="Real Estate Media Growth Assistants"
-         width="420" height="371" loading="lazy" decoding="async">
-    <div class="ftag">Supporting the work behind your growth</div>
-    <div class="flinks">
-      <a href="#services">Services</a><a href="#how">How It Works</a><a href="#proofs">Proofs</a>
-      <a href="#pricing">Pricing</a><a href="#about">About</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+    <div class="fgrid">
+      <div class="fcol fcol--brand">
+        <img class="flogo" src="assets/brand/logo-light.png" alt="Real Estate Media Growth Assistants"
+             width="420" height="371" loading="lazy" decoding="async">
+        <p class="ftag">Supporting the work behind your growth.</p>
+        <div class="social">
+          <a href="https://www.instagram.com/re_media_growth_assistants/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61574909167134" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="https://wa.me/923269076048" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+          <a href="mailto:thecorporatecallagency@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div class="fcol">
+        <h4>Pages</h4>
+        <a href="#top">Home</a><a href="#services">Services</a><a href="#how">How It Works</a>
+        <a href="#proofs">Proofs</a><a href="#about">About</a>
+      </div>
+
+      <div class="fcol">
+        <h4>What we do</h4>
+        <a href="#services">Outreach</a><a href="#services">Media quality control</a>
+        <a href="#services">Media delivery</a><a href="#services">Content and branding</a>
+        <a href="#services">Admin support</a>
+      </div>
+
+      <div class="fcol">
+        <h4>Get in touch</h4>
+        <a href="mailto:thecorporatecallagency@gmail.com"><i class="fa-solid fa-envelope" aria-hidden="true"></i>thecorporatecallagency@gmail.com</a>
+        <a href="https://wa.me/923269076048" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>+92 326 9076048</a>
+        <a href="#pricing"><i class="fa-solid fa-tag" aria-hidden="true"></i>Pricing</a>
+        <a href="#faq"><i class="fa-solid fa-circle-question" aria-hidden="true"></i>FAQ</a>
+        <a href="#contact" class="btn btn--ghost fcta">Book a Meeting</a>
+      </div>
     </div>
-    <div class="social">
-      <a href="https://www.instagram.com/re_media_growth_assistants/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://www.facebook.com/profile.php?id=61574909167134" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-      <a href="https://wa.me/923269076048" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-      <a href="mailto:thecorporatecallagency@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+
+    <div class="fbottom">
+      <span>&copy; 2026 Real Estate Media Growth Assistants</span>
+      <span class="fbnote">Outreach, media QC, delivery and admin for real estate media companies.</span>
     </div>
-    <div style="font-size:.88rem;color:var(--sub);margin-bottom:22px">
-      <a href="mailto:thecorporatecallagency@gmail.com" style="color:var(--sub);text-decoration:none">thecorporatecallagency@gmail.com</a>
-      <span style="color:#2A3F47;margin:0 10px">·</span>
-      <a href="https://wa.me/923269076048" target="_blank" rel="noopener" style="color:var(--sub);text-decoration:none">+92 3269076048</a>
-    </div>
-    <div class="fbottom">&copy; 2026 Real Estate Media Growth Assistants</div>
   </div>
 </footer>
 
@@ -1254,8 +1319,12 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
 })();
 
 
-/* before / after sliders: drag, touch, or arrow keys when focused */
+/* Before and after: drag, touch or arrow keys, plus two things that make it move
+   on its own. The card tilts in 3D under the pointer, and as it travels through
+   the viewport the divider sweeps so you see the change without touching it.
+   The sweep yields the moment you take hold of it and never comes back. */
 (function(){
+  const tiltable = !reduced && matchMedia('(hover:hover) and (pointer:fine)').matches;
   document.querySelectorAll('.ba').forEach(ba=>{
     const set=pct=>{ba.style.setProperty('--p', Math.max(0,Math.min(100,pct))+'%')};
     const fromEvent=e=>{
@@ -1263,8 +1332,10 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
       const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
       set(x/r.width*100);
     };
-    let dragging=false;
-    const down=e=>{dragging=true;fromEvent(e);};
+    let dragging=false, touched=false;
+    const takeOver=()=>{ touched=true; ba.classList.add('ba--held'); };
+
+    const down=e=>{dragging=true;takeOver();fromEvent(e);};
     const move=e=>{if(dragging){fromEvent(e); if(e.cancelable)e.preventDefault();}};
     const up=()=>{dragging=false};
     ba.addEventListener('pointerdown',down);
@@ -1272,13 +1343,49 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
     addEventListener('pointerup',up);
     ba.addEventListener('keydown',e=>{
       const cur=parseFloat(ba.style.getPropertyValue('--p'))||50;
-      if(e.key==='ArrowLeft'){set(cur-4);e.preventDefault();}
-      if(e.key==='ArrowRight'){set(cur+4);e.preventDefault();}
+      if(e.key==='ArrowLeft'){takeOver();set(cur-4);e.preventDefault();}
+      if(e.key==='ArrowRight'){takeOver();set(cur+4);e.preventDefault();}
     });
     ba.tabIndex=0;
     ba.setAttribute('role','slider');
     ba.setAttribute('aria-label','Drag to compare before and after');
+
+    /* 3D tilt under the pointer. Mouse only: on a touch screen there is no hover
+       state to leave, so the card would stick at whatever angle you last tapped. */
+    if(tiltable){
+      ba.addEventListener('pointermove',e=>{
+        if(dragging) return;
+        const r=ba.getBoundingClientRect();
+        const dx=(e.clientX-r.left)/r.width-.5, dy=(e.clientY-r.top)/r.height-.5;
+        ba.style.setProperty('--ry',( dx*17).toFixed(2)+'deg');
+        ba.style.setProperty('--rx',(-dy*12).toFixed(2)+'deg');
+        ba.classList.add('ba--tilt');
+      });
+      ba.addEventListener('pointerleave',()=>{
+        ba.style.setProperty('--rx','0deg'); ba.style.setProperty('--ry','0deg');
+        ba.classList.remove('ba--tilt');
+      });
+    }
+
+    /* Scroll driven sweep: map the card's trip through the viewport onto the
+       divider, so it opens as it rises and settles near the middle. */
+    ba.sweep=()=>{
+      if(reduced||touched) return;
+      const r=ba.getBoundingClientRect(), vh=innerHeight;
+      if(r.bottom<0||r.top>vh) return;
+      const t=1-(r.top+r.height*0.35)/vh;        // 0 entering, 1 leaving
+      set(14+Math.max(0,Math.min(1,t))*58);      // 14% -> 72%
+    };
   });
+
+  const bas=[...document.querySelectorAll('.ba')];
+  if(bas.length && !reduced){
+    let tick=false;
+    const run=()=>{ bas.forEach(b=>b.sweep()); tick=false; };
+    addEventListener('scroll',()=>{ if(!tick){tick=true;requestAnimationFrame(run);} },{passive:true});
+    addEventListener('resize',run,{passive:true});
+    run();
+  }
 })();
 
 /* intro video: click to play with sound, controls appear once it is running */
