@@ -197,10 +197,15 @@ p:last-child{margin-bottom:0}
 
 /* ===== brand mark ===== */
 .brand{display:flex;align-items:center;flex:0 0 auto;margin-right:auto;text-decoration:none}
+.brand{gap:11px}
 .brand img{width:auto;display:block}
-.brand-mark{height:38px}
-.brand-full{display:none;height:46px}
-@media(min-width:560px){.brand-mark{display:none}.brand-full{display:block}}
+.brand img.brand-mark{height:40px}
+/* the wordmark is set in the page's own type beside the mark, which stays
+   readable at nav height in a way the logo's stacked lettering cannot */
+.brand-word{display:none;font-family:var(--f-display);font-size:.82rem;font-weight:700;
+  line-height:1.15;letter-spacing:.02em;color:var(--white);max-width:9.5em;text-transform:uppercase}
+.brand-word b{color:var(--cyan);font-weight:700}
+@media(min-width:720px){.brand-word{display:block}.brand img.brand-mark{height:44px}}
 .flogo{height:74px;width:auto;margin:0 auto 14px}
 
 /* ===== outreach proof ===== */
@@ -425,11 +430,12 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
 <nav>
   <div class="wrap">
     <a href="#top" class="brand" aria-label="Real Estate Media Growth Assistants, home">
-      <!-- the full lockup needs width to stay legible, so a phone gets the mark alone -->
-      <img class="brand-mark" src="assets/brand/icon-light-512.png" alt="Real Estate Media Growth Assistants"
-           width="512" height="512" fetchpriority="high" decoding="async">
-      <img class="brand-full" src="assets/brand/logo-light.webp" alt=""
-           width="900" height="794" decoding="async" aria-hidden="true"></a>
+      <!-- the logo is a stacked lockup, so in a nav bar the wordmark under the mark
+           is unreadable at any height that fits. The mark carries it here; the
+           footer has the vertical room for the whole thing. -->
+      <img class="brand-mark" src="assets/brand/icon-light-96.png" alt="Real Estate Media Growth Assistants"
+           width="96" height="96" fetchpriority="high" decoding="async">
+      <span class="brand-word">Real Estate <b>Media Growth</b> Assistants</span></a>
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
     <div class="nav-links">
       <a href="#services">Services</a><a href="#how">How It Works</a><a href="#proofs">Proofs</a>
@@ -828,7 +834,8 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
         <figcaption><b>Bethany</b><span>Lupine Real Estate Media</span></figcaption>
       </figure>
       <figure class="cl">
-        <div class="cl-pic"><img src="assets/clients/brooklyn-logo.webp" alt="Brooklyn of Re Media LLC" loading="lazy" decoding="async"></div>
+        <div class="cl-pic"><img src="assets/clients/brooklyn.webp" alt="Brooklyn of Re Media LLC" loading="lazy" decoding="async">
+        <img class="cl-badge" src="assets/clients/brooklyn-logo.webp" alt="" loading="lazy" decoding="async"></div>
         <figcaption><b>Brooklyn</b><span>Re Media LLC</span></figcaption>
       </figure>
       <figure class="cl">
@@ -999,8 +1006,8 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
 
 <footer>
   <div class="wrap">
-    <img class="flogo" src="assets/brand/logo-light.webp" alt="Real Estate Media Growth Assistants"
-         width="900" height="794" loading="lazy" decoding="async">
+    <img class="flogo" src="assets/brand/logo-light.png" alt="Real Estate Media Growth Assistants"
+         width="420" height="371" loading="lazy" decoding="async">
     <div class="ftag">Supporting the work behind your growth</div>
     <div class="flinks">
       <a href="#services">Services</a><a href="#how">How It Works</a><a href="#proofs">Proofs</a>
