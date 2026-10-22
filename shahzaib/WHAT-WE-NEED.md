@@ -2,153 +2,128 @@
 
 Live page: **https://anasnasir.co/shahzaib/**
 
-The website is **built and working**. Every section, all copy, all pricing, all
-contact links are done. What is listed below are the real things that have to come
-from the client before it can go live properly.
-
-Nothing here is invented. Where something is missing the page shows a clearly
-marked empty box instead, because the client's own specification says never to
-fabricate reviews, results, or experience.
-
-**Total: 11 items.** Four of them are blockers. The rest can follow later.
+The site is built, and as of 21 October it is carrying the client's real material.
+Everything below is what is genuinely still outstanding. Nothing on the page is
+invented: where something is missing it shows a marked note instead, because the
+client's own specification forbids fabricated reviews, results or experience.
 
 ---
 
-## BLOCKERS · the page should not go live without these
+## What arrived in the Drive and is now live
 
-### 1. Logo file
-- **Quantity:** 1 file, ideally 2 versions
-- **Format:** SVG preferred. If not, PNG with a transparent background, at least 600px wide
-- **Versions:** one normal, one white or light version for the dark background
-- **Used in:** top navigation bar, and the footer
-- **Right now:** the nav shows the company name as plain text
+| What he sent | Where it went |
+|---|---|
+| Cyan `#2CCCE4`, sampled off his profile picture | The whole colour system. It is a **surface** now, not an accent. |
+| 1:40 intro video, 9:16, him speaking | The hero, in a phone shaped frame. Click to play, never autoplays. |
+| 12 client folders, photos and company logos | The client wall, replacing the empty review cards. |
+| 8 before/after quality control pairs | Eight drag sliders in the Proofs section. |
+| Lot line and map pin examples | A four up gallery under the sliders. |
+| 12 tool logos | The tool stack strip in "How we work". |
+| Owner photo | The About section. |
 
-### 2. Exact cyan colour code
-- **Quantity:** 1 hex code, like `#16B9D4`
-- **How to get it:** open the logo file, use any colour picker on the cyan part
-- **Why:** their spec document suggests `#16B9D4` but says *"confirm the final shade against the existing logo."* If the real logo cyan is different, every button, heading accent and highlight on the site is slightly the wrong colour
-- **Right now:** using `#16B9D4` from the document
+### The colour, and the one correction I made
+He asked for cyan background with white and black text. Black on `#2CCCE4` is
+10.9:1, which is excellent. **White on it is 1.9:1, which is unreadable.** So the
+page alternates cyan bands (near black text), near black bands (white text) and
+one paper band for the pricing table. Every section measures between 4.4:1 and
+18.7:1. That gives him exactly what he asked for, with the two text colours put
+where each one actually works.
 
-### 3. Hero image
-- **Quantity:** 1 image
-- **Format:** JPG or PNG, landscape or portrait, at least 1200px on the long side
-- **What it should show:** real estate photography in progress, a photographer working, a finished property shot, or a clean workspace. Something that says "this is a real media business"
-- **Must be:** owned by them or properly licensed. Their spec forbids using other businesses' client work without permission
-- **Used in:** the very top of the page, beside the main headline
-- **Right now:** an empty dashed box labelled "hero image needed"
+### Before/after direction
+Checked by eye, not guessed from filenames. In every folder the **plain filename
+is the BEFORE** and the suffixed one is the AFTER (`-2`, `" (1)"`, `_declutter`,
+`"virtually staged"`, or a random name in the twilight folder).
 
-### 4. Calendly link
-- **Quantity:** 1 URL
+---
+
+## BLOCKERS
+
+### 1. Calendly link
 - **From:** you, not the client
-- **Why:** all 7 "Book a Meeting" buttons currently just scroll down to the contact section. With the link they become real bookings
-- **Right now:** buttons scroll to WhatsApp and email
+- All "Book a Meeting" buttons scroll to the contact section until this lands.
+
+### 2. Logo file
+- **Format:** SVG, or PNG with a transparent background at 600px or wider
+- **Versions:** one normal, one white or light for the dark bands
+- The logo currently only exists **printed on his t-shirt** in the profile photos.
+  It cannot be cleanly lifted from there. The nav still shows the company name as text.
+
+### 3. Outreach and delivery proof, redacted
+- He sent 18 screenshots. They show **prospect full names, profile photos and email
+  addresses** (Benny Fernandez, Alex Paolella, Vince Gillen, Tom Guajardo and others,
+  with addresses visible in the email signatures).
+- His own spec says to blur or crop those out. They are held back until he does.
+- **Also needed:** the measurement period for any figure. "38% reply rate" is not
+  usable on its own; "38% reply rate across March 2026" is.
 
 ---
 
-## IMPORTANT · the page works without these, but looks thin
+## IMPORTANT
 
-### 5. Owner photo
-- **Quantity:** 1 photo
-- **Format:** JPG or PNG, at least 800px wide, head and shoulders
-- **Of whom:** this needs a decision. The spec document names the owner as **Solomon Smith**, but you named this project `shahzaib` and the contact number is Pakistani. **Tell me which name and face goes on the live site.** It can also be no personal photo at all, just the company
-- **Used in:** the About section, left side
-- **Right now:** an empty box
+### 4. Owner background and experience
+- 2 to 4 short paragraphs, or bullets and I will write them properly
+- No invented years of experience or results, per the spec
+- The About section carries a marked note until this arrives
 
-### 6. Owner background and experience
-- **Quantity:** 2 to 4 short paragraphs, or just bullet points and I will write them properly
-- **What to include:** how the business started, relevant experience, team size if there is a team, anything genuinely true and worth saying
-- **What NOT to include:** made up years of experience or results. Their spec says explicitly *"Do not invent years of experience or results"*
-- **Used in:** the About section, under the mission and goal text
-- **Right now:** a marked note saying this is needed
-
-### 7. Client reviews
-- **Quantity:** 3 reviews ideally. Even 1 real one is better than 3 fake ones
-- **Each one needs:** the quote itself, the client's name, their company, and which service they used
-- **Optional extras:** their photo or company logo, only with permission
-- **Permission:** required. The spec says to get client permission before publishing their words or work
-- **Used in:** the Client Reviews section, 3 cards side by side
-- **Right now:** 3 empty boxes
-- **If none exist:** say so and **I will hide the whole section.** An empty reviews section looks worse than no reviews section at all
-
-### 8. Proof images
-This is the section that will do the most selling, so it is worth effort.
-
-**8a. Media QC proof**
-- **Quantity:** 2 to 4 images
-- **What:** before and after editing comparisons, a QC checklist, or examples of errors that were caught before delivery
-- **Format:** JPG or PNG screenshots
-
-**8b. Outreach proof**
-- **Quantity:** 2 to 4 screenshots
-- **What:** outreach campaign screenshots, activity reports, response rates
-- **Critical:** blur or crop out prospect names, photos, phone numbers and email addresses
-- **Also needed:** the time period each number covers. The spec requires *"Identify the measurement period for every numerical result."* So "38% reply rate" alone is not usable, but "38% reply rate across March 2026" is
-
-**8c. Delivery proof**
-- **Quantity:** 2 to 3 screenshots
-- **What:** delivery records, order workflow, delivery confirmations, turnaround times
-- **Critical:** redact client names and property addresses
-
-- **Used in:** the Proofs and Results section, 3 columns
-- **Right now:** 3 empty boxes
+### 5. Written client reviews
+- The "Clients Images - Testimonials" folder turned out to hold **client photos and
+  company logos, not their words**. There is not a single written quote in it.
+- So that section is now a **client wall**: 12 faces, names and companies, which is
+  honest and looks strong. Quote cards can sit on top of it whenever real ones arrive.
+- Each one needs the quote, the name, the company, the service used, and permission.
 
 ---
 
-## SMALLER ITEMS · tidy up before launch
+## SMALLER
 
-### 9. Privacy policy text
-- **Quantity:** 1 page of text
-- **Why:** their spec requires it in the footer
-- **Options:** the client writes it, uses a free generator, or I link it as "coming soon"
-- **Right now:** the footer link says "Privacy policy [NEEDED]"
+### 6. Privacy policy and 7. Terms of service
+- Footer links say `[NEEDED]`. Client writes them, uses a generator, or we mark
+  them coming soon.
 
-### 10. Terms of service text
-- **Quantity:** 1 page of text
-- **Same situation as above**
-- **Right now:** the footer link says "Terms of service [NEEDED]"
-
-### 11. AI photo QC price
-- **Quantity:** 1 number, or a decision
-- **Why:** their document lists this service but says *"Pricing and exact scope to be confirmed."* It currently sits in the pricing table with a visible gap
-- **Options:** give a price, change it to "Price on request", or remove the line entirely
+### 8. AI photo QC price
+- Sits in the pricing table with a visible gap. He has been asked for the number.
 
 ---
 
-## Quick checklist to send the client
+## Things worth a decision
 
-```
-1.  Logo file, SVG or transparent PNG        [ ]
-2.  Exact cyan hex from the logo             [ ]
-3.  Hero image, 1 photo                      [ ]
-4.  Owner photo, 1 photo                     [ ]
-5.  Owner background, a few paragraphs       [ ]
-6.  Client reviews, 3 with permission        [ ]
-7.  QC proof, 2 to 4 images                  [ ]
-8.  Outreach proof, 2 to 4 screenshots       [ ]
-9.  Delivery proof, 2 to 3 screenshots       [ ]
-10. Privacy policy text                      [ ]
-11. Terms of service text                    [ ]
-12. AI photo QC price, or remove the line    [ ]
-```
+**The six "services" graphics.** They are dense marketing flyers, not clean service
+images: his face, his own typography, the email `thecorporateagency@gmail.com` baked
+in, and copy that repeats what the page already says. Dropping them into the services
+section would make it look like a wall of Instagram posts. They are **not on the page**.
+Options: leave them out, put them in a small "what we send clients" strip, or keep
+them for social only.
 
-**From you:** the Calendly link, and a decision on whose name and face appears.
+**The cold calling proof is an audio file** (.aac, 739 KB). It cannot sit in a proof
+grid like a screenshot. Either it becomes a small audio player in the Proofs section,
+or it is left out.
 
 ---
 
-## Three decisions I need from you, not the client
+## Weights
 
-1. **Whose name goes on the site?** Solomon Smith as the document says, Shahzaib, or company only with no personal name.
-2. **Reviews:** hide the section until real ones exist, or keep the empty placeholders visible?
-3. **AI photo QC:** give it a price, mark it "price on request", or remove the row?
+| | |
+|---|---|
+| Page | 72 KB |
+| Quality control images, 20 files | 3.9 MB (from ~270 MB of raw drone and camera files) |
+| Client photos and logos, 17 files | 412 KB |
+| Tool logos, 12 files | 64 KB |
+| Owner photos | 104 KB |
+| Intro video | 12 MB, `preload="none"` so it costs nothing until someone presses play |
+
+Source Drive download kept at `Desktop/shahzaib-drive-raw` (943 MB). Not in git.
 
 ---
 
-## What is already done, so you know nothing else is missing
+## Already done, so nothing else is missing
 
 - All 10 sections built and in order
-- Every service described in full, 5 service groups with deliverable lists
-- All pricing accurate from the document, including the 65 property limit, the $3 overage with worked examples, the $599 unlimited plan, and the weekend only service as separate
-- 6 FAQ answers written, including the honest "no, we do not guarantee leads"
-- WhatsApp, email, Instagram and Facebook links all live and working
+- Five service groups described in full with deliverable lists
+- All pricing accurate: the 65 property limit, $3 overage with worked examples,
+  the $599 unlimited plan, weekend only service as separate
+- 6 FAQ answers including the honest "no, we do not guarantee leads"
+- WhatsApp, email, Instagram and Facebook links live
 - Mobile menu, typewriter headings, scroll reveals, staggered cards, counting stats
-- Every compliance rule from the document respected
+- Before/after sliders work with drag, touch and arrow keys
+- No horizontal overflow at 375px; every section passes WCAG AA for contrast
+- Every compliance rule from the client specification respected
