@@ -314,13 +314,13 @@ p:last-child{margin-bottom:0}
 .ba{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/2;
   border:1px solid var(--brd);background:var(--surf);cursor:ew-resize;
   touch-action:pan-y;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;--p:50%;
-  transform-style:preserve-3d;will-change:transform;
+  transform-style:preserve-3d;
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
   transition:transform .55s var(--e-out),box-shadow .55s var(--e-out)}
 /* while the pointer is on it the tilt has to track, not glide, or it lags
    behind the cursor; the slow curve comes back when the pointer leaves */
 .ba--tilt{transition:transform .08s linear,box-shadow .4s var(--e-out);
-  box-shadow:0 26px 60px rgba(0,0,0,.42)}
+  box-shadow:0 26px 60px rgba(0,0,0,.42);will-change:transform}
 /* the divider and the labels sit above the picture plane, which is what sells
    the depth once the card is tilted */
 .ba-h{transform:translateZ(34px)}
@@ -438,9 +438,6 @@ h2 .caret{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-ali
 .js .rv[data-rv="left"]{transform:translateX(-64px) scale(.985)}
 .js .rv[data-rv="right"]{transform:translateX(64px) scale(.985)}
 .js .rv[data-rv="left"].in,.js .rv[data-rv="right"].in{transform:none}
-/* Decorative images drift against the scroll. Never text, never a control. */
-.js [data-par]{will-change:transform}
-.js [data-par].settled{will-change:auto}
 .js .stag.in > *{animation:stagIn .62s var(--e-back) both}
 @keyframes stagIn{from{opacity:0;transform:translateY(26px) scale(.94)}to{opacity:1;transform:none}}
 .js .stag.in > *:nth-child(1){animation-delay:0ms}
@@ -510,7 +507,6 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .js .rv,.js .stag.in > *,.js .rv[data-rv]{opacity:1;transform:none}
-  .js [data-par]{transform:none!important;will-change:auto}
   .js h1.split .ch{opacity:1;transform:none;filter:none}
   .js h2.tw .ch{visibility:visible}
   h2 .caret,.progress{display:none}
@@ -1182,37 +1178,10 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let t; addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(assign,180);},{passive:true});
 })();
 
-/* Decorative images drift slightly against the scroll. Small deltas only, and
-   nothing that carries text or takes a click. */
-(function(){
-  if(reduced) return;
-  // .mk images sit inside a .stag grid whose keyframes also write transform,
-  // and a running animation beats an inline style, so they are left out
-  const layers=[...document.querySelectorAll('.owner img, .cl-pic img')];
-  if(!layers.length) return;
-  // the span of mid across a full scroll through is roughly 1.5, so these give
-  // about 35 to 50px of drift: enough to read as depth, well short of queasy
-  layers.forEach((el,i)=>el.dataset.par = (i%2 ? 24 : 34));
-  let tick=false, settle;
-  const draw=()=>{
-    const vh=innerHeight;
-    layers.forEach(el=>{
-      const r=el.getBoundingClientRect();
-      if(r.bottom<-120||r.top>vh+120) return;
-      const mid=(r.top+r.height/2-vh/2)/vh;          // -1 top of screen, +1 bottom
-      el.style.transform='translate3d(0,'+(mid*-el.dataset.par).toFixed(2)+'px,0)';
-    });
-    tick=false;
-  };
-  addEventListener('scroll',()=>{
-    layers.forEach(el=>el.classList.remove('settled'));
-    clearTimeout(settle);
-    settle=setTimeout(()=>layers.forEach(el=>el.classList.add('settled')),260);
-    if(!tick){ tick=true; requestAnimationFrame(draw); }
-  },{passive:true});
-  addEventListener('resize',draw,{passive:true});
-  draw();
-})();
+/* The decorative parallax that used to live here is gone on purpose. It made
+   the client portraits visibly drift while scrolling, and it read every
+   image's box on every scroll frame, which is layout work the browser has to
+   stop and do before it can paint. */
 
 /* scroll reveal + stagger, replays every time a section returns */
 const revealables=document.querySelectorAll('.rv, .stag');
@@ -1427,11 +1396,14 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
 
     /* Scroll driven sweep: map the card's trip through the viewport onto the
        divider, so it opens as it rises and settles near the middle. */
+    /* Position is cached as a document offset and turned into a viewport one
+       with scrollY, so the sweep costs no layout read while scrolling. */
+    ba.remeasure=()=>{ const r=ba.getBoundingClientRect(); ba._top=r.top+scrollY; ba._h=r.height; };
     ba.sweep=()=>{
-      if(reduced||touched) return;
-      const r=ba.getBoundingClientRect(), vh=innerHeight;
-      if(r.bottom<0||r.top>vh) return;
-      const t=1-(r.top+r.height*0.35)/vh;        // 0 entering, 1 leaving
+      if(reduced||touched||!ba._h) return;
+      const vh=innerHeight, top=ba._top-scrollY;
+      if(top+ba._h<0||top>vh) return;
+      const t=1-(top+ba._h*0.35)/vh;             // 0 entering, 1 leaving
       set(14+Math.max(0,Math.min(1,t))*58);      // 14% -> 72%
     };
   });
@@ -1439,9 +1411,13 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   const bas=[...document.querySelectorAll('.ba')];
   if(bas.length && !reduced){
     let tick=false;
+    const remeasureAll=()=>bas.forEach(b=>b.remeasure());
     const run=()=>{ bas.forEach(b=>b.sweep()); tick=false; };
+    remeasureAll();
+    addEventListener('load',()=>{remeasureAll();run();});
+    addEventListener('resize',()=>{remeasureAll();run();},{passive:true});
+    setTimeout(()=>{remeasureAll();run();},1200);
     addEventListener('scroll',()=>{ if(!tick){tick=true;requestAnimationFrame(run);} },{passive:true});
-    addEventListener('resize',run,{passive:true});
     run();
   }
 })();
@@ -1481,7 +1457,7 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   const DOT_INK=[6,22,26], DOT_CY=[44,204,228];
   const step=20, reach=120;
   let w=0,h=0,dpr=1,cols=0,rows=0,dots=[];
-  let mx=-9999,my=-9999,raf=0,idle=0;
+  let mx=-9999,my=-9999,raf=0,idle=0,painted=false;
   const baseInk=document.createElement('canvas'), baseCy=document.createElement('canvas');
   const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';
 
@@ -1515,12 +1491,23 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
     }
   }
 
-  const visible=()=>{
-    const out=[];
+  /* Band positions are measured once and cached as document offsets, then
+     turned into viewport coordinates with scrollY. Reading every band's box on
+     every scroll frame forces the browser to redo layout before it can paint,
+     which is what the scrolling was catching on. */
+  function measure(){
+    const y=scrollY;
     for(const b of bands){
       const r=b.el.getBoundingClientRect();
-      if(r.bottom<=0||r.top>=h) continue;
-      out.push({top:Math.max(0,r.top),bot:Math.min(h,r.bottom),fill:b.fill,dark:b.dark});
+      b.top=r.top+y; b.bot=r.bottom+y;
+    }
+  }
+  const visible=()=>{
+    const y=scrollY, out=[];
+    for(const b of bands){
+      const top=b.top-y, bot=b.bot-y;
+      if(bot<=0||top>=h) continue;
+      out.push({top:Math.max(0,top),bot:Math.min(h,bot),fill:b.fill,dark:b.dark});
     }
     return out;
   };
@@ -1568,6 +1555,11 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
         ctx.fillStyle=rgba(col,(band.dark?.17:.20)+off*.72); ctx.fill();
       }
     }
+    /* Only now, once a frame with the band colours in it is actually on screen,
+       do the sections let go of their own backgrounds. Handing over any earlier
+       leaves the page colourless for as long as the first frame is delayed,
+       which is exactly what happens in a background tab or on a slow device. */
+    if(!painted){ painted=true; document.documentElement.classList.add('dots-bg'); }
     raf = busy ? requestAnimationFrame(draw) : 0;
   }
   const kick=()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(draw); };
@@ -1582,8 +1574,11 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   addEventListener('resize',()=>{ layout(); kick(); },{passive:true});
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) kick(); });
 
-  layout();
-  document.documentElement.classList.add('dots-bg');
+  layout(); measure();
+  // sections shift as images and fonts land, so re-measure then, not every frame
+  addEventListener('load',measure);
+  addEventListener('resize',measure,{passive:true});
+  setTimeout(measure,1200); setTimeout(measure,4000);
   cv.classList.add('on');
   kick();
   window.solomonDots={cv,get dots(){return dots.length},step,reach,
