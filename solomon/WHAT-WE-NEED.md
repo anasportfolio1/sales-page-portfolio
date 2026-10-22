@@ -42,26 +42,16 @@ is the BEFORE** and the suffixed one is the AFTER (`-2`, `" (1)"`, `_declutter`,
 
 ## STILL NEEDED
 
-### 1. Logo file
-- **From:** the client. SVG, or PNG with a transparent background at 600px or wider
-- **Versions:** one normal, one white or light for the dark bands
-- It currently only exists **printed on his t-shirt** in the profile photos, which
-  cannot be cleanly lifted. The nav still shows the company name as text.
+One thing, and it is not a blocker for showing the client.
 
-### 2. Calendly link
-- **From:** you. All "Book a Meeting" buttons scroll to the contact section until it lands.
+### Calendly link
+**From:** you. Every "Book a Meeting" button scrolls to the contact section until
+it lands. Everything else on the page is real and finished.
 
-### 3. The cold call recording
-- 2 minutes 5 seconds, `.aac`, telephone quality, in the Drive under
-  "Cold Calling Booking Recording".
-- Anas has heard it and is checking whether the prospect's name or business is
-  spoken. If it is, those seconds need muting before it can go up. If not, it
-  becomes a small play button in the Proofs section, which would complete the set:
-  audio for cold calling, screenshots for email and social.
-
-### 4. Measurement periods
-- Any number quoted anywhere needs the period it covers. "38% reply rate" is not
-  usable on its own; "38% reply rate across March 2026" is.
+Optional, whenever he gets to it: the cold call recording could become a small
+play button in Proofs, which would complete the set, audio for cold calling and
+screenshots for email and social. Anas has heard it and is checking whether the
+prospect's name is spoken; if it is, those seconds need muting first.
 
 ---
 

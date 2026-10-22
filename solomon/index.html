@@ -208,6 +208,49 @@ p:last-child{margin-bottom:0}
 @media(min-width:720px){.brand-word{display:block}.brand img.brand-mark{height:44px}}
 .flogo{height:74px;width:auto;margin:0 auto 14px}
 
+
+
+/* ===== cursor grid =====
+   Fixed sheet of dots that lean away from the pointer and spring back. It sits
+   above the section backgrounds but under everything you read or click, and its
+   palette flips with whichever surface is filling the screen, because a cyan dot
+   on the cyan band and a dark dot on the dark band are both invisible. */
+/* Every section paints an opaque background, so behind them the canvas would
+   never be seen. It rides on top instead, with pointer-events off so nothing
+   under it loses a click, and sits below the nav and the drawer. */
+#dots{position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;
+  opacity:0;transition:opacity 1s ease}
+#dots.on{opacity:1}
+@media(prefers-reduced-motion:reduce){#dots{display:none}}
+
+/* ===== lot line slideshow ===== */
+.shw{position:relative;max-width:900px;margin:0 auto}
+.shw-stage{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--brd);background:var(--surf)}
+.slide{position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;
+  transition:opacity .6s var(--e-out),transform .6s var(--e-out);transform:scale(1.04)}
+.slide[data-active]{opacity:1;visibility:visible;transform:scale(1)}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 18px 16px;
+  font-size:.84rem;color:#E6F3F6;text-align:center;
+  background:linear-gradient(transparent,rgba(4,12,15,.88) 62%)}
+.shw-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:46px;height:46px;
+  border-radius:50%;border:1px solid var(--brd);background:rgba(6,22,26,.72);color:var(--white);
+  cursor:pointer;display:grid;place-items:center;font-size:.86rem;
+  backdrop-filter:blur(6px);transition:background .25s,color .25s,border-color .25s}
+.shw-nav:hover{background:var(--cyan);color:#06161A;border-color:var(--cyan)}
+.shw-prev{left:10px} .shw-next{right:10px}
+@media(min-width:900px){.shw-prev{left:-14px}.shw-next{right:-14px}}
+.shw-dots{display:flex;gap:8px;justify-content:center;margin-top:16px}
+.shw-dots button{width:8px;height:8px;padding:0;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(255,255,255,.26);transition:background .25s,transform .25s var(--e-back)}
+.shw-dots button[aria-selected="true"]{background:var(--cyan);transform:scale(1.5)}
+.shw-count{position:absolute;top:12px;right:12px;z-index:3;font-family:var(--f-display);
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;color:#CFE6EB;
+  background:rgba(6,22,26,.66);backdrop-filter:blur(6px);padding:5px 10px;border-radius:30px}
+.shw-count b{color:var(--cyan)}
+@media(prefers-reduced-motion:reduce){.slide{transition:none;transform:none}}
+
 /* ===== outreach proof ===== */
 .mailrow{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:26px}
 @media(min-width:760px){.mailrow{grid-template-columns:repeat(2,1fr);gap:20px}}
@@ -469,6 +512,8 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
+
+<canvas id="dots" aria-hidden="true"></canvas>
 
 <nav>
   <div class="wrap">
@@ -828,15 +873,45 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
     <div class="rv" style="margin-top:54px">
       <h3 style="text-align:center;margin-bottom:6px">Lot lines and location pins</h3>
       <p class="lead" style="text-align:center;margin:0 auto 22px">Boundaries, unit callouts and location pins added by hand onto the aerials, checked against the plan before delivery.</p>
-      <div class="grid g4 stag">
-        <img class="mk" src="assets/qc/lotlines-1.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/lotlines-2.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/lotlines-4.webp" alt="Aerial with the full parcel boundary drawn" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/lotlines-3.webp" alt="A block of townhouses with one unit outlined and labelled" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/mappins-1.webp" alt="Aerial with location pins added" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/mappins-2.webp" alt="Aerial with location pins added" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/mappins-3.webp" alt="Aerial with a branded location pin on the property" loading="lazy" decoding="async">
-        <img class="mk" src="assets/qc/mappins-4.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async">
+      <div class="shw" aria-roledescription="carousel" aria-label="Lot lines and location pins">
+        <div class="shw-stage">
+        <figure class="slide" data-active>
+          <img src="assets/qc/lotlines-1.webp" alt="Aerial with lot lines marked" loading="eager" decoding="async">
+          <figcaption>Lot lines drawn on the aerial</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/lotlines-2.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async">
+          <figcaption>Boundaries marked for the listing</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/lotlines-4.webp" alt="Aerial with the full parcel boundary drawn" loading="lazy" decoding="async">
+          <figcaption>The full parcel boundary traced</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/lotlines-3.webp" alt="A block of townhouses with one unit outlined and labelled" loading="lazy" decoding="async">
+          <figcaption>One unit outlined and labelled</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/mappins-1.webp" alt="Aerial with location pins added" loading="lazy" decoding="async">
+          <figcaption>Location pin placed on the property</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/mappins-2.webp" alt="Aerial with location pins added" loading="lazy" decoding="async">
+          <figcaption>Location pin placed on the property</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/mappins-3.webp" alt="Aerial with a branded location pin on the property" loading="lazy" decoding="async">
+          <figcaption>A pin carrying the client’s own mark</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/qc/mappins-4.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async">
+          <figcaption>Pin set against the wider neighbourhood</figcaption>
+        </figure>
+        </div>
+        <button type="button" class="shw-nav shw-prev" aria-label="Previous image"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+        <button type="button" class="shw-nav shw-next" aria-label="Next image"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+        <div class="shw-dots" role="tablist"><button type="button" role="tab" aria-label="Show image 1" aria-selected="true"></button><button type="button" role="tab" aria-label="Show image 2"></button><button type="button" role="tab" aria-label="Show image 3"></button><button type="button" role="tab" aria-label="Show image 4"></button><button type="button" role="tab" aria-label="Show image 5"></button><button type="button" role="tab" aria-label="Show image 6"></button><button type="button" role="tab" aria-label="Show image 7"></button><button type="button" role="tab" aria-label="Show image 8"></button></div>
+        <div class="shw-count"><b>1</b> / 8</div>
       </div>
     </div>
 
@@ -856,7 +931,6 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
       <div class="dmrow dmrow--l"><div class="dmtrack"><img src="assets/outreach/dm-01.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-02.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-03.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-04.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-05.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-06.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-07.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-08.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-01.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-02.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-03.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-04.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-05.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-06.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-07.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-08.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"></div></div>
       <div class="dmrow dmrow--r"><div class="dmtrack"><img src="assets/outreach/dm-09.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-10.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-11.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-12.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-13.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-14.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-15.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-16.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-09.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-10.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-11.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-12.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-13.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-14.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-15.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"><img src="assets/outreach/dm-16.webp" alt="A reply to an outreach message, names removed" loading="lazy" decoding="async"></div></div>
     </div>
-    <div class="rv needbox">Messages sent, replies received, qualified leads, appointments and actual bookings will be shown as separate figures, never merged into one number.</div>
   </div>
 </section>
 
@@ -1398,6 +1472,176 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   });
   v.addEventListener('pause',()=>{ if(v.currentTime===0) fig.classList.remove('playing'); });
   v.addEventListener('ended',()=>{ fig.classList.remove('playing'); v.controls=false; });
+})();
+
+/* lot line slideshow: arrows, dots, swipe, arrow keys. It advances on its own
+   until you touch it, then it is yours and stops moving by itself. */
+(function(){
+  const shw=document.querySelector('.shw'); if(!shw) return;
+  const slides=[...shw.querySelectorAll('.slide')];
+  const dots=[...shw.querySelectorAll('.shw-dots button')];
+  const count=shw.querySelector('.shw-count b');
+  let i=0, timer=0, taken=false;
+
+  const show=n=>{
+    i=(n+slides.length)%slides.length;
+    slides.forEach((s,k)=>k===i? s.setAttribute('data-active','') : s.removeAttribute('data-active'));
+    dots.forEach((d,k)=>d.setAttribute('aria-selected', k===i?'true':'false'));
+    count.textContent=i+1;
+    const next=slides[(i+1)%slides.length].querySelector('img');
+    if(next) next.loading='eager';                 // have the next one ready
+  };
+  const stop=()=>{ taken=true; clearInterval(timer); };
+  const go=d=>{ show(i+d); };
+
+  shw.querySelector('.shw-prev').addEventListener('click',()=>{stop();go(-1)});
+  shw.querySelector('.shw-next').addEventListener('click',()=>{stop();go(1)});
+  dots.forEach((d,k)=>d.addEventListener('click',()=>{stop();show(k)}));
+  shw.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft'){stop();go(-1);e.preventDefault();}
+    if(e.key==='ArrowRight'){stop();go(1);e.preventDefault();}
+  });
+  shw.tabIndex=0;
+
+  let sx=null;
+  shw.addEventListener('pointerdown',e=>{sx=e.clientX});
+  shw.addEventListener('pointerup',e=>{
+    if(sx===null) return;
+    const dx=e.clientX-sx; sx=null;
+    if(Math.abs(dx)>42){ stop(); go(dx<0?1:-1); }
+  });
+
+  /* only runs while it is on screen, and never after reduced motion */
+  if(!reduced && 'IntersectionObserver' in window){
+    new IntersectionObserver(es=>es.forEach(e=>{
+      clearInterval(timer);
+      if(e.isIntersecting && !taken) timer=setInterval(()=>go(1),4200);
+    }),{threshold:.35}).observe(shw);
+  }
+  show(0);
+})();
+
+/* ===== cursor grid =====
+   Effect 3 from the chooser, taken full page. Dots sit on a fixed lattice,
+   lean away from the pointer and spring back. The palette flips with whichever
+   band fills the screen, since a cyan dot on cyan and a dark dot on dark are
+   both invisible.
+
+   Cost control: the whole lattice is far too many dots to run physics on every
+   frame at desktop size, so only the dots inside the pointer's reach are
+   simulated and drawn individually. Everything at rest comes from one offscreen
+   image that is painted in four strips around that live square, which keeps the
+   full grid on screen for a couple of drawImage calls instead of thousands of
+   arcs. */
+(function(){
+  const cv=document.getElementById('dots'); if(!cv||reduced) return;
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches) return;  // no cursor to follow
+  const ctx=cv.getContext('2d');
+  const base=document.createElement('canvas'), bctx=base.getContext('2d');
+
+  const CY=[44,204,228], INK=[6,22,26];
+  let step=20, reach=120;
+  let w=0,h=0,dpr=1,cols=0,rows=0,dots=[];
+  let mx=-9999,my=-9999,raf=0,idle=0;
+  let pal=CY, palT=CY;                       // current and target colour
+
+  const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';
+
+  function layout(){
+    dpr=Math.min(devicePixelRatio||1,2);
+    w=innerWidth; h=innerHeight;
+    cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    base.width=cv.width; base.height=cv.height;
+    bctx.setTransform(dpr,0,0,dpr,0,0);
+    cols=Math.ceil(w/step)+1; rows=Math.ceil(h/step)+1;
+    dots=new Array(cols*rows);
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++)
+      dots[r*cols+c]={ox:c*step,oy:r*step,x:c*step,y:r*step,vx:0,vy:0};
+    paintBase();
+  }
+
+  function paintBase(){
+    bctx.clearRect(0,0,w,h);
+    bctx.fillStyle=rgba(pal,.17);
+    bctx.beginPath();
+    for(const d of dots){ bctx.moveTo(d.ox+0.9,d.oy); bctx.arc(d.ox,d.oy,0.9,0,6.283); }
+    bctx.fill();
+  }
+
+  /* which band is under the middle of the screen decides the dot colour */
+  function pickPalette(){
+    const el=document.elementFromPoint(Math.round(w/2),Math.round(h/2));
+    const sec=el&&el.closest? el.closest('.sec,footer,nav,.marquee') : null;
+    const light = sec && (sec.classList.contains('sec--cyan')||sec.classList.contains('sec--paper'));
+    const want = light ? INK : CY;
+    if(want!==palT){ palT=want; }
+  }
+
+  function draw(){
+    // ease the palette so the change of band is not a hard switch
+    let moved=false;
+    for(let i=0;i<3;i++){
+      const d=palT[i]-pal[i];
+      if(Math.abs(d)>1){ pal=[pal[0]+(palT[0]-pal[0])*.08, pal[1]+(palT[1]-pal[1])*.08, pal[2]+(palT[2]-pal[2])*.08]; moved=true; break; }
+    }
+    if(moved) paintBase();
+
+    ctx.clearRect(0,0,w,h);
+
+    const live = mx>-9000;
+    const x0 = live ? Math.max(0, mx-reach) : 0, x1 = live ? Math.min(w, mx+reach) : 0;
+    const y0 = live ? Math.max(0, my-reach) : 0, y1 = live ? Math.min(h, my+reach) : 0;
+
+    // resting lattice, drawn around the live square so nothing is doubled up
+    if(live){
+      const s=dpr;
+      if(y0>0)   ctx.drawImage(base, 0,0, w*s,y0*s, 0,0, w,y0);
+      if(y1<h)   ctx.drawImage(base, 0,y1*s, w*s,(h-y1)*s, 0,y1, w,h-y1);
+      if(x0>0)   ctx.drawImage(base, 0,y0*s, x0*s,(y1-y0)*s, 0,y0, x0,y1-y0);
+      if(x1<w)   ctx.drawImage(base, x1*s,y0*s, (w-x1)*s,(y1-y0)*s, x1,y0, w-x1,y1-y0);
+    } else {
+      ctx.drawImage(base,0,0,w,h);
+    }
+
+    // and the dots inside reach, which are the ones actually moving
+    let busy=false;
+    if(live){
+      const c0=Math.max(0,Math.floor(x0/step)), c1=Math.min(cols-1,Math.ceil(x1/step));
+      const r0=Math.max(0,Math.floor(y0/step)), r1=Math.min(rows-1,Math.ceil(y1/step));
+      for(let r=r0;r<=r1;r++) for(let c=c0;c<=c1;c++){
+        const d=dots[r*cols+c];
+        const dx=d.x-mx, dy=d.y-my, dist=Math.hypot(dx,dy)||1;
+        if(dist<reach){ const f=(1-dist/reach)*14; d.vx+=(dx/dist)*f*0.16; d.vy+=(dy/dist)*f*0.16; }
+        d.vx+=(d.ox-d.x)*0.055; d.vy+=(d.oy-d.y)*0.055;
+        d.vx*=0.82; d.vy*=0.82; d.x+=d.vx; d.y+=d.vy;
+        const off=Math.min(1,Math.hypot(d.x-d.ox,d.y-d.oy)/13);
+        if(off>0.002||dist<reach) busy=true;
+        ctx.beginPath(); ctx.arc(d.x,d.y,0.9+off*1.9,0,6.283);
+        ctx.fillStyle=rgba(pal,.17+off*.72); ctx.fill();
+      }
+    }
+
+    raf = (busy||moved) ? requestAnimationFrame(draw) : 0;
+  }
+  // cancel and reschedule: guarding on the id wedges for good if a frame is
+  // dropped while the tab is hidden
+  const kick=()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(draw); };
+
+  addEventListener('pointermove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cv.classList.add('on');
+    clearTimeout(idle);
+    idle=setTimeout(()=>{ mx=-9999; my=-9999; kick(); },2600);
+    kick();
+  },{passive:true});
+  addEventListener('scroll',()=>{ pickPalette(); kick(); },{passive:true});
+  addEventListener('resize',()=>{ layout(); pickPalette(); kick(); },{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) kick(); });
+
+  layout(); pickPalette();
+  setTimeout(()=>{ cv.classList.add('on'); kick(); },400);
+  window.solomonDots={cv,get dots(){return dots.length},get pal(){return pal},step,reach};
 })();
 </script>
 </body>
