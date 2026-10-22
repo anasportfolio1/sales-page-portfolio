@@ -229,7 +229,9 @@ p:last-child{margin-bottom:0}
 /* the canvas paints the band colours itself, so the sections drop theirs, but
    only once it is actually running: with no JS the CSS backgrounds still stand */
 .dots-bg body,.dots-bg .sec--cyan,.dots-bg .sec--paper,.dots-bg .sec--dark,
-.dots-bg footer,.dots-bg .marquee{background-color:transparent}
+.dots-bg .marquee{background-color:transparent}
+/* the footer keeps its own background and so stays out of the effect entirely */
+footer{position:relative;z-index:2}
 @media(prefers-reduced-motion:reduce){#dots{display:none}}
 
 
@@ -1086,7 +1088,6 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
         <div class="icn"><i class="fa-solid fa-envelope"></i></div>
         <h3>Email</h3><p>thecorporatecallagency@gmail.com</p></a>
     </div>
-    <div class="rv needbox">[NEEDED: Calendly link. Every Book a Meeting button points at this section until it is supplied, then all five switch to the booking link.]</div>
   </div>
 </section>
 
@@ -1460,7 +1461,9 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   let mx=-9999,my=-9999,raf=0,idle=0,painted=false;
   const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';
 
-  const bands=[...document.querySelectorAll('.sec,footer,.marquee')].map(el=>({
+  // the footer is left out: it paints its own background and sits above the
+  // canvas, so the effect stops where it begins
+  const bands=[...document.querySelectorAll('.sec,.marquee')].map(el=>({
     el,
     fill: el.classList.contains('sec--cyan')  ? CY
         : el.classList.contains('sec--paper') ? PAPER : DARKC,
@@ -1547,6 +1550,11 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   const kick=()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(draw); };
 
   addEventListener('pointermove',e=>{
+    // The footer is out of the effect. It paints its own background over the
+    // canvas, so dots there were invisible anyway, but there is no sense
+    // animating behind something opaque.
+    const overFooter = e.target && e.target.closest && e.target.closest('footer');
+    if(overFooter){ if(mx>-9000){ mx=-9999; my=-9999; kick(); } return; }
     mx=e.clientX; my=e.clientY;
     clearTimeout(idle);
     idle=setTimeout(()=>{ mx=-9999; my=-9999; kick(); },2600);
