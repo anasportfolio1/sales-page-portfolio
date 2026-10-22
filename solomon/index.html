@@ -176,7 +176,10 @@ p:last-child{margin-bottom:0}
 
 /* ===== owner ===== */
 .owner{margin:0;text-align:center}
-.owner img{width:min(100%,360px);aspect-ratio:1;object-fit:cover;border-radius:50%;
+/* the image is capped at 360px but the column is wider, and a block image
+   ignores text-align, so without auto margins it sat left while the caption
+   underneath centred on the column: the two never lined up */
+.owner img{width:min(100%,360px);margin:0 auto;aspect-ratio:1;object-fit:cover;border-radius:50%;
   border:5px solid var(--white);box-shadow:0 18px 46px rgba(6,22,26,.26)}
 .owner figcaption{margin-top:16px;display:flex;flex-direction:column;line-height:1.35}
 .owner figcaption b{font-family:var(--f-display);font-size:1.06rem;font-weight:700;color:var(--ink)}
@@ -229,33 +232,33 @@ p:last-child{margin-bottom:0}
 .dots-bg footer,.dots-bg .marquee{background-color:transparent}
 @media(prefers-reduced-motion:reduce){#dots{display:none}}
 
-/* ===== lot line slideshow ===== */
-.shw{position:relative;max-width:900px;margin:0 auto}
-.shw-stage{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;
-  border:1px solid var(--brd);background:var(--surf)}
-.slide{position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;
-  transition:opacity .6s var(--e-out),transform .6s var(--e-out);transform:scale(1.04)}
-.slide[data-active]{opacity:1;visibility:visible;transform:scale(1)}
-.slide img{width:100%;height:100%;object-fit:cover;display:block}
-.slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 18px 16px;
-  font-size:.84rem;color:#E6F3F6;text-align:center;
-  background:linear-gradient(transparent,rgba(4,12,15,.88) 62%)}
-.shw-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:46px;height:46px;
-  border-radius:50%;border:1px solid var(--brd);background:rgba(6,22,26,.72);color:var(--white);
-  cursor:pointer;display:grid;place-items:center;font-size:.86rem;
-  backdrop-filter:blur(6px);transition:background .25s,color .25s,border-color .25s}
-.shw-nav:hover{background:var(--cyan);color:#06161A;border-color:var(--cyan)}
-.shw-prev{left:10px} .shw-next{right:10px}
-@media(min-width:900px){.shw-prev{left:-14px}.shw-next{right:-14px}}
-.shw-dots{display:flex;gap:8px;justify-content:center;margin-top:16px}
-.shw-dots button{width:8px;height:8px;padding:0;border-radius:50%;border:0;cursor:pointer;
-  background:rgba(255,255,255,.26);transition:background .25s,transform .25s var(--e-back)}
-.shw-dots button[aria-selected="true"]{background:var(--cyan);transform:scale(1.5)}
-.shw-count{position:absolute;top:12px;right:12px;z-index:3;font-family:var(--f-display);
-  font-size:.72rem;font-weight:700;letter-spacing:.06em;color:#CFE6EB;
-  background:rgba(6,22,26,.66);backdrop-filter:blur(6px);padding:5px 10px;border-radius:30px}
-.shw-count b{color:var(--cyan)}
-@media(prefers-reduced-motion:reduce){.slide{transition:none;transform:none}}
+
+/* stacked on a phone these read as three stray left aligned lines, so centre
+   them there; from tablet up they sit in their own columns and stay left */
+.herostats{text-align:center}
+@media(min-width:760px){.herostats{text-align:left}}
+
+/* ===== lot line belt =====
+   A single row that never stops, three or four aerials in view at once. The set
+   is laid down twice and the track shifts by exactly half, so the loop has no
+   seam. Pauses on hover so a given shot can be looked at. */
+.belt{overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.belt-track{display:flex;gap:16px;width:max-content;animation:beltRun 64s linear infinite}
+.belt-track img{height:190px;width:auto;flex:0 0 auto;display:block;border-radius:12px;
+  border:1px solid var(--brd);background:var(--surf);
+  transition:transform .4s var(--e-out),box-shadow .4s var(--e-out)}
+@media(min-width:760px){.belt-track img{height:250px}}
+@media(min-width:1200px){.belt-track img{height:290px}}
+.belt-track img:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 16px 38px rgba(0,0,0,.4)}
+.belt:hover .belt-track{animation-play-state:paused}
+/* half of the track is one full set, plus half of one gap */
+@keyframes beltRun{to{transform:translateX(calc(-50% - 8px))}}
+@media(prefers-reduced-motion:reduce){
+  .belt-track{animation:none}
+  .belt{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+}
 
 /* ===== outreach proof ===== */
 .mailrow{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:26px}
@@ -310,7 +313,7 @@ p:last-child{margin-bottom:0}
 .ba-wrap{perspective:1200px}
 .ba{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/2;
   border:1px solid var(--brd);background:var(--surf);cursor:ew-resize;
-  touch-action:pan-y;user-select:none;-webkit-user-select:none;--p:50%;
+  touch-action:pan-y;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;--p:50%;
   transform-style:preserve-3d;will-change:transform;
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
   transition:transform .55s var(--e-out),box-shadow .55s var(--e-out)}
@@ -561,7 +564,7 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
         <p class="lead">Outreach, media quality control, delivery, content and admin, handled under one monthly service so you can stay behind the camera instead of in the inbox.</p>
         <a href="#contact" class="btn" style="margin-top:8px">Book a Meeting</a>
         <div class="fud"><i class="fa-solid fa-circle-check"></i>No obligation. We agree the scope and the responsibilities before any work begins.</div>
-        <div class="grid g3 stag" style="margin-top:30px;gap:14px">
+        <div class="grid g3 stag herostats" style="margin-top:30px;gap:14px">
           <div><div class="num">5</div><div class="numlabel">Service areas covered</div></div>
           <div><div class="num">65</div><div class="numlabel">Properties on the standard plan</div></div>
           <div><div class="num">150</div><div class="numlabel">Entry price per month, USD</div></div>
@@ -879,45 +882,8 @@ footer{background:#03090B;color:var(--white);border-top:1px solid rgba(255,255,2
     <div class="rv" style="margin-top:54px">
       <h3 style="text-align:center;margin-bottom:6px">Lot lines and location pins</h3>
       <p class="lead" style="text-align:center;margin:0 auto 22px">Boundaries, unit callouts and location pins added by hand onto the aerials, checked against the plan before delivery.</p>
-      <div class="shw" aria-roledescription="carousel" aria-label="Lot lines and location pins">
-        <div class="shw-stage">
-        <figure class="slide" data-active>
-          <img src="assets/qc/lotlines-1.webp" alt="Aerial with lot lines marked" loading="eager" decoding="async">
-          <figcaption>Lot lines drawn on the aerial</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/lotlines-2.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async">
-          <figcaption>Boundaries marked for the listing</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/lotlines-4.webp" alt="Aerial with the full parcel boundary drawn" loading="lazy" decoding="async">
-          <figcaption>The full parcel boundary traced</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/lotlines-3.webp" alt="A block of townhouses with one unit outlined and labelled" loading="lazy" decoding="async">
-          <figcaption>One unit outlined and labelled</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/mappins-1.webp" alt="Aerial with location pins added" loading="lazy" decoding="async">
-          <figcaption>Location pin placed on the property</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/mappins-2.webp" alt="Aerial with location pins added" loading="lazy" decoding="async">
-          <figcaption>Location pin placed on the property</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/mappins-3.webp" alt="Aerial with a branded location pin on the property" loading="lazy" decoding="async">
-          <figcaption>A pin carrying the client’s own mark</figcaption>
-        </figure>
-        <figure class="slide">
-          <img src="assets/qc/mappins-4.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async">
-          <figcaption>Pin set against the wider neighbourhood</figcaption>
-        </figure>
-        </div>
-        <button type="button" class="shw-nav shw-prev" aria-label="Previous image"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
-        <button type="button" class="shw-nav shw-next" aria-label="Next image"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
-        <div class="shw-dots" role="tablist"><button type="button" role="tab" aria-label="Show image 1" aria-selected="true"></button><button type="button" role="tab" aria-label="Show image 2"></button><button type="button" role="tab" aria-label="Show image 3"></button><button type="button" role="tab" aria-label="Show image 4"></button><button type="button" role="tab" aria-label="Show image 5"></button><button type="button" role="tab" aria-label="Show image 6"></button><button type="button" role="tab" aria-label="Show image 7"></button><button type="button" role="tab" aria-label="Show image 8"></button></div>
-        <div class="shw-count"><b>1</b> / 8</div>
+      <div class="belt" aria-label="Lot lines and location pins">
+        <div class="belt-track"><img src="assets/qc/lotlines-1.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async"><img src="assets/qc/mappins-1.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async"><img src="assets/qc/lotlines-4.webp" alt="Aerial with the full parcel boundary drawn" loading="lazy" decoding="async"><img src="assets/qc/mappins-3.webp" alt="Aerial with a branded location pin on the property" loading="lazy" decoding="async"><img src="assets/qc/lotlines-2.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async"><img src="assets/qc/mappins-4.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async"><img src="assets/qc/lotlines-3.webp" alt="A block of townhouses with one unit outlined and labelled" loading="lazy" decoding="async"><img src="assets/qc/mappins-2.webp" alt="Aerial with location pins added" loading="lazy" decoding="async"><img src="assets/qc/lotlines-1.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async"><img src="assets/qc/mappins-1.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async"><img src="assets/qc/lotlines-4.webp" alt="Aerial with the full parcel boundary drawn" loading="lazy" decoding="async"><img src="assets/qc/mappins-3.webp" alt="Aerial with a branded location pin on the property" loading="lazy" decoding="async"><img src="assets/qc/lotlines-2.webp" alt="Aerial with lot lines marked" loading="lazy" decoding="async"><img src="assets/qc/mappins-4.webp" alt="Aerial with a location pin on the property" loading="lazy" decoding="async"><img src="assets/qc/lotlines-3.webp" alt="A block of townhouses with one unit outlined and labelled" loading="lazy" decoding="async"><img src="assets/qc/mappins-2.webp" alt="Aerial with location pins added" loading="lazy" decoding="async"></div>
       </div>
     </div>
 
@@ -1434,13 +1400,12 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
     /* Wheel over the card drives the comparison instead of the page. It only
        swallows the scroll while the divider still has somewhere to go; at either
        end the page takes the scroll back, so the card never traps you. */
+    /* The wheel belongs to the card for as long as the pointer is on it: the
+       page never scrolls from here, even once the divider is parked at an end.
+       Move the cursor off the image to carry on down the page. */
     ba.addEventListener('wheel',e=>{
-      const cur=pos();
-      const dir=e.deltaY+e.deltaX;
-      // already parked at the end this wheel is pushing toward: hand it back
-      if((dir>0 && cur>=99.5)||(dir<0 && cur<=0.5)) return;
       e.preventDefault(); takeOver();
-      set(Math.max(0,Math.min(100,cur+dir*0.11)));   // clamp, never reject
+      set(Math.max(0,Math.min(100,pos()+(e.deltaY+e.deltaX)*0.11)));
     },{passive:false});
 
     /* 3D tilt under the pointer. Mouse only: on a touch screen there is no hover
@@ -1493,52 +1458,7 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   v.addEventListener('ended',()=>{ fig.classList.remove('playing'); v.controls=false; });
 })();
 
-/* lot line slideshow: arrows, dots, swipe, arrow keys. It advances on its own
-   until you touch it, then it is yours and stops moving by itself. */
-(function(){
-  const shw=document.querySelector('.shw'); if(!shw) return;
-  const slides=[...shw.querySelectorAll('.slide')];
-  const dots=[...shw.querySelectorAll('.shw-dots button')];
-  const count=shw.querySelector('.shw-count b');
-  let i=0, timer=0, taken=false;
-
-  const show=n=>{
-    i=(n+slides.length)%slides.length;
-    slides.forEach((s,k)=>k===i? s.setAttribute('data-active','') : s.removeAttribute('data-active'));
-    dots.forEach((d,k)=>d.setAttribute('aria-selected', k===i?'true':'false'));
-    count.textContent=i+1;
-    const next=slides[(i+1)%slides.length].querySelector('img');
-    if(next) next.loading='eager';                 // have the next one ready
-  };
-  const stop=()=>{ taken=true; clearInterval(timer); };
-  const go=d=>{ show(i+d); };
-
-  shw.querySelector('.shw-prev').addEventListener('click',()=>{stop();go(-1)});
-  shw.querySelector('.shw-next').addEventListener('click',()=>{stop();go(1)});
-  dots.forEach((d,k)=>d.addEventListener('click',()=>{stop();show(k)}));
-  shw.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft'){stop();go(-1);e.preventDefault();}
-    if(e.key==='ArrowRight'){stop();go(1);e.preventDefault();}
-  });
-  shw.tabIndex=0;
-
-  let sx=null;
-  shw.addEventListener('pointerdown',e=>{sx=e.clientX});
-  shw.addEventListener('pointerup',e=>{
-    if(sx===null) return;
-    const dx=e.clientX-sx; sx=null;
-    if(Math.abs(dx)>42){ stop(); go(dx<0?1:-1); }
-  });
-
-  /* only runs while it is on screen, and never after reduced motion */
-  if(!reduced && 'IntersectionObserver' in window){
-    new IntersectionObserver(es=>es.forEach(e=>{
-      clearInterval(timer);
-      if(e.isIntersecting && !taken) timer=setInterval(()=>go(1),4200);
-    }),{threshold:.35}).observe(shw);
-  }
-  show(0);
-})();
+/* the lot line row is a pure CSS belt now, so it needs no script */
 
 /* ===== cursor grid =====
    The dots have to show on every band, including the cyan ones, while still
