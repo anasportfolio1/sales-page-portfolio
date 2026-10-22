@@ -1455,7 +1455,7 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
   const ctx=cv.getContext('2d');
   const CY='rgb(44,204,228)', PAPER='rgb(244,249,250)', DARKC='rgb(7,20,24)';
   const DOT_INK=[6,22,26], DOT_CY=[44,204,228];
-  const step=20, reach=86;      // the cluster the pointer carries, kept small
+  const step=20, reach=130;     // the cluster the pointer carries
   let w=0,h=0,dpr=1,cols=0,rows=0,dots=[];
   let mx=-9999,my=-9999,raf=0,idle=0,painted=false;
   const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';
@@ -1530,8 +1530,8 @@ document.querySelectorAll('.faq button').forEach(b=>b.addEventListener('click',(
         const off=Math.min(1,Math.hypot(d.x-d.ox,d.y-d.oy)/13);
         if(off>0.002||dist<reach) busy=true;
         const near=1-Math.min(1,dist/reach);
-        const fade=near*near;                      // soft rim, no cut off edge
-        if(fade<=0.01) continue;
+        const fade=Math.min(1,near*1.5);            // full through the middle,
+        if(fade<=0.01) continue;                    // fading only at the rim
         const band=bandAt(d.y,vis), col=band.dark?DOT_CY:DOT_INK;
         ctx.beginPath(); ctx.arc(d.x,d.y,0.9+off*1.9,0,6.283);
         ctx.fillStyle=rgba(col,((band.dark?.30:.34)+off*.55)*fade); ctx.fill();
