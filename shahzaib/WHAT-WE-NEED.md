@@ -36,54 +36,54 @@ is the BEFORE** and the suffixed one is the AFTER (`-2`, `" (1)"`, `_declutter`,
 
 ---
 
-## BLOCKERS
+## STILL NEEDED
 
-### 1. Calendly link
-- **From:** you, not the client
-- All "Book a Meeting" buttons scroll to the contact section until this lands.
-
-### 2. Logo file
-- **Format:** SVG, or PNG with a transparent background at 600px or wider
+### 1. Logo file
+- **From:** the client. SVG, or PNG with a transparent background at 600px or wider
 - **Versions:** one normal, one white or light for the dark bands
-- The logo currently only exists **printed on his t-shirt** in the profile photos.
-  It cannot be cleanly lifted from there. The nav still shows the company name as text.
+- It currently only exists **printed on his t-shirt** in the profile photos, which
+  cannot be cleanly lifted. The nav still shows the company name as text.
 
-### 3. Outreach and delivery proof, redacted
-- He sent 18 screenshots. They show **prospect full names, profile photos and email
-  addresses** (Benny Fernandez, Alex Paolella, Vince Gillen, Tom Guajardo and others,
-  with addresses visible in the email signatures).
-- His own spec says to blur or crop those out. They are held back until he does.
-- **Also needed:** the measurement period for any figure. "38% reply rate" is not
+### 2. Calendly link
+- **From:** you. All "Book a Meeting" buttons scroll to the contact section until it lands.
+
+### 3. The cold call recording
+- 2 minutes 5 seconds, `.aac`, telephone quality, in the Drive under
+  "Cold Calling Booking Recording".
+- Anas has heard it and is checking whether the prospect's name or business is
+  spoken. If it is, those seconds need muting before it can go up. If not, it
+  becomes a small play button in the Proofs section, which would complete the set:
+  audio for cold calling, screenshots for email and social.
+
+### 4. Measurement periods
+- Any number quoted anywhere needs the period it covers. "38% reply rate" is not
   usable on its own; "38% reply rate across March 2026" is.
 
 ---
 
-## IMPORTANT
+## Settled
 
-### 4. Owner background and experience
-- 2 to 4 short paragraphs, or bullets and I will write them properly
-- No invented years of experience or results, per the spec
-- The About section carries a marked note until this arrives
+| | |
+|---|---|
+| **AI photo QC** | Not a separate service. It is part of Media Quality Control, so the pricing row is gone and the service card and FAQ now say automated checks run first, then a person reviews every flag. |
+| **His story** | Not needed. The intro video covers it, so the holding note is gone. |
+| **Written reviews** | Not needed. The client wall stands on its own. |
+| **Privacy policy and terms** | Removed from the footer at his request. |
+| **Outreach screenshots** | All 18 are up, redacted. See below. |
 
-### 5. Written client reviews
-- The "Clients Images - Testimonials" folder turned out to hold **client photos and
-  company logos, not their words**. There is not a single written quote in it.
-- So that section is now a **client wall**: 12 faces, names and companies, which is
-  honest and looks strong. Quote cards can sit on top of it whenever real ones arrive.
-- Each one needs the quote, the name, the company, the service used, and permission.
+### How the screenshots were redacted
+Every profile name, avatar and handle is blurred, plus every phone number, email
+address and face that appeared inside a conversation: two emails typed into
+messages, two phone numbers, one more email, and one video thumbnail showing a
+prospect's face. The blur is a heavy downscale then upscale, so the original
+pixels are destroyed rather than smeared and recoverable.
 
----
+Left visible on purpose: the **clients' own sign-offs** inside the messages, since
+those are his customers rather than prospects, and they quietly prove the service
+is real. Three of the twelve on the client wall appear by name this way.
 
-## SMALLER
-
-### 6. Privacy policy and 7. Terms of service
-- Footer links say `[NEEDED]`. Client writes them, uses a generator, or we mark
-  them coming soon.
-
-### 8. AI photo QC price
-- Sits in the pricing table with a visible gap. He has been asked for the number.
-
----
+They sit in two belts running in opposite directions, with the two cropped Gmail
+replies above them.
 
 ## Things worth a decision
 
